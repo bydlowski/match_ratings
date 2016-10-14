@@ -1,0 +1,29 @@
+%h1 AAA
+%p {"scoreboard":
+%p {"lastUpdatedOn":"2016-09-20 8:36:01 AM","gameScore":[{"game":{"ID":"30919","date":"2016-09-15","time":"8:25PM","awayTeam":{"ID":"51","City":"New York","Name":"Jets","Abbreviation":"NYJ"},"homeTeam":{"ID":"48","City":"Buffalo","Name":"Bills","Abbreviation":"BUF"},"location":"Ralph Wilson Stadium"},"isUnplayed":"false","isInProgress":"false","isCompleted":"true","awayScore":"37","homeScore":"31","quarterSummary":{"quarter":[{"@number":"1","awayScore":"6","homeScore":"7"},{"@number":"2","awayScore":"14","homeScore":"3"},{"@number":"3","awayScore":"7","homeScore":"14"},{"@number":"4","awayScore":"10","homeScore":"7"}]}}]
+%p }
+%p }
+%ul
+  %li
+    %p
+    Gamescore:
+    = @json['scoreboard']['gameScore'][0]
+  %li
+    %p
+    Scoreboard:
+    = @json['scoreboard']
+  %li
+    %p= @json
+  %li 
+    %p
+      AA: 
+      - @json.each do |event|
+        - event.each do |e, d|
+          %li= h e.inspect
+          %li= h d.inspect
+/   - @json.each do |event|
+/     %p= event
+/     - event.each do |e, d|
+/       %li= h e.inspect
+/       %li= h d.inspect
+

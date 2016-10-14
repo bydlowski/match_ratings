@@ -1,0 +1,17 @@
+// Third-party
+@import "shared/vendor/solid";
+
+/* Partials */
+//@import "public/partials/typography";
+
+/* Components */
+//@import "public/component/navbar";
+
+
+/* Pages */
+@import "public/pages/welcome/index";
+
+body {font-family: 'Lato', serif;}
+.hidden-score {position: absolute;height: 100%;width: 100%;cursor: pointer;}
+.hidden-rating {background: red;color: white;}
+

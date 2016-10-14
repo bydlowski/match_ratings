@@ -1,0 +1,53 @@
+%h1 AAA
+%p {"scoreboard":
+%p {"lastUpdatedOn":"2016-09-20 8:36:01 AM","gameScore":[{"game":{"ID":"30919","date":"2016-09-15","time":"8:25PM","awayTeam":{"ID":"51","City":"New York","Name":"Jets","Abbreviation":"NYJ"},"homeTeam":{"ID":"48","City":"Buffalo","Name":"Bills","Abbreviation":"BUF"},"location":"Ralph Wilson Stadium"},"isUnplayed":"false","isInProgress":"false","isCompleted":"true","awayScore":"37","homeScore":"31","quarterSummary":{"quarter":[{"@number":"1","awayScore":"6","homeScore":"7"},{"@number":"2","awayScore":"14","homeScore":"3"},{"@number":"3","awayScore":"7","homeScore":"14"},{"@number":"4","awayScore":"10","homeScore":"7"}]}}]
+%p }
+%p }
+%ul
+  %li
+    %p
+    Each:
+    - @games.each do |game|
+      %p
+        = game['game']['date']
+        = surround '(', ')' do
+          = game['game']['time']
+        = game['game']['awayTeam']['Name']
+        = 'X'
+        = game['game']['homeTeam']['Name'] 
+        = '-'
+        - if (game['awayScore'].to_i - game['homeScore'].to_i).abs < 6
+          = 'YES!!'
+        - else
+          = 'No'
+  %li
+    %p
+    Each:
+    - @games.each do |game|
+      %p
+        = game['game']['awayTeam']['Name']
+        = game['awayScore']
+        = 'X'
+        = game['homeScore']
+        = game['game']['homeTeam']['Name'] 
+
+  %li
+    %p
+    Away team:
+    = @json['scoreboard']['gameScore'][0]['game']['awayTeam']['Name']
+    %p
+    Home team:
+    = @json['scoreboard']['gameScore'][0]['game']['homeTeam']['Name']
+    %p
+    Away team score:
+    = @json['scoreboard']['gameScore'][0]['awayScore']
+    %p
+    Home team score:
+    = @json['scoreboard']['gameScore'][0]['homeScore']
+  %li
+    %p
+    One game:
+    = @json['scoreboard']['gameScore'][0]
+
+
+

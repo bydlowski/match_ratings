@@ -1,0 +1,26 @@
+.col.xs-col-7.xs-p2
+  %h3.xs-text-center
+    Games:
+  .col.xs-col-12.xs-text-center.xs-p2
+    .flex.xs-flex-justify-center{style:'flex-wrap: wrap;'}
+      - games_array = [@games1,@games2,@games3]
+      - games_array.each do |a|
+        - a.each do |game|
+          .col.xs-col-2.xs-border.xs-m1
+            .col.xs-col-12.xs-border-bottom-lighter.xs-p1
+              = game['game']['date']
+              = surround '(', ')' do
+                = game['game']['time']
+            .col.xs-col-12.xs-border-bottom-lighter.xs-p1
+              = game['game']['awayTeam']['Abbreviation']
+              = 'X'
+              = game['game']['homeTeam']['Abbreviation']
+            .col.xs-col-12.xs-relative
+              = grid_suggestion(game['game']['date'],game['awayScore'],game['homeScore'],game['game']['time'])
+   
+%script
+  $('.hidden-score').on('click', function() {
+  console.log('HI');
+  $('.hidden-score').toggleClass('hidden-rating');
+  $('.hidden-text').toggle();
+  })
