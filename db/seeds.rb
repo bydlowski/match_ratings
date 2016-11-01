@@ -1,6 +1,6 @@
-Article.destroy_all
-ArrayGame.destroy_all
-GameData.destroy_all
+# Article.destroy_all
+# ArrayGame.destroy_all
+# GameData.destroy_all
 #GameA = ArrayGame.create!(game_url: ['Test'])
 
 # In 25/10/2016
