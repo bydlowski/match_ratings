@@ -3,7 +3,7 @@ module RakeHelper
     # Para rodar a rake digitar 'rake import_data'
     @games_array = ArrayGame.first
     #@games_array.game_url.push("AAA")
-    new_date = DateTime.new(2016, 10, 20)
+    new_date = DateTime.new(2016, 10, 28)
     today = DateTime.now.midnight
     a = 1
     @all_dates = []
