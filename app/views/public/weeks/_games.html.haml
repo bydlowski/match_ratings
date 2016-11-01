@@ -3,20 +3,32 @@
     Games:
   .col.xs-col-12.xs-text-center.xs-p2
     .flex.xs-flex-justify-center{style:'flex-wrap: wrap;'}
-      - games_array = [@games1,@games2,@games3]
-      - games_array.each do |a|
-        - a.each do |game|
-          .col.xs-col-2.xs-border.xs-m1
-            .col.xs-col-12.xs-border-bottom-lighter.xs-p1
-              = game['game']['date']
-              = surround '(', ')' do
-                = game['game']['time']
-            .col.xs-col-12.xs-border-bottom-lighter.xs-p1
-              = game['game']['awayTeam']['Abbreviation']
-              = 'X'
-              = game['game']['homeTeam']['Abbreviation']
-            .col.xs-col-12.xs-relative
-              = grid_suggestion(game['game']['date'],game['awayScore'],game['homeScore'],game['game']['time'])
+      / - games_array = [@games1,@games2,@games3]
+      / - games_array.each do |a|
+      /   - a.each do |game|
+      /     .col.xs-col-2.xs-border.xs-m1
+      /       .col.xs-col-12.xs-border-bottom-lighter.xs-p1
+      /         = game['game']['date']
+      /         = surround '(', ')' do
+      /           = game['game']['time']
+      /       .col.xs-col-12.xs-border-bottom-lighter.xs-p1
+      /         = game['game']['awayTeam']['Abbreviation']
+      /         = 'X'
+      /         = game['game']['homeTeam']['Abbreviation']
+      /       .col.xs-col-12.xs-relative
+      /         = grid_suggestion(game['game']['date'],game['awayScore'],game['homeScore'],game['game']['time'])
+      - @stats.order(game_date: :asc,game_time: :asc).each do |game|
+        .col.xs-col-2.xs-border.xs-m1
+          .col.xs-col-12.xs-border-bottom-lighter.xs-p1
+            = game.game_date
+            = surround '(', ')' do
+              = game.game_time
+          .col.xs-col-12.xs-border-bottom-lighter.xs-p1
+            = game.away_team_abrev
+            = 'X'
+            = game.home_team_abrev
+          .col.xs-col-12.xs-relative
+            = score(game.game_date,game.game_time,game)
    
 %script
   $('.hidden-score').on('click', function() {

@@ -1,0 +1,84 @@
+%h1 Game BoxScore
+/%h1= helper_test
+%p https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/game_boxscore.json?gameid=20160908-CAR-DEN
+%p https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=20160911
+%ul 
+  %h3 Dados do API
+  %li
+    %p
+    Overtime:
+    = @games['quarterSummary']['quarter'].count
+  %li
+    %p
+    Date:
+    = @games['game']['date']
+  %li
+    %p
+    Time:
+    = @games['game']['time']
+  %li
+    %p
+    Away team:
+    = @games['game']['awayTeam']['Abbreviation']
+  %li
+    %p
+    Home team:
+    = @games['game']['homeTeam']['Abbreviation']
+  %li
+    %p
+    Away score:
+    = @games['quarterSummary']['quarterTotals']['awayScore']
+  %li
+    %p
+    Home score:
+    = @games['quarterSummary']['quarterTotals']['homeScore']
+  %li
+    %p
+    Total interceptions:
+    = @games['awayTeam']['awayTeamStats']['Interceptions']['#text']
+    = ' + '
+    = @games['homeTeam']['homeTeamStats']['Interceptions']['#text']
+    = ' = '
+    = @games['homeTeam']['homeTeamStats']['Interceptions']['#text'].to_i + @games['awayTeam']['awayTeamStats']['Interceptions']['#text'].to_i
+  %li
+    %p
+    Total fumbles:
+    = @games['awayTeam']['awayTeamStats']['Fumbles']['#text']
+    = ' + '
+    = @games['homeTeam']['homeTeamStats']['Fumbles']['#text']
+    = ' = '
+    = @games['homeTeam']['homeTeamStats']['Fumbles']['#text'].to_i + @games['awayTeam']['awayTeamStats']['Fumbles']['#text'].to_i
+  %li
+    %p
+    Away first downs:
+    = @games['awayTeam']['awayTeamStats']['FirstDownsTotal']['#text']
+  %li
+    %p
+    Home first downs:
+    = @games['homeTeam']['homeTeamStats']['FirstDownsTotal']['#text']
+%ul 
+  %h3 Outros dados
+  %li
+    %p Canal de tranmissão
+  %li
+    %p Resultados (vitórias-derrotas) antes do jogo (Ex: 1-3)
+  %li
+    %p Vitórias do time antes do jogo
+  %li
+    %p Derrotas do time antes do jogo
+  %li
+    %p Time que ganhou o jogo
+  %li
+    %p Time que perdeu o jogo
+  %li
+    %p Se é uma rivalidade
+%ul 
+  %h3 Daily
+  %li
+    %p
+      = @date_array
+
+    
+
+
+

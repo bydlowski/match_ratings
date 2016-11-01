@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     get '', to: 'public/tests#index'
     get 'stats', to: 'public/tests#stats'
     get 'games', to: 'public/tests#games'
+    get 'full', to: 'public/tests#full'
+    get 'table', to: 'public/tests#table'
   end
 
   scope :week do

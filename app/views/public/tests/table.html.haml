@@ -1,0 +1,98 @@
+%style
+  th {text-align: center;line-height: 16px;}
+  td {text-align: center;}
+%h1 Game BoxScore
+%h1= helper_test
+%p https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/game_boxscore.json?gameid=20160908-CAR-DEN
+%p https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=20160911
+%ul 
+  %h3 Dados dos jogos
+  - @games_array.each do |game|
+    %li= game
+  %li.bold Pra ver como aparece com overtime ver o jogo Carolina panthers e New Orleans Saints do dia 16-10 ou 09-10!!
+  %li https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/game_boxscore.json?gameid=20161016-CAR-NO
+  %h3 Dados do banco de dados
+  = @stats
+.clearfix
+  .col.xs-col-12.xs-p2
+    %table{class:"table-border"}
+      %thead
+        %tr
+          %th.xs-text-center Time<br />casa
+          %th.xs-text-center Time<br />fora
+          %th.xs-text-center Score<br />casa
+          %th.xs-text-center Score<br />fora
+          %th.xs-text-center 1 downs<br />casa
+          %th.xs-text-center 1 downs<br />fora
+          %th.xs-text-center.this Soma<br />placar
+          %th.xs-text-center.this Diff<br />placar
+          %th.xs-text-center.this Diff<br />1 downs
+          %th.xs-text-center.this Inter<br />ceptações
+          %th.xs-text-center.this Fum<br />bles
+          %th.xs-text-center.this Num<br />Qtrs
+          %th.xs-text-center.this Rivali<br />dade?
+          %th.xs-text-center Vitórias<br />derrotas
+          %th.xs-text-center TO<br />TAL
+      %tbody
+        - @stats.each do |game|
+          %tr
+            %td.xs-text-center= game.home_team_abrev
+            %td.xs-text-center= game.away_team_abrev
+            %td.xs-text-center= game.home_team_score
+            %td.xs-text-center= game.away_team_score
+            %td.xs-text-center= game.stats_home_team_downs
+            %td.xs-text-center= game.stats_away_team_downs
+            %td.xs-text-center= (game.home_team_score+game.away_team_score).abs
+            %td.xs-text-center= (game.home_team_score-game.away_team_score).abs
+            %td.xs-text-center= (game.stats_home_team_downs-game.stats_away_team_downs).abs
+            %td.xs-text-center= game.stats_interceptions
+            %td.xs-text-center= game.stats_fumbles
+            %td.xs-text-center= game.quarter_count
+            %td.xs-text-center ???
+            %td.xs-text-center ???
+            %td.xs-text-center XX
+          %tr
+            %td.xs-text-center -
+            %td.xs-text-center -
+            %td.xs-text-center -
+            %td.xs-text-center -
+            %td.xs-text-center -
+            %td.xs-text-center -
+            %td.xs-text-center= (((game.home_team_score+game.away_team_score).abs)*0.3).round(0)
+            %td.xs-text-center= score_diff(game.home_team_score,game.away_team_score,game.quarter_count)
+            %td.xs-text-center= down_diff((game.stats_home_team_downs-game.stats_away_team_downs).abs)
+            %td.xs-text-center= game.stats_interceptions*2
+            %td.xs-text-center= (game.stats_fumbles*1.5).round(0)
+            %td.xs-text-center 
+            %td.xs-text-center 
+            %td.xs-text-center 
+            %td.xs-text-center= (((game.home_team_score+game.away_team_score).abs)*0.3 + score_diff(game.home_team_score,game.away_team_score,game.quarter_count) + down_diff((game.stats_home_team_downs-game.stats_away_team_downs).abs) + game.stats_interceptions*2 + game.stats_fumbles*1.5).round(0)
+    %h2.xs-pt2 Algoritmo
+    %h3.xs-pt1  Soma placar
+    %ul  
+      %li Dar 0,3 pontos para cada ponto acima de 30 
+      %li Ex: 51 ficaria "#{(21*0.3).round(1)}"
+      %li Ex: 68 ficaria "#{(38*0.3).round(1)}"
+    %h3.xs-pt1 Diferença placar
+    %ul   
+      %li Acima de 10: -15 pontos
+      %li Acima de 7: -5 pontos
+      %li Entre 4 e 6: 7 pontos
+      %li Entre 2 e 3: 12 pontos
+      %li Diferença de 1: 15 pontos
+      %li Overtime: 25 pontos
+    %h3.xs-pt1 Diferença first downs
+    %ul   
+      %li Acima de 20: -15 pontos
+      %li Acima de 10: -2 pontos
+      %li Entre 5 e 9: 4 pontos
+      %li Entre 0 e 4: 8 pontos
+    %h3.xs-pt1 Fumbles / Interceptions
+    %ul 
+      %li Interceptions: 2 pontos cada  
+      %li Fumbles: 1.5 ponto cada 
+    %h3.xs-pt1 Rivalidade
+    %ul   
+      %li Sim: 5 pontos
+
+
