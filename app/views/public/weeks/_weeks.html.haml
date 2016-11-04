@@ -4,9 +4,11 @@
   .col.xs-col-10.xs-offset-1.xs-p2.xs-text-center
     - week = 1
     - day = DateTime.new(2016, 9, 8)
-    /- day = Date.strptime("#{252}", "%j")
-    - while week < 21
-      /= link_to "Week #{week} - #{Date.strptime("#{day}", "%j").to_s}", "week/#{week}", class:'button xs-m2 button--secondary'   
-      = link_to "Week #{week}<br>#{day.strftime("%b %d")} - #{(day + 4).strftime("%b %d")}".html_safe, "#{week}", class:'button button--small xs-m2 button--secondary'     
+    - while week < 18  
+      - if week == params[:number].to_i
+        - this_week = 'button--tumblr'
+      - else
+        - this_week = 'button--secondary'
+      = link_to "Week #{week}<br>#{day.strftime("%b %d")} - #{(day + 4).strftime("%b %d")}".html_safe, "#{week}", class:"button button--small xs-m2 #{this_week}"     
       - week += 1
       - day += 7

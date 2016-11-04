@@ -9,6 +9,11 @@ Week.destroy_all
   Week.create!(number: num)
 end
 
+team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
+team_array.each do |team|
+  TeamStats.create!(team_abrev: team, :stats => {1 => "W"})
+end
+
 # In 25/10/2016
 #GameA = ArrayGame.create!(game_url: ["20160908-CAR-DEN", "20160911-GB-JAX", "20160911-BUF-BAL", "20160911-CHI-HOU", "20160911-CLE-PHI", "20160911-TB-ATL", "20160911-MIN-TEN", "20160911-CIN-NYJ", "20160911-OAK-NO", "20160911-SD-KC", "20160911-MIA-SEA", "20160911-NYG-DAL", "20160911-DET-IND", "20160911-NE-ARI", "20160912-PIT-WAS", "20160912-LA-SF", "20160915-NYJ-BUF", "20160918-CIN-PIT", "20160918-TEN-DET", "20160918-BAL-CLE", "20160918-DAL-WAS", "20160918-NO-NYG", "20160918-SF-CAR", "20160918-MIA-NE", "20160918-KC-HOU", "20160918-SEA-LA", "20160918-TB-ARI", "20160918-JAX-SD", "20160918-ATL-OAK", "20160918-IND-DEN", "20160918-GB-MIN", "20160919-PHI-CHI", "20160922-HOU-NE", "20160925-ARI-BUF", "20160925-OAK-TEN", "20160925-CLE-MIA", "20160925-BAL-JAX", "20160925-DET-GB", "20160925-DEN-CIN", "20160925-MIN-CAR", "20160925-WAS-NYG", "20160925-LA-TB", "20160925-SF-SEA", "20160925-NYJ-KC", "20160925-SD-IND", "20160925-PIT-PHI", "20160925-CHI-DAL", "20160926-ATL-NO", "20160929-MIA-CIN", "20161002-IND-JAX", "20161002-TEN-HOU", "20161002-CLE-WAS", "20161002-SEA-NYJ", "20161002-BUF-NE", "20161002-CAR-ATL", "20161002-OAK-BAL", "20161002-DET-CHI", "20161002-DEN-TB", "20161002-LA-ARI", "20161002-NO-SD", "20161002-DAL-SF", "20161002-KC-PIT", "20161003-NYG-MIN", "20161006-ARI-SF", "20161009-NE-CLE", "20161009-PHI-DET", "20161009-CHI-IND", "20161009-TEN-MIA", "20161009-WAS-BAL", "20161009-HOU-MIN", "20161009-NYJ-PIT", "20161009-ATL-DEN", "20161009-CIN-DAL", "20161009-BUF-LA", "20161009-SD-OAK", "20161009-NYG-GB", "20161010-TB-CAR", "20161013-DEN-SD", "20161016-SF-BUF", "20161016-PHI-WAS", "20161016-CLE-TEN", "20161016-BAL-NYG", "20161016-CAR-NO", "20161016-JAX-CHI", "20161016-LA-DET", "20161016-PIT-MIA", "20161016-CIN-NE", "20161016-KC-OAK", "20161016-ATL-SEA", "20161016-DAL-GB", "20161016-IND-HOU", "20161017-NYJ-ARI", "20161020-CHI-GB", "20161023-NYG-LA", "20161023-NO-KC", "20161023-IND-TEN", "20161023-MIN-PHI", "20161023-CLE-CIN", "20161023-WAS-DET", "20161023-OAK-JAX", "20161023-BUF-MIA", "20161023-BAL-NYJ", "20161023-TB-SF", "20161023-SD-ATL", "20161023-NE-PIT", "20161023-SEA-ARI", "20161024-HOU-DEN"])
 #<ArrayGame _id: 580fee369541fd16749d6a9f, created_at: 2016-10-25 23:43:50 UTC, updated_at: 2016-10-25 23:43:50 UTC, game_url: ["Test", "20160908-CAR-DEN", "20160911-GB-JAX", "20160911-BUF-BAL", "20160911-CHI-HOU", "20160911-CLE-PHI", "20160911-TB-ATL", "20160911-MIN-TEN", "20160911-CIN-NYJ", "20160911-OAK-NO", "20160911-SD-KC", "20160911-MIA-SEA", "20160911-NYG-DAL", "20160911-DET-IND", "20160911-NE-ARI", "20160912-PIT-WAS", "20160912-LA-SF", "20160915-NYJ-BUF", "20160918-CIN-PIT", "20160918-TEN-DET", "20160918-BAL-CLE", "20160918-DAL-WAS", "20160918-NO-NYG", "20160918-SF-CAR", "20160918-MIA-NE", "20160918-KC-HOU", "20160918-SEA-LA", "20160918-TB-ARI", "20160918-JAX-SD", "20160918-ATL-OAK", "20160918-IND-DEN", "20160918-GB-MIN", "20160919-PHI-CHI", "20160922-HOU-NE", "20160925-ARI-BUF", "20160925-OAK-TEN", "20160925-CLE-MIA", "20160925-BAL-JAX", "20160925-DET-GB", "20160925-DEN-CIN", "20160925-MIN-CAR", "20160925-WAS-NYG", "20160925-LA-TB", "20160925-SF-SEA", "20160925-NYJ-KC", "20160925-SD-IND", "20160925-PIT-PHI", "20160925-CHI-DAL", "20160926-ATL-NO", "20160929-MIA-CIN", "20161002-IND-JAX", "20161002-TEN-HOU", "20161002-CLE-WAS", "20161002-SEA-NYJ", "20161002-BUF-NE", "20161002-CAR-ATL", "20161002-OAK-BAL", "20161002-DET-CHI", "20161002-DEN-TB", "20161002-LA-ARI", "20161002-NO-SD", "20161002-DAL-SF", "20161002-KC-PIT", "20161003-NYG-MIN", "20161006-ARI-SF", "20161009-NE-CLE", "20161009-PHI-DET", "20161009-CHI-IND", "20161009-TEN-MIA", "20161009-WAS-BAL", "20161009-HOU-MIN", "20161009-NYJ-PIT", "20161009-ATL-DEN", "20161009-CIN-DAL", "20161009-BUF-LA", "20161009-SD-OAK", "20161009-NYG-GB", "20161010-TB-CAR", "20161013-DEN-SD", "20161016-SF-BUF", "20161016-PHI-WAS", "20161016-CLE-TEN", "20161016-BAL-NYG", "20161016-CAR-NO", "20161016-JAX-CHI", "20161016-LA-DET", "20161016-PIT-MIA", "20161016-CIN-NE", "20161016-KC-OAK", "20161016-ATL-SEA", "20161016-DAL-GB", "20161016-IND-HOU", "20161017-NYJ-ARI", "20161020-CHI-GB", "20161023-NYG-LA", "20161023-NO-KC", "20161023-IND-TEN", "20161023-MIN-PHI", "20161023-CLE-CIN", "20161023-WAS-DET", "20161023-OAK-JAX", "20161023-BUF-MIA", "20161023-BAL-NYJ", "20161023-TB-SF", "20161023-SD-ATL", "20161023-NE-PIT", "20161023-SEA-ARI", "20161024-HOU-DEN"]>
@@ -17,44 +22,6 @@ end
 #GameB = ArrayGame.create!(game_url: ["20160908-CAR-DEN", "20160911-GB-JAX", "20160911-BUF-BAL", "20160911-CHI-HOU", "20160911-CLE-PHI", "20160911-TB-ATL", "20160911-MIN-TEN", "20160911-CIN-NYJ", "20160911-OAK-NO", "20160911-SD-KC", "20160911-MIA-SEA", "20160911-NYG-DAL", "20160911-DET-IND", "20160911-NE-ARI", "20160912-PIT-WAS", "20160912-LA-SF", "20160915-NYJ-BUF"])
 GameC = ArrayGame.create!(game_url: ["20161027-JAX-TEN"])
 #GameD = ArrayGame.create!(game_url: ["20161030-WAS-CIN", "20161030-KC-IND", "20161030-OAK-TB", "20161030-SEA-NO", "20161030-DET-HOU", "20161030-NYJ-CLE", "20161030-NE-BUF", "20161030-ARI-CAR", "20161030-SD-DEN", "20161030-GB-ATL", "20161030-PHI-DAL", "20161031-MIN-CHI"])
-
-team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
-team_array.each do |team|
-  TeamStats.create!(team_abrev: team, :stats => {1 => "W"})
-end
-
-# Team01 = TeamStats.create!(team_abrev: 'CLE', :stats => {1 => "W"})
-# Team02 = TeamStats.create!(team_abrev: 'TB', :stats => {1 => "W"})
-# Team03 = TeamStats.create!(team_abrev: 'MIN', :stats => {1 => "W"})
-# Team04 = TeamStats.create!(team_abrev: 'CIN', :stats => {1 => "W"})
-# Team05 = TeamStats.create!(team_abrev: 'OAK', :stats => {1 => "W"})
-# Team06 = TeamStats.create!(team_abrev: 'SD', :stats => {1 => "W"})
-# Team07 = TeamStats.create!(team_abrev: 'MIA', :stats => {1 => "W"})
-# Team08 = TeamStats.create!(team_abrev: 'NYG', :stats => {1 => "W"})
-# Team09 = TeamStats.create!(team_abrev: 'DET', :stats => {1 => "W"})
-# Team10 = TeamStats.create!(team_abrev: 'NE', :stats => {1 => "W"})
-# Team11 = TeamStats.create!(team_abrev: 'PIT', :stats => {1 => "W"})
-# Team12 = TeamStats.create!(team_abrev: 'LA', :stats => {1 => "W"})
-# Team13 = TeamStats.create!(team_abrev: 'NYJ', :stats => {1 => "W"})
-# Team14 = TeamStats.create!(team_abrev: 'CAR', :stats => {1 => "W"})
-# Team15 = TeamStats.create!(team_abrev: 'GB', :stats => {1 => "W"})
-# Team16 = TeamStats.create!(team_abrev: 'BUF', :stats => {1 => "W"})
-# Team17 = TeamStats.create!(team_abrev: 'CHI', :stats => {1 => "W"})
-# Team18 = TeamStats.create!(team_abrev: 'TEN', :stats => {1 => "W"})
-# Team19 = TeamStats.create!(team_abrev: 'BAL', :stats => {1 => "W"})
-# Team20 = TeamStats.create!(team_abrev: 'DAL', :stats => {1 => "W"})
-# Team21 = TeamStats.create!(team_abrev: 'NO', :stats => {1 => "W"})
-# Team22 = TeamStats.create!(team_abrev: 'SF', :stats => {1 => "W"})
-# Team23 = TeamStats.create!(team_abrev: 'KC', :stats => {1 => "W"})
-# Team24 = TeamStats.create!(team_abrev: 'SEA', :stats => {1 => "W"})
-# Team25 = TeamStats.create!(team_abrev: 'JAX', :stats => {1 => "W"})
-# Team26 = TeamStats.create!(team_abrev: 'ATL', :stats => {1 => "W"})
-# Team27 = TeamStats.create!(team_abrev: 'IND', :stats => {1 => "W"})
-# Team28 = TeamStats.create!(team_abrev: 'PHI', :stats => {1 => "W"})
-# Team29 = TeamStats.create!(team_abrev: 'HOU', :stats => {1 => "W"})
-# Team30 = TeamStats.create!(team_abrev: 'ARI', :stats => {1 => "W"})
-# Team31 = TeamStats.create!(team_abrev: 'DEN', :stats => {1 => "W"})
-# Team32 = TeamStats.create!(team_abrev: 'WAS', :stats => {1 => "W"})
 
 Stats01 = GameData.create!(game_url_name: "20160911-CLE-PHI", game_date: "2016-09-11", game_time: "1:00PM", game_week_number: 1, home_team_abrev: "PHI", away_team_abrev: "CLE", home_team_complete: "Philadelphia Eagles", away_team_complete: "Cleveland Browns", home_team_score: 29, away_team_score: 10, quarter_count: 4, winner_team: "PHI", loser_team: "CLE", stats_interceptions: 1, stats_fumbles: 3, stats_home_team_downs: 21, stats_away_team_downs: 14)
 Stats02 = GameData.create!(game_url_name: "20160911-TB-ATL", game_date: "2016-09-11", game_time: "1:00PM", game_week_number: 1, home_team_abrev: "ATL", away_team_abrev: "TB", home_team_complete: "Atlanta Falcons", away_team_complete: "Tampa Bay Buccaneers", home_team_score: 24, away_team_score: 31, quarter_count: 4, winner_team: "TB", loser_team: "ATL", stats_interceptions: 1, stats_fumbles: 0, stats_home_team_downs: 20, stats_away_team_downs: 23)
