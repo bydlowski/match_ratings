@@ -1,5 +1,13 @@
 %h1 TeamStats
 %p= team_stats
+//%p= @selected_games.join(",")
+%h1 TeamArray
+- teamarray = []
+- @stats.each do |a|
+  - teamarray.push(a.away_team_abrev) unless teamarray.include?(a.away_team_abrev)
+%p= teamarray.count
+%h1 TB on week 6
+%p= team_stats_week('MIN',6)
 %br
 %br
 %h1 AAA

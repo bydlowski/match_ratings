@@ -18,15 +18,24 @@
       /       .col.xs-col-12.xs-relative
       /         = grid_suggestion(game['game']['date'],game['awayScore'],game['homeScore'],game['game']['time'])
       - @stats.order(game_date: :asc,game_time: :asc).each do |game|
-        .col.xs-col-2.xs-border.xs-m1
+        .col.xs-col-3.xs-border.xs-m1
           .col.xs-col-12.xs-border-bottom-lighter.xs-p1
             = game.game_date
             = surround '(', ')' do
               = game.game_time
           .col.xs-col-12.xs-border-bottom-lighter.xs-p1
-            = game.away_team_abrev
-            = 'X'
-            = game.home_team_abrev
+            .col.xs-col-5.xs
+              = game.away_team_abrev
+              %br
+              = surround '(', ')' do
+                = team_stats_week(game.away_team_abrev,week)
+            .col.xs-col-2.xs
+              = 'X'
+            .col.xs-col-5.xs
+              = game.home_team_abrev
+              %br
+              = surround '(', ')' do
+                = team_stats_week(game.home_team_abrev,week)
           .col.xs-col-12.xs-relative
             = score(game.game_date,game.game_time,game)
    

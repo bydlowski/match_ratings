@@ -118,37 +118,19 @@ module RakeHelper
   end
 
   def team_stats
-    week_counter = 1
-    @selected_games = []
-    @chicago_victory = []
-    GameData.where(winner_team: 'CHI').each do |game|
-        # game.where(winner_team: 'DAL').each do |e|
-        #   @aaa << e.home_team_score
-        # end
-      #TeamStats.collection.update_one({team_abrev: 'CHI'}, '$set' => {team_abrev: 'CHII'})
-      #TeamB = TeamStats.create!(team_abrev: "CHI", :stats => {1 => "W", 2 => "L"})
-      #TeamStats.collection.update_one({team_abrev: 'CHI'}, '$set' => {:stats => {1 => "L", 2 => "L"}})
-      #TeamStats.collection.update_one({team_abrev: 'CHI'}, '$set' => {:stats => {(game.game_week_number).to_i => "W"}})
+    #['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
+    @team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
+    @hash = {}
+    @team_array.each do |team|
+      GameData.where(winner_team: team).each do |game|
+        @hash[(game.game_week_number).to_i] = "W"
+      end
+      GameData.where(loser_team: team).each do |game|
+        @hash[(game.game_week_number).to_i] = "L"
+      end
+      @selected_games = Hash[@hash.sort_by { |k, v| k }]
+      TeamStats.collection.update_one({team_abrev: team}, '$set' => {:stats => @selected_games})
     end
-    #@stats = TeamStats.find_by(team_abrev: 'CHI')
-    # loop do
-    #   GameData.where(game_week_number: week_counter.to_s).each do |game|
-    #     # game.where(winner_team: 'DAL').each do |e|
-    #     #   @aaa << e.home_team_score
-    #     # end
-    #     @selected_games << game
-    #   end
-    #   @selected_games.each do |e|
-    #     if e.winner_team == 'CHI'
-    #       @chicago_victory << 'yay' + e.game_week_number.to_s
-    #     end
-    #   end
-    #   week_counter += 1
-    #   break if week_counter == 15
-    #   #break if a == 5
-    # end
-    return @selected_games
-
   end
 
   def who_won(team1name,team2name,team1score,team2score)
