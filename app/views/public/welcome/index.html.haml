@@ -10,8 +10,8 @@
       - week = 1
       - day = DateTime.new(2016, 9, 8)
       /- day = Date.strptime("#{252}", "%j")
-      - while week < 21
-        /= link_to "Week #{week} - #{Date.strptime("#{day}", "%j").to_s}", "week/#{week}", class:'button xs-m2 button--secondary'   
+      - while week < 18
+   
         = link_to "Week #{week}<br><span class=\"xs-text-5\">#{day.strftime("%b %d")} - #{(day + 4).strftime("%b %d")}</span>".html_safe, "week/#{week}", class:'button xs-m2 button--secondary'     
         - week += 1
         - day += 7
