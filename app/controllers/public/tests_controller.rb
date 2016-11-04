@@ -15,6 +15,7 @@ class Public::TestsController < ApplicationController
   end
   def stats
     @json = ActiveSupport::JSON.decode(open("#{Rails.root}/file.json").read)
+    #@stats = TeamStats.all
   end
   def games
     @json = ActiveSupport::JSON.decode(open("#{Rails.root}/file.json").read)

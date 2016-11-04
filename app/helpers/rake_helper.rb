@@ -3,7 +3,7 @@ module RakeHelper
     # Para rodar a rake digitar 'rake import_data'
     @games_array = ArrayGame.first
     #@games_array.game_url.push("AAA")
-    new_date = DateTime.new(2016, 10, 28)
+    new_date = DateTime.new(2016, 11, 1)
     today = DateTime.now.midnight
     a = 1
     @all_dates = []
@@ -115,6 +115,40 @@ module RakeHelper
         end
       end
     end
+  end
+
+  def team_stats
+    week_counter = 1
+    @selected_games = []
+    @chicago_victory = []
+    GameData.where(winner_team: 'CHI').each do |game|
+        # game.where(winner_team: 'DAL').each do |e|
+        #   @aaa << e.home_team_score
+        # end
+      #TeamStats.collection.update_one({team_abrev: 'CHI'}, '$set' => {team_abrev: 'CHII'})
+      #TeamB = TeamStats.create!(team_abrev: "CHI", :stats => {1 => "W", 2 => "L"})
+      #TeamStats.collection.update_one({team_abrev: 'CHI'}, '$set' => {:stats => {1 => "L", 2 => "L"}})
+      #TeamStats.collection.update_one({team_abrev: 'CHI'}, '$set' => {:stats => {(game.game_week_number).to_i => "W"}})
+    end
+    #@stats = TeamStats.find_by(team_abrev: 'CHI')
+    # loop do
+    #   GameData.where(game_week_number: week_counter.to_s).each do |game|
+    #     # game.where(winner_team: 'DAL').each do |e|
+    #     #   @aaa << e.home_team_score
+    #     # end
+    #     @selected_games << game
+    #   end
+    #   @selected_games.each do |e|
+    #     if e.winner_team == 'CHI'
+    #       @chicago_victory << 'yay' + e.game_week_number.to_s
+    #     end
+    #   end
+    #   week_counter += 1
+    #   break if week_counter == 15
+    #   #break if a == 5
+    # end
+    return @selected_games
+
   end
 
   def who_won(team1name,team2name,team1score,team2score)
