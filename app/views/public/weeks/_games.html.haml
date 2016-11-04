@@ -3,7 +3,7 @@
     .flex.xs-flex-justify-center{style:'flex-wrap: wrap;'}
       - game_counter = 0
       - @stats.order(game_date: :asc,game_time: :asc).each do |game|
-        .col.xs-col-2.xs-border.xs-m1{style:'min-width: 130px;'}
+        .col.xs-col-2.xs-border.xs-m1.fill-white{style:'min-width: 130px;'}
           .col.xs-col-12.xs-border-bottom-lighter.xs-p1
             = game.game_date
             = surround '(', ')' do
