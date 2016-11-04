@@ -1,37 +1,35 @@
-.col.xs-col-7.xs-p2
-  %h3.xs-text-center
-    Games:
-  .col.xs-col-12.xs-text-center.xs-p2
+.col.xs-col-9.xs-p2
+  .col.xs-col-12.xs-text-center
     .flex.xs-flex-justify-center{style:'flex-wrap: wrap;'}
       - game_counter = 0
       - @stats.order(game_date: :asc,game_time: :asc).each do |game|
-        .col.xs-col-3.xs-border.xs-m1
+        .col.xs-col-2.xs-border.xs-m1{style:'min-width: 130px;'}
           .col.xs-col-12.xs-border-bottom-lighter.xs-p1
             = game.game_date
             = surround '(', ')' do
               = game.game_time
           .col.xs-col-12.xs-border-bottom-lighter.xs-p1
             .col.xs-col-5.xs
+              .logo-teams.logo-tiny{class: "logo#{game.away_team_abrev}"}
               = game.away_team_abrev
-              %br
-              = surround '(', ')' do
-                = team_stats_week(game.away_team_abrev,week)
+              - if session[:value] == 'Show'
+                %br
+                = surround '(', ')' do
+                  = team_stats_week(game.away_team_abrev,week)
             .col.xs-col-2.xs
               = 'X'
             .col.xs-col-5.xs
+              .logo-teams.logo-tiny.logo-flip{class: "logo#{game.home_team_abrev}"}
               = game.home_team_abrev
-              %br
-              = surround '(', ')' do
-                = team_stats_week(game.home_team_abrev,week)
+              - if session[:value] == 'Show'
+                %br
+                = surround '(', ')' do
+                  = team_stats_week(game.home_team_abrev,week)
           .col.xs-col-12.xs-relative
             = score(game.game_date,game.game_time,game,game_counter)
             - game_counter += 1
    
 %script
-  / $('.hidden-score').on('click', function() {
-  / $('.hidden-score').toggleClass('hidden-rating');
-  / $('.hidden-text').toggle();
-  / })
   $('.hid0').on('click', function() {
   $('.hid0').toggleClass('hidden-rating');
   $('.hidt0').toggle();

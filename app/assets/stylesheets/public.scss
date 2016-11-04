@@ -10,9 +10,8 @@
 
 /* Pages */
 @import "public/pages/welcome/index";
+@import "public/pages/weeks/show";
 
 body {font-family: 'Lato', serif;}
-.hidden-score {position: absolute;height: 100%;width: 100%;cursor: pointer;}
-.hidden-rating {background: red;color: white;}
-.this {font-weight:bold;color:red;text-transform:uppercase;}
+
 

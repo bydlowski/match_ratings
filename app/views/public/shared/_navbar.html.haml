@@ -1,0 +1,21 @@
+.clearfix
+  .col.xs-col-12.xs-p2.xs-border-bottom.xs-fixed.fill-white.xs-z1{style:'height:63px;'}
+    .col.xs-col-4
+      = link_to 'MatchRating', root_path, class: 'link-gray xs-text-1'
+    .col.xs-col-4
+      /= session.to_hash
+      /= params
+    .col.xs-col-4.xs-float-right.caps.xs-text-6
+      - if session[:value] != 'Show'
+        = form_for :save_session, url: public_show_stats_path, method: :post do |f|
+          = f.hidden_field :choice, value: 'Show'
+          %button{type:"submit", class:'button xs-float-right button--negative button--secondary button--small'} 
+            /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
+            = "Show team results"
+      - else
+        = form_for :save_session, url: public_show_stats_path, method: :post do |f|
+          = f.hidden_field :choice, value: 'Hide'
+          %button{type:"submit", class:'button xs-float-right button--negative button--secondary button--small'} 
+            /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
+            = "Hide team results"
+    

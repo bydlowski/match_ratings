@@ -40,13 +40,29 @@ module GamesHelper
     year = date.split('-').first
     month = date.split('-').second
     day = date.split('-').third
+    red_score = "col xs-col-4 xs-text-2 fill-red-lighter xs-border-left-lighter"
+    yellow_score = "col xs-col-4 xs-text-2 fill-yellow-lighter xs-border-left-lighter"
+    green_score = "col xs-col-4 xs-text-2 new-green xs-border-left-lighter"
     game_date = DateTime.new(year.to_i, month.to_i, day.to_i)
     rating = (((game.home_team_score+game.away_team_score).abs)*0.3 + score_diff(game.home_team_score,game.away_team_score,game.quarter_count) + down_diff((game.stats_home_team_downs-game.stats_away_team_downs).abs) + game.stats_interceptions*2 + game.stats_fumbles*1.5).round(0)
 
     if (game_date.wday == 4 || game_date.wday == 1 || time == '8:30PM')
-      page += '<div class="hid' + counter.to_s + ' hidden-score hidden-rating"><p class="hidt' + counter.to_s + '">Click to show</p></div>'+ rating.to_s
+      page += '<div class="hid' + counter.to_s + ' hidden-score col xs-col-12 hidden-rating"><p class="hidt' + counter.to_s + '">Click to show</p></div>'
+      if rating.to_i <= 20
+        page += '<div class="col xs-col-8">Score:</div><div class="' + red_score + '">' + rating.to_s + '</div>'
+      elsif rating.to_i <= 30
+        page += '<div class="col xs-col-8">Score:</div><div class="' + yellow_score + '">' + rating.to_s + '</div>'
+      else
+        page += '<div class="col xs-col-8">Score:</div><div class="' + green_score + '">' + rating.to_s + '</div>'
+      end
     else
-      page += rating.to_s
+      if rating.to_i <= 20
+        page += '<div class="col xs-col-8">Score:</div><div class="' + red_score + '">' + rating.to_s + '</div>'
+      elsif rating.to_i <= 30
+        page += '<div class="col xs-col-8">Score:</div><div class="' + yellow_score + '">' + rating.to_s + '</div>'
+      else
+        page += '<div class="col xs-col-8">Score:</div><div class="' + green_score + '">' + rating.to_s + '</div>'
+      end
     end
 
     # if (game_date.wday == 4 || game_date.wday == 1 || time == '8:30PM')

@@ -14,60 +14,8 @@ class Public::WeeksController < ApplicationController
     # end
   end
   def show
-    #@all_weeks = Week.all
     @array = ArrayGame.first
     @games_array = @array.game_url
     @stats = GameData.where(game_week_number: params[:number])
-    #@week = Week.find_by(number: params[:id])
   end
-  # def one
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 1)
-  # end
-  # def two
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 2)
-  # end
-  # def three
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 3)
-  # end
-  # def four
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 4)
-  # end
-  # def five
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 5)
-  # end
-  # def six
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 6)
-  # end
-  # def seven
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 7)
-  # end
-  # def eight
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 8)
-  # end
-  # def nine
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 9)
-  # end
-  # def ten
-  #   @array = ArrayGame.first
-  #   @games_array = @array.game_url
-  #   @stats = GameData.where(game_week_number: 10)
-  # end
 end
