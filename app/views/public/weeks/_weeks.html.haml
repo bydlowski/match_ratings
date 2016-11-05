@@ -8,11 +8,11 @@
       - while week < 18 
         .col.xs-col-4{style:'min-width: 70px;'}
           - if week == params[:number].to_i
-            - this_week = 'button--negative'
+            - this_week = 'button--tumblr'
           - else
-            - this_week = 'button--white'
+            - this_week = 'button--secondary'
           = link_to "#{week}" do
-            = content_tag :span, "", class: "button button--secondary button--small xs-p1 xs-m1 #{this_week}" do
+            = content_tag :span, "", class: "button button--small xs-p1 xs-m1 #{this_week}" do
               %p{class: "xs-text-2 xs-inline"}= "W"
               %p{class: "xs-text-1 xs-inline bold"}= "#{week}"
               %p{class: "xs-block xs-pt05"}=  "#{day.strftime("%b %d")}<br />#{(day + 4).strftime("%b %d")}".html_safe    

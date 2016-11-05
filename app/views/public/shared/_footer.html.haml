@@ -1,0 +1,13 @@
+- if session[:footer_value] != 'HideF'
+  .clearfix
+    .col.xs-col-4.xs-float-right.xs-p1.xs-border-left.xs-border-top.xs-fixed.xs-z1{style:'bottom:0; right: 0; height:70px; background: rgba(255, 255, 255, 0.8)'}
+      .col.xs-col-10
+        %p= 'We use cookies!'
+        = content_tag :span, ""  do
+          %p{class: 'xs-inline-block'}= 'Our stats are provided by'
+          = link_to 'mysportsfeeds.com', 'https://www.mysportsfeeds.com/', class: 'xs-inline-block'
+      .col.xs-col-2.xs-text-center.xs-text-1.xs-p1
+        = form_for :footer_session, url: public_hide_footer_path, method: :post do |f|
+          = f.hidden_field :footer, value: 'HideF'
+          %button{type:"submit", class:'button button--negative button--secondary button--small'} 
+            = "Hide"

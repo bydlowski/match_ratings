@@ -14,5 +14,9 @@ Rails.application.routes.draw do
       #get '', to: 'public/welcome#index'
     end
     post 'show_stats', to: 'welcome#save_session'
+    post 'hide_footer', to: 'welcome#footer_session'
+    get 'week', to: 'welcome#index'
+    get 'faq', to: 'welcome#faq'
+    get 'settings', to: 'welcome#settings'
   end
 end

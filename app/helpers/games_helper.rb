@@ -1,40 +1,4 @@
 module GamesHelper
-  # RETURNS THE COUNT, THE NUMBER OF COMPLETED SURVEYS
-  def grid_date
-    # page = ''
-    # page +=  game['game']['date']
-    # page += surround '(', ')' do
-    # page += game['game']['time']
-    # return page.html_safe
-  end
-  def grid_suggestion(date,away,home,time)
-    page = ''
-    year = date.split('-').first
-    month = date.split('-').second
-    day = date.split('-').third
-    game_date = DateTime.new(year.to_i, month.to_i, day.to_i)
-
-    if (game_date.wday == 4 || game_date.wday == 1 || time == '8:30PM')
-      if (away.to_i - home.to_i).abs < 6
-        page += '<div class="hidden-score hidden-rating"><p class="hidden-text">Click to show</p></div>YES!!'
-      else
-        page += '<div class="hidden-score hidden-rating"><p class="hidden-text">Click to show</p></div>No'
-      end
-    else
-      if (away.to_i - home.to_i).abs < 6
-        page += 'YES!!'
-      else
-        page += 'No'
-      end
-    end
-
-    return page.html_safe
-  end
-  def awe_replace(text)
-    page = ''
-    page += 'AAA: ' + c.name
-    return page.html_safe
-  end
   def score(date,time,game,counter)
     page = ''
     year = date.split('-').first
@@ -46,7 +10,7 @@ module GamesHelper
     game_date = DateTime.new(year.to_i, month.to_i, day.to_i)
     rating = (((game.home_team_score+game.away_team_score).abs)*0.3 + score_diff(game.home_team_score,game.away_team_score,game.quarter_count) + down_diff((game.stats_home_team_downs-game.stats_away_team_downs).abs) + game.stats_interceptions*2 + game.stats_fumbles*1.5).round(0)
 
-    if (game_date.wday == 4 || game_date.wday == 1 || time == '8:30PM')
+    if (game_date.wday == 4 || game_date.wday == 1 || time == '8:30PM' || time == '9:30AM')
       page += '<div class="hid' + counter.to_s + ' hidden-score col xs-col-12 hidden-rating"><p class="hidt' + counter.to_s + '">Click to show</p></div>'
       if rating.to_i <= 20
         page += '<div class="col xs-col-8">Score:</div><div class="' + red_score + '">' + rating.to_s + '</div>'
@@ -98,4 +62,27 @@ module GamesHelper
     end
     return @wins.to_s + ' - ' + @loss.to_s
   end
+
+  # SCORE DIFFERENTIAL PPOINTS #
+  def score_diff(team1score,team2score,quarter_count)
+    diff = (team1score - team2score).abs
+    if quarter_count > 4
+      16
+    elsif diff >= 10
+      -15
+    elsif diff >= 7 && diff < 10
+      -5
+    elsif diff >= 4 && diff <= 6
+      7
+    elsif diff == 3
+      16
+    elsif diff == 2
+      14
+    elsif diff == 1
+      15
+    else
+      'error'
+    end
+  end
+
 end
