@@ -4,6 +4,7 @@ class GameData
   field :game_url_name, type: String
   field :game_date, type: String
   field :game_time, type: String
+  field :game_period, type: String
   field :game_week_number, type: Integer
   field :home_team_abrev, type: String
   field :away_team_abrev, type: String

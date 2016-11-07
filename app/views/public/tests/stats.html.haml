@@ -6,8 +6,15 @@
 - @stats.each do |a|
   - teamarray.push(a.away_team_abrev) unless teamarray.include?(a.away_team_abrev)
 %p= teamarray.count
-%h1 TB on week 6
-%p= team_stats_week('MIN',6)
+%h1 GB on week 8
+%p= team_stats_week('GB',7)
+/- GameData.where(winner_team: 'GB').each do |game|
+/  - @hash[(game.game_week_number).to_i] = "W"
+%h1 WAS CIN GAME
+%p= team_stats_week('GB',7)
+= GameData.where(game_url_name: '20161030-WAS-CIN').to_a
+/  - @hash[(game.game_week_number).to_i] = "W"
+
 %br
 %br
 %h1 AAA

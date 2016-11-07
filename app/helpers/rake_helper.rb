@@ -45,6 +45,7 @@ module RakeHelper
       games = json['gameboxscore']
       s_game_date = games['game']['date']
       s_game_time = games['game']['time']
+      s_game_period = game_period(games['game']['time'])
       s_game_week_number = whats_the_week(s_game_date)
       s_home_team_abrev = games['game']['homeTeam']['Abbreviation']
       s_away_team_abrev = games['game']['awayTeam']['Abbreviation']
@@ -59,7 +60,7 @@ module RakeHelper
       s_stats_fumbles = games['homeTeam']['homeTeamStats']['Fumbles']['#text'].to_i + games['awayTeam']['awayTeamStats']['Fumbles']['#text'].to_i
       s_stats_home_team_downs = games['homeTeam']['homeTeamStats']['FirstDownsTotal']['#text'].to_i
       s_stats_away_team_downs = games['awayTeam']['awayTeamStats']['FirstDownsTotal']['#text'].to_i
-      GameData.collection.insert_one({game_url_name: game_url, game_date: s_game_date,  game_time: s_game_time, game_week_number: s_game_week_number, home_team_abrev: s_home_team_abrev, away_team_abrev: s_away_team_abrev, home_team_complete: s_home_team_complete, away_team_complete: s_away_team_complete, home_team_score: s_home_team_score, away_team_score: s_away_team_score, quarter_count: s_quarter_count, winner_team: s_winner_team, loser_team: s_loser_team, stats_interceptions: s_stats_interceptions, stats_fumbles: s_stats_fumbles, stats_home_team_downs: s_stats_home_team_downs, stats_away_team_downs: s_stats_away_team_downs})
+      GameData.collection.insert_one({game_url_name: game_url, game_date: s_game_date, game_period: s_game_period,  game_time: s_game_time, game_week_number: s_game_week_number, home_team_abrev: s_home_team_abrev, away_team_abrev: s_away_team_abrev, home_team_complete: s_home_team_complete, away_team_complete: s_away_team_complete, home_team_score: s_home_team_score, away_team_score: s_away_team_score, quarter_count: s_quarter_count, winner_team: s_winner_team, loser_team: s_loser_team, stats_interceptions: s_stats_interceptions, stats_fumbles: s_stats_fumbles, stats_home_team_downs: s_stats_home_team_downs, stats_away_team_downs: s_stats_away_team_downs})
     end
     p @test_array
   end
@@ -154,6 +155,14 @@ module RakeHelper
       team2name + 'TIE'
     else
       'error'
+    end
+  end
+
+  def game_period(time)
+    if time.count('A') == 0
+      'PM'
+    else
+      'AM'
     end
   end
 

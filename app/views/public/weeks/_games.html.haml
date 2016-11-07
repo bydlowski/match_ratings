@@ -2,7 +2,7 @@
   .col.xs-col-12.xs-text-center
     .flex.xs-flex-justify-center{style:'flex-wrap: wrap;'}
       - game_counter = 0
-      - @stats.order(game_date: :asc,game_time: :asc).each do |game|
+      - @stats.order(game_date: :asc,game_period: :asc,game_time: :asc).each do |game|
         .col.xs-col-2.xs-border.xs-m1.fill-white{style:'min-width: 130px;'}
           .col.xs-col-12.xs-border-bottom-lighter.xs-p1
             = game.game_date
@@ -33,6 +33,10 @@
   $('.hid0').on('click', function() {
   $('.hid0').toggleClass('hidden-rating');
   $('.hidt0').toggle();
+  })
+  $('.hid1').on('click', function() {
+  $('.hid1').toggleClass('hidden-rating');
+  $('.hidt1').toggle();
   })
   $('.hid9').on('click', function() {
   $('.hid9').toggleClass('hidden-rating');
