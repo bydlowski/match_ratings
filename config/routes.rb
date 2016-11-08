@@ -18,5 +18,6 @@ Rails.application.routes.draw do
     get 'week', to: 'welcome#index'
     get 'faq', to: 'welcome#faq'
     get 'settings', to: 'welcome#settings'
+    get 'contact', to: 'welcome#contact'
   end
 end

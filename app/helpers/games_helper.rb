@@ -13,19 +13,19 @@ module GamesHelper
     if (game_date.wday == 4 || game_date.wday == 1 || time == '8:30PM' || time == '9:30AM')
       page += '<div class="hid' + counter.to_s + ' hidden-score col xs-col-12 hidden-rating"><p class="hidt' + counter.to_s + '">Click to show</p></div>'
       if rating.to_i <= 20
-        page += '<div class="col xs-col-8">Score:</div><div class="' + red_score + '">' + rating.to_s + '</div>'
+        page += '<div class="col xs-col-8">Rating:</div><div class="' + red_score + '">' + rating.to_s + '</div>'
       elsif rating.to_i <= 30
-        page += '<div class="col xs-col-8">Score:</div><div class="' + yellow_score + '">' + rating.to_s + '</div>'
+        page += '<div class="col xs-col-8">Rating:</div><div class="' + yellow_score + '">' + rating.to_s + '</div>'
       else
-        page += '<div class="col xs-col-8">Score:</div><div class="' + green_score + '">' + rating.to_s + '</div>'
+        page += '<div class="col xs-col-8">Rating:</div><div class="' + green_score + '">' + rating.to_s + '</div>'
       end
     else
       if rating.to_i <= 20
-        page += '<div class="col xs-col-8">Score:</div><div class="' + red_score + '">' + rating.to_s + '</div>'
+        page += '<div class="col xs-col-8">Rating:</div><div class="' + red_score + '">' + rating.to_s + '</div>'
       elsif rating.to_i <= 30
-        page += '<div class="col xs-col-8">Score:</div><div class="' + yellow_score + '">' + rating.to_s + '</div>'
+        page += '<div class="col xs-col-8">Rating:</div><div class="' + yellow_score + '">' + rating.to_s + '</div>'
       else
-        page += '<div class="col xs-col-8">Score:</div><div class="' + green_score + '">' + rating.to_s + '</div>'
+        page += '<div class="col xs-col-8">Rating:</div><div class="' + green_score + '">' + rating.to_s + '</div>'
       end
     end
 

@@ -14,6 +14,9 @@ task import_data: :environment do
   #all_dates
   games_from_array
 end
+task importdata: :environment do
+  rake_test
+end
 task import_week_stats: :environment do
   team_stats
 end

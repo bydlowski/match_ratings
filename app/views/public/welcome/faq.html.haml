@@ -1,1 +1,47 @@
-%h1.xs-text-center.xs-p3= 'Under construction'
+%h1.xs-text-center.xs-p3.bold= 'FAQ'
+.clearfix
+  .col.xs-col-8.xs-offset-1.xs-p2    
+    #faq-why.xs-pb3
+      %h3.xs-pb1.bold= 'Why?'
+      %p.xs-pt05= 'This is an app for those that love football but hate spoilers. It helps you know how a game was, but without knowing who won or the score.'
+      %p.xs-pt05= 'As the world becomes more used to watching Netflix and other TV/movie streaming services, it has also become more common for people to watch sports in an "on demand" mode. Nowadays more people watch sports events after they happen through stream services (such as iTunes/nflpass.com) or other ways.'
+      %p.xs-pt05= 'As movies and TV shows have ratings, sports events should have them too! This app gives you the option of knowing how good a game was without telling you who won or the final score.'
+    #faq-how.xs-pb3
+      %h3.xs-pb1.bold= 'How?'
+      %p
+        = 'The app takes into consideration the final score, the number of turnovers (fumbles and interceptions) and the difference between the number of first downs each team has. This way the match final score is not the only factor taken into consideration, so there are less spoilers. A 30-27 game could be rated better than a 21-21 OT. You can have more information in the topic that talks about the algorithm below.'
+    #faq-algorithm.xs-pb3
+      %h3.xs-pb1.bold= 'And how do you calculate the retings?'
+      %p.xs-pt05= 'We take into consideration for the ratings the following info:'
+      %ul
+        %li= 'The total amount of points scored (ex: a game 31-20 has 51 points);'
+        %li= 'The score differential (ex: a 31-30 game receives a certain amount of points, while a 31-10 receives negative points);'
+        %li= 'The first downs differential (ex: a game where one team has 75 first downs more than the other receives a lower score);'
+        %li= 'The number of interceptions;'
+        %li= 'The number of fumbles;'
+    #faq-where.xs-pb3
+      %h3.xs-pb1.bold= 'Where do the statistics come from?'
+      %p
+        = 'The stats from every game comes from our friends at '
+        = link_to 'mysportsfeeds.com', 'https://www.mysportsfeeds.com/'
+        = '. We thank them for their service!'
+    #faq-hide.xs-pb3
+      %h3.xs-pb1.bold= 'Why do you hide certain information?'
+      %p.xs-pt05= 'This app was created for two main reasons: help you decide which games you should watch and avoid spoilers.'
+      %p.xs-pt05= 'To help you in these two aspects we decided to hide some information from the main games page.'
+      %p.xs-pt05= 'We hide some of the results because they are the "exclusive" games of the week - there aren\'t any other matches happening at the same time. Therefore, sometimes you might not want to know the rating of the match because you don\'t really need to choose between watching one game or another. The rating would be, in this context, a spoiler. So you can hide it.'
+      %p.xs-pt05= 'The other piece of information you can hide is the team stats (the win-lose statistic). We set it up like this because, when looking at games in most up-to-date weeks, this information can tell you which teams won in previous weeks, possibly spoiling a match you did not want to know the result of. So you can hide it.'
+    #faq-othersports.xs-pb3
+      %h3.xs-pb1.bold= 'What about other sports?'
+      %p.xs-pt05= 'This kind of system could be used in other sports such as e-sports and NHL, MLB, NBA, etc. It all depends on the interest people might have in watching a game after it is over. '
+      %p.xs-pt05= 'Football games are just better because they are longer, with too many commercial breaks (making watching them after they are over even more enjoyable).'
+      %p.xs-pt05
+        = 'Let us know through our '
+        = link_to 'contact page', public_contact_path
+        = ' which sport we shoul create this system for!'
+    #faq-contact.xs-pb3
+      %h3.xs-pb1.bold= 'How can I contact you?'
+      %p.xs-pt05
+        = 'You can reach us through ou '
+        = link_to 'contact page', public_contact_path
+        = '!'

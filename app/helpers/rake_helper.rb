@@ -1,4 +1,10 @@
 module RakeHelper
+  def rake_test
+    @games_array = ArrayGame.first
+    p @games_array
+    @games_array.game_url.push('AAA')
+    @games_array.save
+  end
   def all_dates
     # Para rodar a rake digitar 'rake import_data'
     @games_array = ArrayGame.first

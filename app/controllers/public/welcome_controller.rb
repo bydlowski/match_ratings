@@ -6,6 +6,8 @@ class Public::WelcomeController < ApplicationController
   end
   def settings
   end
+  def contact
+  end
   def save_session
     session[:value] = params[:save_session][:choice]
     redirect_to(:back)

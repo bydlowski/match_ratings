@@ -8,17 +8,17 @@
             = game.game_date
             = surround '(', ')' do
               = game.game_time
-          .col.xs-col-12.xs-border-bottom-lighter.xs-p1
-            .col.xs-col-5.xs
+          .col.xs-col-12.xs-border-bottom-lighter.xs-p1.xs-relative
+            .col.xs-col-5
               .logo-teams.logo-tiny{class: "logo#{game.away_team_abrev}"}
               = game.away_team_abrev
               - if session[:value] == 'Show'
                 %br
                 = surround '(', ')' do
                   = team_stats_week(game.away_team_abrev,week)
-            .col.xs-col-2.xs
-              = 'X'
-            .col.xs-col-5.xs
+            .col.xs-col-2.xs-absolute.xs-mx-auto.xs-l0.xs-r0.xs-pt1{style:'width: 50px!important;font-size: 200%;color:rgba(0,0,0,0.7);'}
+              %p= '@'
+            .col.xs-col-5.xs-float-right
               .logo-teams.logo-tiny.logo-flip{class: "logo#{game.home_team_abrev}"}
               = game.home_team_abrev
               - if session[:value] == 'Show'

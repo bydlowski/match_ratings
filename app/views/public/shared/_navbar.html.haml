@@ -1,5 +1,5 @@
 .clearfix
-  .col.xs-col-12.xs-p2.xs-border-bottom.xs-fixed.xs-z1{style:'height:70px;background: rgba(76, 230, 0, 0.8)'}
+  .col.xs-col-10.xs-p2.xs-border-bottom.xs-fixed.xs-z1{style:'height:70px;background: rgba(0, 0, 0, 0.4);min-width:750px;'}
     .col.xs-col-4
       = link_to root_path do
         = content_tag :span, "", class: 'link-white bold caps' do
@@ -7,37 +7,43 @@
           %p{class: 'xs-text-2 xs-inline-block'}= 'atch'
           %p{class: 'xs-text-1 xs-inline-block', style:'letter-spacing: -3px'}= 'R'
           %p{class: 'xs-text-2 xs-inline-block'}= 'ating'
-      = link_to 'Settings', public_settings_path, class: 'link-white xs-text-3 xs-ml4'
-      = link_to 'FAQ', public_faq_path  , class: 'link-white xs-text-3 xs-ml4'
-    .col.xs-col-4
+    .col.xs-col-3
       /= params
-    .col.xs-col-4.xs-float-right.caps.xs-text-6.xs-mt05
-      .col.xs-col-3
-        %h2.xs-text-3.text-white.xs-mt05 Options:
-      .col.xs-col-4
-        - if session[:value] != 'Show'
-          = form_for :save_session, url: public_show_stats_path, method: :post do |f|
-            = f.hidden_field :choice, value: 'Show'
-            %button{type:"submit", class:'button xs-float-right button--white button--small'} 
-              /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
-              = "Show team stats"
-        - else
-          = form_for :save_session, url: public_show_stats_path, method: :post do |f|
-            = f.hidden_field :choice, value: 'Hide'
-            %button{type:"submit", class:'button xs-float-right button--white button--small'} 
-              /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
-              = "Hide team stats"
-      .col.xs-col-4
-        - if session[:value] != 'ShowR'
-          = form_for :save_session, url: public_show_stats_path, method: :post do |f|
-            = f.hidden_field :choice, value: 'ShowR'
-            %button{type:"submit", class:'button xs-float-right button--white button--disabled button--small'} 
-              /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
-              = "Show all ratings"
-        - else
-          = form_for :save_session, url: public_show_stats_path, method: :post do |f|
-            = f.hidden_field :choice, value: 'HideR'
-            %button{type:"submit", class:'button xs-float-right button--white button--disabled button--small'} 
-              /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
-              = "Hide some ratings"
+    - if params[:action] == 'show'
+      .col.xs-col-4.xs-float-right.caps.xs-text-6.xs-mt05{style:'min-width:400px;'}
+        .xs-mr3.xs-inline-block.xs-float-right
+          - if session[:value] != 'Show'
+            = form_for :save_session, url: public_show_stats_path, method: :post do |f|
+              = f.hidden_field :choice, value: 'Show'
+              %button{type:"submit", class:'button xs-float-right button--white button--small'} 
+                /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
+                = "Show team stats"
+          - else
+            = form_for :save_session, url: public_show_stats_path, method: :post do |f|
+              = f.hidden_field :choice, value: 'Hide'
+              %button{type:"submit", class:'button xs-float-right button--white button--small'} 
+                /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
+                = "Hide team stats"
+        .xs-mr3.xs-inline-block.xs-float-right
+          - if session[:value] != 'ShowR'
+            = form_for :save_session, url: public_show_stats_path, method: :post do |f|
+              = f.hidden_field :choice, value: 'ShowR'
+              %button{type:"submit", class:'button xs-float-right button--white button--disabled button--small'} 
+                /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
+                = "Show all ratings"
+          - else
+            = form_for :save_session, url: public_show_stats_path, method: :post do |f|
+              = f.hidden_field :choice, value: 'HideR'
+              %button{type:"submit", class:'button xs-float-right button--white button--disabled button--small'} 
+                /= content_tag :span, "", class: "glyphicon glyphicon-heart-empty"
+                = "Hide some ratings"
+        .xs-mr3.xs-inline-block.xs-float-right
+          %h2.xs-text-3.text-white.xs-mt05 Options:
+  .col.xs-col-2.xs-border-bottom.xs-border-left.xs-float-right.xs-fixed.xs-z1.xs-r0{style:'height:70px;background: rgba(0, 0, 0, 0.7);min-width:150px;'}
+    .col.xs-col-6.xs-mt2.xs-text-center
+      = link_to 'FAQ', public_faq_path, class: 'button button--white button--secondary'
+    .col.xs-col-6.xs-mt2.xs-text-center
+      = link_to 'Settings', public_settings_path, class: 'button button--white button--secondary'
+    
+        
       
