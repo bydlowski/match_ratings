@@ -17,6 +17,9 @@ end
 task importdata: :environment do
   rake_test
 end
+task dataimport: :environment do
+  data_import
+end
 task import_week_stats: :environment do
   team_stats
 end

@@ -11,7 +11,8 @@ end
 
 team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
 team_array.each do |team|
-  TeamStats.create!(team_abrev: team, :stats => {1 => "W"})
+  #TeamStats.create!(team_abrev: team, :stats => {1 => "W"})
+  TeamStats.create!(team_abrev: team, :stats => {1 => "",2 => "",3 => "",4 => "",5 => "",6 => "",7 => "",8 => "",9 => "",10 => "",11 => "",12 => "",13 => "",14 => "",15 => "",16 => "",17 => "",18 => ""})
 end
 
 # In 25/10/2016
@@ -158,4 +159,4 @@ Stats131 = GameData.create!(game_url_name: "20161106-IND-GB", game_date: "2016-1
 Stats132 = GameData.create!(game_url_name: "20161106-DEN-OAK", game_date: "2016-11-06", game_time: "8:30PM", game_period: "PM", game_week_number: 9, home_team_abrev: "OAK", away_team_abrev: "DEN", home_team_complete: "Oakland Raiders", away_team_complete: "Denver Broncos", home_team_score: 30, away_team_score: 20, quarter_count: 4, winner_team: "OAK", loser_team: "DEN", stats_interceptions: 1, stats_fumbles: 1, stats_home_team_downs: 29, stats_away_team_downs: 13)
 Stats133 = GameData.create!(game_url_name: "20161107-BUF-SEA", game_date: "2016-11-07", game_time: "8:30PM", game_period: "PM", game_week_number: 9, home_team_abrev: "SEA", away_team_abrev: "BUF", home_team_complete: "Seattle Seahawks", away_team_complete: "Buffalo Bills", home_team_score: 31, away_team_score: 25, quarter_count: 4, winner_team: "SEA", loser_team: "BUF", stats_interceptions: 1, stats_fumbles: 1, stats_home_team_downs: 19, stats_away_team_downs: 30)
 
-Rake::Task['import_week_stats'].invoke()
+# Rake::Task['import_week_stats'].invoke()

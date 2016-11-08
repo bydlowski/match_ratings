@@ -1,84 +1,32 @@
 module RakeHelper
-  def rake_test
+
+  def data_import
     @games_array = ArrayGame.first
-    p @games_array
-    @games_array.game_url.push('AAA')
-    @games_array.save
-  end
-  def all_dates
-    # Para rodar a rake digitar 'rake import_data'
-    @games_array = ArrayGame.first
-    #@games_array.game_url.push("AAA")
-    new_date = DateTime.new(2016, 11, 1)
-    today = DateTime.now.midnight
-    a = 1
-    @all_dates = []
-    loop do
-      @all_dates << (new_date.strftime('%Y%m%d')).to_s
-      new_date += 1
-      a += 1
-      break if new_date > today
-      #break if a == 5
-    end
-    @all_dates.each do |all|
-      auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
-      json2 = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{all}",basic_auth: auth)
-      daily = json2['dailygameschedule']
-      #@date_array << daily
-      unless daily['gameentry'].nil?
-        daily['gameentry'].each do |this|
-          year = this['date'].split('-').first
-          month = this['date'].split('-').second
-          day = this['date'].split('-').third
-          team1 = this['awayTeam']['Abbreviation']
-          team2 = this['homeTeam']['Abbreviation']
-          #@games_array << year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2
-          @games_array.game_url.push(year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2)
-        end
-      end
-    end
-    p @games_array
-    p @all_dates
-    p today
-    p new_date
-  end
-  def games_from_array
-    @games_array = ArrayGame.first
-    @test_array = @games_array.game_url
-    @test_array.each do |game_url|
-      auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
-      json = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/game_boxscore.json?gameid=#{game_url}",basic_auth: auth)
-      games = json['gameboxscore']
-      s_game_date = games['game']['date']
-      s_game_time = games['game']['time']
-      s_game_period = game_period(games['game']['time'])
-      s_game_week_number = whats_the_week(s_game_date)
-      s_home_team_abrev = games['game']['homeTeam']['Abbreviation']
-      s_away_team_abrev = games['game']['awayTeam']['Abbreviation']
-      s_home_team_complete = games['game']['homeTeam']['City'] + ' ' + games['game']['homeTeam']['Name']
-      s_away_team_complete = games['game']['awayTeam']['City'] + ' ' + games['game']['awayTeam']['Name']
-      s_home_team_score = games['quarterSummary']['quarterTotals']['homeScore'].to_i
-      s_away_team_score = games['quarterSummary']['quarterTotals']['awayScore'].to_i
-      s_quarter_count = games['quarterSummary']['quarter'].count
-      s_winner_team = who_won(s_home_team_abrev,s_away_team_abrev,s_home_team_score,s_away_team_score)
-      s_loser_team = who_lost(s_home_team_abrev,s_away_team_abrev,s_home_team_score,s_away_team_score)
-      s_stats_interceptions = games['homeTeam']['homeTeamStats']['Interceptions']['#text'].to_i + games['awayTeam']['awayTeamStats']['Interceptions']['#text'].to_i
-      s_stats_fumbles = games['homeTeam']['homeTeamStats']['Fumbles']['#text'].to_i + games['awayTeam']['awayTeamStats']['Fumbles']['#text'].to_i
-      s_stats_home_team_downs = games['homeTeam']['homeTeamStats']['FirstDownsTotal']['#text'].to_i
-      s_stats_away_team_downs = games['awayTeam']['awayTeamStats']['FirstDownsTotal']['#text'].to_i
-      GameData.collection.insert_one({game_url_name: game_url, game_date: s_game_date, game_period: s_game_period,  game_time: s_game_time, game_week_number: s_game_week_number, home_team_abrev: s_home_team_abrev, away_team_abrev: s_away_team_abrev, home_team_complete: s_home_team_complete, away_team_complete: s_away_team_complete, home_team_score: s_home_team_score, away_team_score: s_away_team_score, quarter_count: s_quarter_count, winner_team: s_winner_team, loser_team: s_loser_team, stats_interceptions: s_stats_interceptions, stats_fumbles: s_stats_fumbles, stats_home_team_downs: s_stats_home_team_downs, stats_away_team_downs: s_stats_away_team_downs})
-    end
-    p @test_array
-  end
-  def today
-    # Para rodar a rake digitar 'rake import_data'
-    @games_array = ArrayGame.first
+    today = DateTime.new(2016, 10, 24)
     #today = DateTime.now
-    today = DateTime.new(2016, 10, 23)
     the_date = today.strftime('%Y%m%d').to_s
+    games_array = []
+    all_urls = []
+    # FUNCIONA games_array = today(the_date)
+    #games_array = today(the_date)
+    games_array = ["20160925-ARI-BUF"]
+    #games_array = ["20161030-SD-DEN","20160918-IND-DEN"]
+    #games_array = ["20161023-NO-KC", "20161023-IND-TEN"]
+    #games_array = ["20161030-SD-DEN","20160918-IND-DEN","20161023-NO-KC", "20161023-IND-TEN"]
+    save_games_array(games_array) unless games_array == '[]'
+    GameData.each do |url|
+      all_urls << url.game_url_name
+    end
+    games_from_array(games_array,all_urls) unless games_array == '[]'
+    team_stats
+    p games_array
+  end
+
+  def today(the_date)
     auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
-    json2 = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{the_date}",basic_auth: auth)
-    daily = json2['dailygameschedule']
+    json_date = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{the_date}",basic_auth: auth)
+    daily = json_date['dailygameschedule']
+    games_array = []
     unless daily['gameentry'].nil?
       daily['gameentry'].each do |this|
         year = this['date'].split('-').first
@@ -86,46 +34,95 @@ module RakeHelper
         day = this['date'].split('-').third
         team1 = this['awayTeam']['Abbreviation']
         team2 = this['homeTeam']['Abbreviation']
-        #@games_array << year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2
-        @games_array.game_url.push(year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2)
+        games_array.push(year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2)
       end
     end
-    @games_array.save
+    return games_array
   end
-  def daily_games
 
-    #auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
-    #@json = HTTParty.get('https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=20160908',basic_auth: auth)
-    new_date = DateTime.new(2016, 9, 8)
-    a = 1
-    @all_dates = []
-    loop do
-      @all_dates << (new_date.strftime('%Y%m%d')).to_s
-      new_date += 1
-      a += 1
-      break if a == 5
+  def save_games_array(array)
+    games_array = ArrayGame.first
+    array.each do |game|
+      unless games_array.game_url.include? game
+        games_array.game_url.push(game)
+      end
     end
-    @date_array = []
-    @all_dates.each do |all|
-      auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
-      json2 = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{all}",basic_auth: auth)
-      daily = json2['dailygameschedule']
-      #@date_array << daily
-      unless daily['gameentry'].nil?
-        daily['gameentry'].each do |this|
-          year = this['date'].split('-').first
-          month = this['date'].split('-').second
-          day = this['date'].split('-').third
-          team1 = this['awayTeam']['Abbreviation']
-          team2 = this['homeTeam']['Abbreviation']
-          @date_array << year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2
-        end
+    games_array.save
+  end
+
+  def games_from_array(array,url)
+    array.each do |game_url|
+      unless url.include? game_url
+        p 'Scheduler included: ' + game_url
+        auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
+        #json = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/game_boxscore.json?gameid=#{game_url}",basic_auth: auth)
+        json = ActiveSupport::JSON.decode(open("#{Rails.root}/file4.json").read)
+        games = json['gameboxscore']
+        s_game_date = games['game']['date']
+        s_game_time = games['game']['time']
+        s_game_period = game_period(games['game']['time'])
+        s_game_week_number = whats_the_week(s_game_date)
+        s_home_team_abrev = games['game']['homeTeam']['Abbreviation']
+        s_away_team_abrev = games['game']['awayTeam']['Abbreviation']
+        s_home_team_complete = games['game']['homeTeam']['City'] + ' ' + games['game']['homeTeam']['Name']
+        s_away_team_complete = games['game']['awayTeam']['City'] + ' ' + games['game']['awayTeam']['Name']
+        s_home_team_score = games['quarterSummary']['quarterTotals']['homeScore'].to_i
+        s_away_team_score = games['quarterSummary']['quarterTotals']['awayScore'].to_i
+        s_quarter_count = games['quarterSummary']['quarter'].count
+        s_winner_team = who_won(s_home_team_abrev,s_away_team_abrev,s_home_team_score,s_away_team_score)
+        s_loser_team = who_lost(s_home_team_abrev,s_away_team_abrev,s_home_team_score,s_away_team_score)
+        s_stats_interceptions = games['homeTeam']['homeTeamStats']['Interceptions']['#text'].to_i + games['awayTeam']['awayTeamStats']['Interceptions']['#text'].to_i
+        s_stats_fumbles = games['homeTeam']['homeTeamStats']['Fumbles']['#text'].to_i + games['awayTeam']['awayTeamStats']['Fumbles']['#text'].to_i
+        s_stats_home_team_downs = games['homeTeam']['homeTeamStats']['FirstDownsTotal']['#text'].to_i
+        s_stats_away_team_downs = games['awayTeam']['awayTeamStats']['FirstDownsTotal']['#text'].to_i
+        GameData.collection.insert_one({game_url_name: game_url, game_date: s_game_date, game_period: s_game_period,  game_time: s_game_time, game_week_number: s_game_week_number, home_team_abrev: s_home_team_abrev, away_team_abrev: s_away_team_abrev, home_team_complete: s_home_team_complete, away_team_complete: s_away_team_complete, home_team_score: s_home_team_score, away_team_score: s_away_team_score, quarter_count: s_quarter_count, winner_team: s_winner_team, loser_team: s_loser_team, stats_interceptions: s_stats_interceptions, stats_fumbles: s_stats_fumbles, stats_home_team_downs: s_stats_home_team_downs, stats_away_team_downs: s_stats_away_team_downs})
       end
     end
   end
 
   def team_stats
-    #['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
+    GameData.each do |game|
+      winner_team = game.winner_team
+      loser_team = game.loser_team
+      week = game.game_week_number.to_s
+      unless winner_team.include? 'TIE'
+        winning_team = TeamStats.find_by(team_abrev: winner_team)
+        winning_team.stats[week.to_s] = 'W'
+        winning_team.save
+        loser_team = TeamStats.find_by(team_abrev: loser_team)
+        loser_team.stats[week.to_s] = 'L'
+        loser_team.save
+      end
+    end
+  end
+
+  def team_stats_backup
+    p GameData.count
+    GameData.each do |game|
+      winner_team = game.winner_team
+      loser_team = game.loser_team
+      week = game.game_week_number.to_s
+      if winner_team.count('TIE') == 0
+        winning_team = TeamStats.find_by(team_abrev: winner_team)
+        #p week.to_s + ': ' + winner_team
+        #p winning_team.to_a
+        #p winning_team.stats # {"1"=>"", "2"=>"", "3"=>""}
+        #p winning_team.stats[week.to_s]
+        # winning_team.stats['3'] = 'W'
+        #p winning_team.stats
+        value = winning_team.stats
+        value[week.to_s] = 'W'
+        winning_team.save
+      end
+      if loser_team.count('TIE') == 0
+        loser_team = TeamStats.find_by(team_abrev: loser_team)
+        loser_team.stats[week.to_s] = 'L'
+        loser_team.save
+      end
+    end
+  end
+
+  def old_team_stats
     @team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
     @hash = {}
     @team_array.each do |team|
@@ -137,6 +134,7 @@ module RakeHelper
       end
       @selected_games = Hash[@hash.sort_by { |k, v| k }]
       TeamStats.collection.update_one({team_abrev: team}, '$set' => {:stats => @selected_games})
+
     end
   end
 

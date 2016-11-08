@@ -10,10 +10,35 @@
 %p= team_stats_week('GB',7)
 /- GameData.where(winner_team: 'GB').each do |game|
 /  - @hash[(game.game_week_number).to_i] = "W"
-%h1 WAS CIN GAME
-%p= team_stats_week('GB',7)
-= GameData.where(game_url_name: '20161030-WAS-CIN').to_a
-/  - @hash[(game.game_week_number).to_i] = "W"
+%h1 WEEK STATS:
+%p= 'W1: ' + team_stats_week('HOU',1)
+%p= 'W2: ' + team_stats_week('HOU',2)
+%p= 'W3: ' + team_stats_week('HOU',3)
+%p= 'W4: ' + team_stats_week('HOU',4)
+%p= 'W5: ' + team_stats_week('HOU',5)
+%p= 'W6: ' + team_stats_week('HOU',6)
+%p= 'W7: ' + team_stats_week('HOU',7)
+%p= 'W8: ' + team_stats_week('HOU',8)
+%p= 'W9: ' + team_stats_week('HOU',9)
+%p= 'W10: ' + team_stats_week('HOU',10)
+%h1 WEEK STATS:
+%ul
+  - GameData.each do |game|
+    %li= game.to_a
+%hr
+%ul
+  - GameData.where(loser_team: 'HOU').each do |game|
+    %li= game.to_a
+%hr
+%h1 TEAM WEEK STATS:
+- a = TeamStats.find_by(team_abrev: 'CLE')
+= a.to_a
+%h1 TEAM WEEK STATS:
+- a = TeamStats.find_by(team_abrev: 'NO')
+= a.to_a
+%h1 TEAM WEEK STATS:
+- a = TeamStats.find_by(team_abrev: 'DEN')
+= a.to_a
 
 %br
 %br
