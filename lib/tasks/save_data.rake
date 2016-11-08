@@ -15,7 +15,7 @@ task import_data: :environment do
   games_from_array
 end
 task importdata: :environment do
-  rake_test
+  data_import
 end
 task dataimport: :environment do
   data_import

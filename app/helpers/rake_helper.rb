@@ -2,17 +2,12 @@ module RakeHelper
 
   def data_import
     @games_array = ArrayGame.first
-    today = DateTime.new(2016, 10, 24)
+    today = DateTime.new(2016, 10, 31)
     #today = DateTime.now
     the_date = today.strftime('%Y%m%d').to_s
     games_array = []
     all_urls = []
-    # FUNCIONA games_array = today(the_date)
-    #games_array = today(the_date)
-    games_array = ["20160925-ARI-BUF"]
-    #games_array = ["20161030-SD-DEN","20160918-IND-DEN"]
-    #games_array = ["20161023-NO-KC", "20161023-IND-TEN"]
-    #games_array = ["20161030-SD-DEN","20160918-IND-DEN","20161023-NO-KC", "20161023-IND-TEN"]
+    games_array = today(the_date)
     save_games_array(games_array) unless games_array == '[]'
     GameData.each do |url|
       all_urls << url.game_url_name
@@ -55,8 +50,7 @@ module RakeHelper
       unless url.include? game_url
         p 'Scheduler included: ' + game_url
         auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
-        #json = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/game_boxscore.json?gameid=#{game_url}",basic_auth: auth)
-        json = ActiveSupport::JSON.decode(open("#{Rails.root}/file4.json").read)
+        json = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/game_boxscore.json?gameid=#{game_url}",basic_auth: auth)
         games = json['gameboxscore']
         s_game_date = games['game']['date']
         s_game_time = games['game']['time']
