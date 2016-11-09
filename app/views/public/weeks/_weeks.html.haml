@@ -14,7 +14,7 @@
           = link_to "#{week}" do
             = content_tag :span, "", class: "button button--small xs-p1 xs-m1 #{this_week}" do
               %p{class: "xs-text-2 xs-inline"}= "W"
-              %p{class: "xs-text-1 xs-inline bold"}= "#{week}"
+              %p{class: "xs-text-1 xs-inline bold"}= "#{'%02d' % week}"
               %p{class: "xs-block xs-pt05"}=  "#{day.strftime("%b %d")}<br />#{(day + 4).strftime("%b %d")}".html_safe    
           - week += 1
           - day += 7

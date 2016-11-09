@@ -2,8 +2,8 @@ module RakeHelper
 
   def data_import
     @games_array = ArrayGame.first
-    today = DateTime.new(2016, 10, 31)
-    #today = DateTime.now
+    #today = DateTime.new(2016, 10, 31)
+    today = DateTime.now
     the_date = today.strftime('%Y%m%d').to_s
     games_array = []
     all_urls = []
