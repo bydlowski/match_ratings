@@ -7,7 +7,8 @@
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
     = stylesheet_link_tag    'public', 'https://fonts.googleapis.com/css?family=Lato', media: 'all', 'data-turbolinks-track' => true
     //= stylesheet_link_tag    'public', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'public', 'data-turbolinks-track' => true
+    /= javascript_include_tag :defaults, 'data-turbolinks-track' => true
+    = javascript_include_tag :defaults
     = csrf_meta_tags
     / HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
     / WARNING: Respond.js doesn't work if you view the page via file://
@@ -18,3 +19,5 @@
     - if params[:controller] != 'admin/welcome'
       = render "admin/shared/navbar"
     = yield
+    = link_to destroy_admin_session_path, method: :delete do
+      .button.button--small.xs-fixed.xs-b0.xs-r0= "Logout"

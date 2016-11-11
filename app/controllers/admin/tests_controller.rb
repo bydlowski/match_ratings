@@ -38,23 +38,23 @@ class Admin::TestsController < ApplicationController
       break if a == 3
     end
     @date_array = []
-    @all_dates.each do |all|
-      auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
-      json2 = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{all}",basic_auth: auth)
-      daily = json2['dailygameschedule']
-      #@date_array << daily
-      unless daily['gameentry'].nil?
-        daily['gameentry'].each do |this|
-          year = this['date'].split('-').first
-          month = this['date'].split('-').second
-          day = this['date'].split('-').third
-          team1 = this['awayTeam']['Abbreviation']
-          team2 = this['homeTeam']['Abbreviation']
-          @date_array << year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2
-        end
-      end
-    end
-    @all_games_array = []
+    # @all_dates.each do |all|
+    #   auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
+    #   json2 = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{all}",basic_auth: auth)
+    #   daily = json2['dailygameschedule']
+    #   #@date_array << daily
+    #   unless daily['gameentry'].nil?
+    #     daily['gameentry'].each do |this|
+    #       year = this['date'].split('-').first
+    #       month = this['date'].split('-').second
+    #       day = this['date'].split('-').third
+    #       team1 = this['awayTeam']['Abbreviation']
+    #       team2 = this['homeTeam']['Abbreviation']
+    #       @date_array << year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2
+    #     end
+    #   end
+    # end
+    # @all_games_array = []
   end
   def table
     @array = ArrayGame.first

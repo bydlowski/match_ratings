@@ -26,4 +26,9 @@ Rails.application.routes.draw do
     get 'settings', to: 'welcome#settings'
     get 'contact', to: 'welcome#contact'
   end
+
+  devise_scope :admin do
+    get '/admin/sign_out' => 'devise/sessions#destroy'
+  end
+
 end

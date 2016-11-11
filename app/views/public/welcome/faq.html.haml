@@ -11,20 +11,20 @@
       %p
         = 'The app takes into consideration the final score, the number of turnovers (fumbles and interceptions) and the difference between the number of first downs each team has. This way the match final score is not the only factor taken into consideration, so there are less spoilers. A 30-27 game could be rated better than a 21-21 OT. You can have more information in the topic that talks about the algorithm below.'
     #faq-algorithm.xs-pb3
-      %h3.xs-pb1.bold= 'And how do you calculate the retings?'
-      %p.xs-pt05= 'We take into consideration for the ratings the following info:'
-      %ul
-        %li= 'The total amount of points scored (ex: a game 31-20 has 51 points);'
-        %li= 'The score differential (ex: a 31-30 game receives a certain amount of points, while a 31-10 receives negative points);'
-        %li= 'The first downs differential (ex: a game where one team has 75 first downs more than the other receives a lower score);'
-        %li= 'The number of interceptions;'
-        %li= 'The number of fumbles;'
+      %h3.xs-pb1.bold= 'I don\'t agree with one of the ratings, what shoud I do?'
+      %p.xs-pt05
+        = 'Of curse our ratings are not 100% accurate. They take into consideration several factors, but can\'t really reflect every game. If you think one game should be rated better or worse, tell us through the '
+        = link_to 'contact page', public_contact_path
+        = ' and we will take a look and maybe update the algorithms.'
     #faq-where.xs-pb3
       %h3.xs-pb1.bold= 'Where do the statistics come from?'
       %p
         = 'The stats from every game comes from our friends at '
-        = link_to 'mysportsfeeds.com', 'https://www.mysportsfeeds.com/'
+        = link_to 'mysportsfeeds.com', 'https://www.mysportsfeeds.com'
         = '. We thank them for their service!'
+    #faq-when.xs-pb3
+      %h3.xs-pb1.bold= 'When do you update the ratings?'
+      %p.xs-pt05= 'We update our database once a day, in the middle of the night, after all the games of the day are over. If you visit the app during the morning all the matches from the previous day will show updated ratings.'
     #faq-hide.xs-pb3
       %h3.xs-pb1.bold= 'Why do you hide certain information?'
       %p.xs-pt05= 'This app was created for two main reasons: help you decide which games you should watch and avoid spoilers.'
@@ -39,9 +39,4 @@
         = 'Let us know through our '
         = link_to 'contact page', public_contact_path
         = ' which sport we shoul create this system for!'
-    #faq-contact.xs-pb3
-      %h3.xs-pb1.bold= 'How can I contact you?'
-      %p.xs-pt05
-        = 'You can reach us through ou '
-        = link_to 'contact page', public_contact_path
-        = '!'
+

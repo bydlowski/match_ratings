@@ -1,1 +1,44 @@
-%h1.xs-text-center.xs-p3= 'Under construction'
+%h1.xs-text-center.xs-p3= 'Contact Us'
+.clearfix
+  .col.xs-col-8.xs-offset-1.xs-p2 
+    %form{action:'https://formspree.io/euquerotodos@mail.com',method: :post}
+      .col.xs-col-12.xs-pb1
+        %label.form-label
+          = 'Name'
+          %span.form-label--required= '*'
+        %input.text-input.col.xs-col-6{type:'text', required:'true'}
+      .col.xs-col-12.xs-pb1
+        %label.form-label
+          = 'E-mail'
+          %span.form-label--required= '*'
+        %input.text-input.col.xs-col-6{type:'email', required:'true'}
+      .col.xs-col-12.xs-pb1
+        %label.form-label
+          = 'What?'
+          %span.form-label--required= '*'
+        %textarea.textarea.col.xs-col-6{type:'textarea', required:'true'}
+      .col.xs-col-12.xs-pb2
+        %label.form-label
+          = 'Which sport do you think we should rate next?'
+          %span.form-label--required= '*'
+        %select.select{required:'true'}
+          %option{value:'', prompt:'true'} Pick one
+          %option{value:'baseball'} Baseball
+          %option{value:'hockey'} Hockey
+          %option{value:'esports'} E-sports
+      .col.xs-col-12.xs-pb1
+        %input{type:'hidden',name:'_next', value: root_path}
+        %input{type:'text',name:'_gotcha', style:'display:none'}
+        %button{type:"submit", class:"button"} Send
+
+ 
+
+
+
+/ <form action="https://formspree.io/your@email.com"
+/       method="POST">
+/     <input type="text" name="name">
+/     <input type="email" name="_replyto">
+/     <input type="submit" value="Send">
+/ </form>
+
