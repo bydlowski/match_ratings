@@ -1,12 +1,18 @@
 Rails.application.routes.draw do
+  devise_for :admin
   root 'public/welcome#index', to: 'public/welcome#index'
 
-  scope :tests do
-    get '', to: 'public/tests#index'
-    get 'stats', to: 'public/tests#stats'
-    get 'games', to: 'public/tests#games'
-    get 'full', to: 'public/tests#full'
-    get 'table', to: 'public/tests#table'
+  namespace :admin do
+    authenticated :admin do
+      root 'welcome#index'
+      scope :tests do
+        get '', to: 'tests#index'
+        get 'stats', to: 'tests#stats'
+        get 'games', to: 'tests#games'
+        get 'full', to: 'tests#full'
+        get 'table', to: 'tests#table'
+      end
+    end
   end
 
   namespace :public, path: '' do

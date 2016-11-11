@@ -1,5 +1,5 @@
-class Public::TestsController < ApplicationController
-  layout 'public'
+class Admin::TestsController < ApplicationController
+  layout 'admin'
   def index
     @json = ActiveSupport::JSON.decode(open("#{Rails.root}/file.json").read)
     @games = @json['scoreboard']['gameScore']
