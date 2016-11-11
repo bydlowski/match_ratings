@@ -3,25 +3,27 @@ module RakeHelper
   def data_import
     @games_array = ArrayGame.first
     #today = DateTime.new(2016, 10, 31)
+    yesterday = (DateTime.now - 1)
     today = DateTime.now
+    the_yesterday = yesterday.strftime('%Y%m%d').to_s
     the_date = today.strftime('%Y%m%d').to_s
     games_array = []
     all_urls = []
-    games_array = today(the_date)
-    save_games_array(games_array) unless games_array == '[]'
-    GameData.each do |url|
+    today(games_array,the_yesterday) # Add to games_array all the games that happened yesterday
+    today(games_array,the_date) # Add to games_array all the games that happened today
+    save_games_array(games_array) unless games_array == '[]' # Save to ArrayGame all the games
+    GameData.each do |url| # Save all the urls (2016-10-30-CHI-BUF) to an array
       all_urls << url.game_url_name
     end
+    # Below: Complete the GameData database with games from games_array if they are not in all_urls
     games_from_array(games_array,all_urls) unless games_array == '[]'
     team_stats
-    p games_array
   end
 
-  def today(the_date)
+  def today(games_array,the_date)
     auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
     json_date = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{the_date}",basic_auth: auth)
     daily = json_date['dailygameschedule']
-    games_array = []
     unless daily['gameentry'].nil?
       daily['gameentry'].each do |this|
         year = this['date'].split('-').first
@@ -32,7 +34,6 @@ module RakeHelper
         games_array.push(year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2)
       end
     end
-    return games_array
   end
 
   def save_games_array(array)

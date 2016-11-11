@@ -10,6 +10,8 @@
 %p= team_stats_week('GB',7)
 /- GameData.where(winner_team: 'GB').each do |game|
 /  - @hash[(game.game_week_number).to_i] = "W"
+%h1 Today:
+%p= (DateTime.now - 1).strftime('%Y%m%d').to_s
 %h1 WEEK STATS:
 %p= 'W1: ' + team_stats_week('HOU',1)
 %p= 'W2: ' + team_stats_week('HOU',2)
