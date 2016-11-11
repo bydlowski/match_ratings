@@ -1,19 +1,20 @@
-%h1.xs-text-1.xs-text-center.bold.xs-p4
-  NFL Match Scores
-%h2.xs-text-center.xs-pb4
-  Find the rating/score of each of the NFL matches
-.clearfix
-  .col.xs-col-10.xs-offset-1.xs-p2
-    %h4.xs-text-center
-      Select one of the weeks:
-    .col.xs-col-10.xs-offset-1.xs-p2.xs-text-center
-      - week = 1
-      - day = DateTime.new(2016, 9, 8)
-      /- day = Date.strptime("#{252}", "%j")
-      - while week < 18
-        = link_to "Week #{week}<br><span class=\"xs-text-5\">#{day.strftime("%b %d")} - #{(day + 4).strftime("%b %d")}</span>".html_safe, "week/#{week}", class:'button xs-m2 button--tumblr '
-        - week += 1
-        - day += 7
+.front-page  
+  %h1.xs-text-1.xs-text-center.bold.xs-p4
+    NFL Match Scores
+  %h2.xs-text-center.xs-pb4
+    Find the rating/score of each of the NFL matches
+  .clearfix
+    .col.xs-col-10.xs-offset-1.xs-p2
+      %h4.xs-text-center
+        Select one of the weeks:
+      .col.xs-col-10.xs-offset-1.xs-p2.xs-text-center
+        - week = 1
+        - day = DateTime.new(2016, 9, 8)
+        /- day = Date.strptime("#{252}", "%j")
+        - while week < 18
+          = link_to "Week #{week}<br><span class=\"xs-text-5\">#{day.strftime("%b %d")} - #{(day + 4).strftime("%b %d")}</span>".html_safe, "week/#{week}", class:'button xs-m2 button--tumblr '
+          - week += 1
+          - day += 7
 
 
 
