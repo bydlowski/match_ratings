@@ -1,3 +1,34 @@
-%h1.xs-text-center.xs-p3= 'Under construction'
-%p= session.to_hash
-%p= params
+%h1.xs-text-center.xs-p3= 'Select your team'
+%h2.xs-text-center.xs-pb05= 'Selecting a team will give it a small rating increase'
+%p.xs-text-center.xs-pb1= 'However, this feature is still under construction :P'
+.clearfix
+  .col.xs-col-10.xs-offset-1.xs-text-center
+    - if cookies[:user_team] == '' || cookies[:user_team].nil?
+      .flex.xs-flex-justify-center{style:'flex-wrap: wrap;'}
+        - team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
+        - team_array.sort.each do |team|
+          = form_for :pick_team_session, url: public_pick_team_path, method: :post do |f|
+            = f.hidden_field :team, value: team
+            %button{type:"submit", class:'button button--secondary xs-m05 button-team'} 
+              .logo-teams.logo-tiny{class: "logo#{team}"}
+              = team
+    - else
+      %h4.xs-text-center
+        = 'Your selected team is: '
+        = cookies[:user_team]
+      .xs-text-center.xs-p3  
+        = form_for :pick_team_session, url: public_pick_team_path, method: :post do |f|
+          = f.hidden_field :team, value: ''
+          %button{type:"submit", class:'button button--secondary xs-m05'} 
+            = 'Pick another team'
+- if cookies[:footer_value] == 'HideF'
+  .clearfix
+    .col.xs-col-3.xs-float-right.xs-p1.xs-border-left.xs-border-top.xs-fixed.xs-z1{style:'bottom:0; right: 0; height:70px; background: rgba(255, 255, 255, 0.8)'}
+      .col.xs-col-7
+        %p.xs-p2= 'Show footer again'
+      .col.xs-col-5.xs-text-center.xs-text-1.xs-p1
+        = form_for :footer_session, url: public_hide_footer_path, method: :post do |f|
+          = f.hidden_field :footer, value: 'ShowF'
+          %button{type:"submit", class:'button button--negative button--secondary button--small'} 
+            = "Show"
+        

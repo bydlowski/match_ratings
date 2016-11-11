@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     end
     post 'show_stats', to: 'welcome#save_session'
     post 'hide_footer', to: 'welcome#footer_session'
+    post 'hide_ratings', to: 'welcome#hide_score_session'
+    post 'pick_team', to: 'welcome#pick_team'
     get 'week', to: 'welcome#index'
     get 'faq', to: 'welcome#faq'
     get 'settings', to: 'welcome#settings'

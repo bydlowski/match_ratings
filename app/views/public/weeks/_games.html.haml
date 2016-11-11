@@ -12,7 +12,7 @@
             .col.xs-col-5
               .logo-teams.logo-tiny{class: "logo#{game.away_team_abrev}"}
               = game.away_team_abrev
-              - if session[:value] == 'Show'
+              - if session[:value] != 'Hide'
                 %br
                 = surround '(', ')' do
                   = team_stats_week(game.away_team_abrev,week)
@@ -21,7 +21,7 @@
             .col.xs-col-5.xs-float-right
               .logo-teams.logo-tiny.logo-flip{class: "logo#{game.home_team_abrev}"}
               = game.home_team_abrev
-              - if session[:value] == 'Show'
+              - if session[:value] != 'Hide'
                 %br
                 = surround '(', ')' do
                   = team_stats_week(game.home_team_abrev,week)
@@ -30,39 +30,12 @@
             - game_counter += 1
    
 %script
-  $('.hid0').on('click', function() {
-  $('.hid0').toggleClass('hidden-rating');
-  $('.hidt0').toggle();
+  $(document).ready(function(){
+  for (let i = 0, len = 15; i < len; i ++) {
+  $('.hid' + i).on('click', function() {
+  $('.hid' + i).toggleClass('hidden-rating');
+  $('.hidt' + i).toggle();
   })
-  $('.hid1').on('click', function() {
-  $('.hid1').toggleClass('hidden-rating');
-  $('.hidt1').toggle();
+  }
   })
-  $('.hid9').on('click', function() {
-  $('.hid9').toggleClass('hidden-rating');
-  $('.hidt9').toggle();
-  })
-  $('.hid10').on('click', function() {
-  $('.hid10').toggleClass('hidden-rating');
-  $('.hidt10').toggle();
-  })
-  $('.hid11').on('click', function() {
-  $('.hid11').toggleClass('hidden-rating');
-  $('.hidt11').toggle();
-  })
-  $('.hid12').on('click', function() {
-  $('.hid12').toggleClass('hidden-rating');
-  $('.hidt12').toggle();
-  })
-  $('.hid13').on('click', function() {
-  $('.hid13').toggleClass('hidden-rating');
-  $('.hidt13').toggle();
-  })
-  $('.hid14').on('click', function() {
-  $('.hid14').toggleClass('hidden-rating');
-  $('.hidt14').toggle();
-  })
-  $('.hid15').on('click', function() {
-  $('.hid15').toggleClass('hidden-rating');
-  $('.hidt15').toggle();
-  })
+
