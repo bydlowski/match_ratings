@@ -6,25 +6,26 @@
         %label.form-label
           = 'Name'
           %span.form-label--required= '*'
-        %input.text-input.col.xs-col-6{type:'text', required:'true'}
+        %input.text-input.col.xs-col-6{type:'text',name:'name',required:'true'}
       .col.xs-col-12.xs-pb1
         %label.form-label
           = 'E-mail'
           %span.form-label--required= '*'
-        %input.text-input.col.xs-col-6{type:'email', required:'true'}
+        %input.text-input.col.xs-col-6{type:'email',name:'e-mail',required:'true'}
       .col.xs-col-12.xs-pb1
         %label.form-label
           = 'What?'
           %span.form-label--required= '*'
-        %textarea.textarea.col.xs-col-6{type:'textarea', required:'true'}
+        %textarea.textarea.col.xs-col-6{type:'textarea',name:'content' required:'true'}
       .col.xs-col-12.xs-pb2
         %label.form-label
           = 'Which sport do you think we should rate next?'
           %span.form-label--required= '*'
-        %select.select{required:'true'}
+        %select.select{required:'true', name:'next-sport'}
           %option{value:'', prompt:'true'} Pick one
           %option{value:'baseball'} Baseball
           %option{value:'hockey'} Hockey
+          %option{value:'basketball'} Basketball
           %option{value:'esports'} E-sports
       .col.xs-col-12.xs-pb1
         %input{type:'hidden',name:'_next', value: root_path}
