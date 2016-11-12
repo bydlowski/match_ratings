@@ -1,11 +1,7 @@
 .clearfix
-  .col.xs-col-12.xs-border-bottom.xs-mb2{style:'height:70px;background: rgba(0, 0, 0, 0.1);min-width:750px;'}
+  .col.xs-col-12.xs-border-bottom.xs-mb2{style:'height:60px;background: rgba(0, 0, 0, 0.1);min-width:750px;'}
     .col.xs-col-8.xs-offset-2.xs-text-center
-      = link_to "Home", root_path, class:'button button--small xs-m2 button--tumblr '
-      = link_to "Stats", admin_stats_path, class:'button button--small xs-m2 button--tumblr '
-      = link_to "Games", admin_games_path, class:'button button--small xs-m2 button--tumblr '
-      = link_to "Full", admin_full_path, class:'button button--small xs-m2 button--tumblr '
-      = link_to "Table", admin_table_path, class:'button button--small xs-m2 button--tumblr '
+      = render partial: "admin/shared/links"
     
 /= link_to "Logout", destroy_admin_session_path, class:'button button--small xs-fixed xs-b0 xs-r0', method: :delete
 

@@ -61,4 +61,6 @@ class Admin::TestsController < ApplicationController
     @games_array = @array.game_url
     @stats = GameData.all
   end
+  def allparams
+  end
 end

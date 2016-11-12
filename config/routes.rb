@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         get 'games', to: 'tests#games'
         get 'full', to: 'tests#full'
         get 'table', to: 'tests#table'
+        get 'allparams', to: 'tests#allparams'
       end
     end
   end
