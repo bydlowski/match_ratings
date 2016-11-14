@@ -26,7 +26,7 @@
                 = surround '(', ')' do
                   = team_stats_week(game.home_team_abrev,week)
           .col.xs-col-12.xs-relative
-            = score(game.game_date,game.game_time,game,game_counter)
+            = score(game.game_date,game.game_time,game,game_counter,session[:algo_choice],session[:user_team])
             - game_counter += 1
    
 %script

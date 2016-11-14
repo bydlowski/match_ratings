@@ -1,5 +1,5 @@
 module GamesHelper
-  def score(date,time,game,counter)
+  def score(date,time,game,counter,algo,user_team)
     page = ''
     year = date.split('-').first
     month = date.split('-').second
@@ -9,9 +9,10 @@ module GamesHelper
     yellow_score = "col xs-col-4 xs-text-2 fill-yellow-lighter xs-border-left-lighter"
     green_score = "col xs-col-4 xs-text-2 new-green xs-border-left-lighter"
     game_date = DateTime.new(year.to_i, month.to_i, day.to_i)
-    rating = (((game.home_team_score+game.away_team_score).abs)*0.3 + score_diff(game.home_team_score,game.away_team_score,game.quarter_count) + down_diff((game.stats_home_team_downs-game.stats_away_team_downs).abs) + game.stats_interceptions*2 + game.stats_fumbles*1.5).round(0)
+    rating = game_rating(game,algo,user_team)
+    #rating = (((game.home_team_score+game.away_team_score).abs)*0.3 + score_diff(game.home_team_score,game.away_team_score,game.quarter_count) + down_diff((game.stats_home_team_downs-game.stats_away_team_downs).abs) + game.stats_interceptions*2 + game.stats_fumbles*1.5).round(0)
 
-    if (game_date.wday == 4 || game_date.wday == 1 || time == '8:30PM' || time == '9:30AM') && session[:hide_score_value] != 'ShowR'
+    if (game_date.wday == 4 || game_date.wday == 1 || time == '8:30PM' || time == '9:30AM') && session[:hide_score_value] == 'HideR'
       page += '<div class="hid' + counter.to_s + ' hidden-score col xs-col-12 hidden-rating"><p class="hidt' + counter.to_s + '">Click to show</p></div>'
       if rating.to_i <= 20
         page += prev_text + red_score + '">' + rating.to_s + '</div>'
@@ -85,6 +86,60 @@ module GamesHelper
       8
     else
       'error'
+    end
+  end
+
+  def game_rating(game,algo,user_team)
+    total_score = ((game.home_team_score+game.away_team_score).abs) * 0.3
+    score_diferential = score_diff(game.home_team_score,game.away_team_score,game.quarter_count)
+    down_difference = down_diff((game.stats_home_team_downs-game.stats_away_team_downs).abs)
+    intercaptions = game.stats_interceptions * 2
+    fumbles = game.stats_fumbles * 1.5
+    chosen_team = (game.away_team_abrev == user_team || game.home_team_abrev == user_team) ? 3 : 0
+
+    if algo == 'FullAlgo'
+      rivals(game.home_team_abrev, game.away_team_abrev)
+      #chosen_team
+    else
+      (total_score + score_diferential + down_difference + intercaptions + fumbles).round(0)
+    end
+  end
+
+  def rivals(home, away)
+    rivalry_array = [['CHI','GB',3],['DEN','OAK',3],['CLE','CIN',2],['PIT','BAL',4],['WAS','DAL',3],['SF','SEA',1],['PHI','NYG',1],['NE','NYJ',3],['PIT','CLE',1],['MIN','GB',1],['ATL','NO',1],['BUF','MIA',1],['DEN','MIA',1],['DAL','PHI',1]]
+    rivalry_array.each do |game|
+      score = 0
+      result = 0
+      game.each do |team|
+        if team == home
+          score += 1
+          #result + team.to_s
+        elsif team == away
+          score += 1
+          #result + team.to_s
+        elsif team.is_a? Integer
+          result += team
+        end
+      end
+      if score == 2
+        #return home
+        return result.to_i
+      else
+        return 0
+      end
+      # game.each do |team|
+      #   if team == home || team == away
+      #     score += 1
+      #   end
+      #   if score > 1
+      #     return team
+      #   end
+      # end
+      # if game[1] == home || game[2] == home
+      #   if game[1] == away || game[2] == away
+      #     return game[3].to_a
+      #   end
+      # end
     end
   end
 

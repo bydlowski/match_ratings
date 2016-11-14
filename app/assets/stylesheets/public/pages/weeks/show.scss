@@ -6,6 +6,19 @@
 	.hidden-rating {background: red;color: white;}
 	.this {font-weight:bold;color:red;text-transform:uppercase;}
 	.new-green {background: #99ff99;}
+	.btn-record:hover{background: #fff!important; color: #000!important; border: 1px solid #000!important;}
+
+	.img-eye {
+	  background-image: image-url("eye.png");
+	  background-repeat: no-repeat;
+	  display: inline-block; 
+	  width: 70px;
+	  height: 55px;
+	  margin: auto;
+	  vertical-align: -13px;
+	}
+	.eye-open {background-position: -714px -125px;}
+	.eye-closed {background-position: -167px -125px;}
 	
 	.logo-teams {
 	  background-image: image-url("teams.gif");
@@ -17,7 +30,7 @@
 	  margin-bottom: 10px;
 	}
 
-	.logo-small {zoom: 0.5;-moz-transform: scale(0.5);-moz-transform-origin: 0 0;}
+	.logo-small {zoom: 0.3;-moz-transform: scale(0.3);-moz-transform-origin: 0 0;}
 	.logo-tiny {zoom: 0.2;-moz-transform: scale(0.2);-moz-transform-origin: 0 0;}
 	.logo-flip {-moz-transform: scaleX(-1);-o-transform: scaleX(-1);-webkit-transform: scaleX(-1);transform: scaleX(-1);filter: FlipH;-ms-filter: "FlipH";		}
 
