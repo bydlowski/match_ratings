@@ -1,6 +1,7 @@
 #public_welcome-settings {
 	.button-team:hover {background: #ffffff!important; color: #f00!important;border-color: #f00!important;}
-	
+	.set-height {height: 400px;}
+
 	.logo-teams {
 	  background-image: image-url("teams.gif");
 	  background-repeat: no-repeat;
@@ -12,6 +13,7 @@
 	}
 
 	.logo-small {zoom: 0.5;-moz-transform: scale(0.5);-moz-transform-origin: 0 0;}
+	.logo-medium {zoom: 0.7;-moz-transform: scale(0.7);-moz-transform-origin: 0 0;}
 	.logo-tiny {zoom: 0.2;-moz-transform: scale(0.2);-moz-transform-origin: 0 0;}
 	
 	.logoJAX {background-position: -22px -158px;}

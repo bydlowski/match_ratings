@@ -1,26 +1,66 @@
-%h1.xs-text-center.xs-p3= 'Select your team'
-%h2.xs-text-center.xs-pb05= 'Selecting a team will give it a small rating increase'
-%p.xs-text-center.xs-pb1= 'However, this feature is still under construction :P'
+%h1.xs-text-center.xs-p3.caps= 'App options'
 .clearfix
-  .col.xs-col-10.xs-offset-1.xs-text-center
-    - if cookies[:user_team] == '' || cookies[:user_team].nil?
-      .flex.xs-flex-justify-center{style:'flex-wrap: wrap;'}
-        - team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
-        - team_array.sort.each do |team|
-          = form_for :pick_team_session, url: public_pick_team_path, method: :post do |f|
-            = f.hidden_field :team, value: team
-            %button{type:"submit", class:'button button--secondary xs-m05 button-team'} 
-              .logo-teams.logo-tiny{class: "logo#{team}"}
-              = team
-    - else
-      %h4.xs-text-center
-        = 'Your selected team is: '
-        = cookies[:user_team]
-      .xs-text-center.xs-p3  
+  .col.xs-col-4.xs-p3.xs-border-right.set-height
+    .col.xs-col-12.xs-mb2.bold
+      %h3.xs-text-center= 'Hide some ratings'
+    .col.xs-col-12.xs-mb2.xs-text-center
+      - if session[:hide_score_value] == 'ShowR'
+        = form_for :hide_score_session, url: public_hide_ratings_path, method: :post do |f|
+          = f.hidden_field :score, value: 'HideR'
+          %button{type:"submit", class:'button'} 
+            = "Hide some ratings"
+      - else
+        = form_for :hide_score_session, url: public_hide_ratings_path, method: :post do |f|
+          = f.hidden_field :score, value: 'ShowR'
+          %button{type:"submit", class:'button'} 
+            = "Show all ratings"
+    .col.xs-col-12
+      %ul
+        %li= 'By chosing the "Hide some ratings" option, the games that are exclusive (they are the only ones happening at a given time) will have their ratings hidden.'
+        %li= 'The "Show all ratings" option will... well... show the ratings for all matches.'
+  .col.xs-col-4.xs-p3.xs-border-right.set-height
+    .col.xs-col-12.xs-mb2.bold
+      %h3.xs-text-center= 'Select your team'
+    .col.xs-col-12.xs-mb2.xs-text-center
+      - if cookies[:user_team] == '' || cookies[:user_team].nil?
         = form_for :pick_team_session, url: public_pick_team_path, method: :post do |f|
-          = f.hidden_field :team, value: ''
-          %button{type:"submit", class:'button button--secondary xs-m05'} 
-            = 'Pick another team'
+          = f.select :team, options_for_select([['ARI','ARI'],['ATL','ATL'],['BAL','BAL'],['BUF','BUF'],['CAR','CAR'],['CHI','CHI'],['CIN','CIN'], ['CLE','CLE'], ['DAL','DAL'], ['DEN','DEN'], ['DET','DET'], ['GB','GB'], ['HOU','HOU'], ['IND','IND'], ['JAX','JAX'], ['KC','KC'], ['LA','LA'], ['MIA','MIA'], ['MIN','MIN'], ['NE','NE'], ['NO','NO'], ['NYG','NYG'], ['NYJ','NYJ'], ['OAK','OAK'], ['PHI','PHI'], ['PIT','PIT'], ['SD','SD'], ['SEA','SEA'], ['SF','SF'], ['TB','TB'], ['TEN','TEN'],['WAS','WAS']]), {prompt: 'Pick a team'}, {class:"select"}
+          %button{type:"submit", class:"button"} Send
+      - else
+        .xs-col-12.xs-mb2.xs-text-center
+          %h4= 'Your selected team is: '
+          .logo-teams.logo-medium.xs-my2{class: "logo#{cookies[:user_team]}"}
+          %h3= cookies[:user_team]
+          
+        .xs-text-center.xs-p1  
+          = form_for :pick_team_session, url: public_pick_team_path, method: :post do |f|
+            = f.hidden_field :team, value: ''
+            %button{type:"submit", class:'button button--secondary xs-m05'} 
+              = 'Pick another team'
+    .col.xs-col-12
+      %ul
+        %li= 'Selecting a team will give it a small rating increase.'
+        %li= 'If you don\'t select any option no team will receive a rating bonus.'
+      
+  .col.xs-col-4.xs-p3.xs-border-right
+    .col.xs-col-12.xs-mb2.bold
+      %h3.xs-text-center= 'Algorithm type'
+    .col.xs-col-12.xs-mb2.xs-text-center
+      - if session[:hide_score_value] == 'ShowR'
+        = form_for :hide_score_session, url: public_hide_ratings_path, method: :post do |f|
+          = f.hidden_field :score, value: 'HideR'
+          %button{type:"submit", class:'button'} 
+            = "Hide some ratings"
+      - else
+        = form_for :hide_score_session, url: public_hide_ratings_path, method: :post do |f|
+          = f.hidden_field :score, value: 'ShowR'
+          %button{type:"submit", class:'button'} 
+            = "Show all ratings"
+    .col.xs-col-12
+      %ul
+        %li= 'By chosing the "Full stats" option, the rating will take into consideration not only the match statistics, but also the teams loss/win record and if the game is a rivalry or not.'
+        %li= 'Choosing the "Match stats" option means that only the match stats will be used to create the rating. No championship statistics will be taken into consideration.'
+      
 - if cookies[:footer_value] == 'HideF'
   .clearfix
     .col.xs-col-3.xs-float-right.xs-p1.xs-border-left.xs-border-top.xs-fixed.xs-z1{style:'bottom:0; right: 0; height:70px; background: rgba(255, 255, 255, 0.8)'}
