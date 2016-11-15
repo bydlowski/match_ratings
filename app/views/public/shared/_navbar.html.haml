@@ -25,10 +25,10 @@
               %button{type:"submit", class:'button xs-float-right button--white button--small btn-record xs-mt05'} 
                 = content_tag :span, "", class: "img-eye eye-open logo-small"
                 %h3.xs-inline-block.xs-ml05{style:'vertical-align: -2px;'}= '(3-1)'
-    / - else
-    /   .col.xs-col-5.xs-float-right.caps.xs-text-6{style:'min-width:400px;'}
-    /     .xs-mr3.xs-inline-block.xs-float-right.xs-mt05
-    /       = link_to 'Back', 'javascript:history.go(-1);', class:'button xs-float-right button--white button--small xs-p1'
+    - else
+      .col.xs-col-5.xs-float-right.caps.xs-text-6{style:'min-width:400px;'}
+        .xs-mr3.xs-inline-block.xs-float-right.xs-mt05
+          = link_to 'Back', session[:my_previous_url], class:'button xs-float-right button--white button--small xs-p1'
   .col.xs-col-2.xs-border-bottom.xs-border-left.xs-float-right.xs-fixed.xs-z1.xs-r0{style:'height:70px;background: rgba(0, 0, 0, 0.7);min-width:150px;'}
     .col.xs-col-6.xs-mt2.xs-text-center
       = link_to 'FAQ', public_faq_path, class: 'button button--white button--secondary'
