@@ -10,7 +10,7 @@
     .col.xs-col-4
       / = session.to_hash
       / = link_to 'RESET', public_reset_session_path, method: :post
-    - if params[:action] == 'show'
+    - if params[:action] == 'show' 
       .col.xs-col-5.xs-float-right.caps.xs-text-6{style:'min-width:400px;'}
         .xs-mr3.xs-inline-block.xs-float-right
           - if session[:value] != 'Hide'
@@ -25,6 +25,9 @@
               %button{type:"submit", class:'button xs-float-right button--white button--small btn-record xs-mt05'} 
                 = content_tag :span, "", class: "img-eye eye-open logo-small"
                 %h3.xs-inline-block.xs-ml05{style:'vertical-align: -2px;'}= '(3-1)'
+    - elsif params[:action] == 'index'
+      .col.xs-col-5.xs-float-right.caps.xs-text-6{style:'min-width:400px;'}
+        .xs-mr3.xs-inline-block.xs-float-right.xs-mt05
     - else
       .col.xs-col-5.xs-float-right.caps.xs-text-6{style:'min-width:400px;'}
         .xs-mr3.xs-inline-block.xs-float-right.xs-mt05
