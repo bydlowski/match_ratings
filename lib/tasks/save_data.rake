@@ -1,5 +1,7 @@
 require "#{Rails.root}/app/helpers/rake_helper"
+require "#{Rails.root}/app/helpers/rake_test_helper"
 include RakeHelper
+include RakeTestHelper
 
 desc "Save data through rake"
 task import_data: :environment do
@@ -22,4 +24,7 @@ task dataimport: :environment do
 end
 task import_week_stats: :environment do
   team_stats
+end
+task test_rake: :environment do
+  t_data_import_test
 end

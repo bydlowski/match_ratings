@@ -19,4 +19,6 @@ class GameData
   field :stats_fumbles, type: Integer
   field :stats_home_team_downs, type: Integer
   field :stats_away_team_downs, type: Integer
+  field :lead_changes, type: Integer
+  field :lead_ties, type: Integer
 end

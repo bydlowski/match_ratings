@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         get 'full', to: 'tests#full'
         get 'table', to: 'tests#table'
         get 'allparams', to: 'tests#allparams'
+        get 'lead', to: 'tests#lead'
       end
     end
   end

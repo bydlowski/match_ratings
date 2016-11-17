@@ -63,4 +63,9 @@ class Admin::TestsController < ApplicationController
   end
   def allparams
   end
+  def lead
+    @json = ActiveSupport::JSON.decode(open("#{Rails.root}/file6.json").read)
+    @games = @json['gameboxscore']['quarterSummary']['quarter']
+    @games2 = @json['gameboxscore']
+  end
 end

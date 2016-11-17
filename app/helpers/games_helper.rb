@@ -95,6 +95,8 @@ module GamesHelper
     down_difference = down_diff((game.stats_home_team_downs-game.stats_away_team_downs).abs)
     intercaptions = game.stats_interceptions * 2
     fumbles = game.stats_fumbles * 1.5
+    lead = game.lead_changes * 2.5
+    tie = game.lead_ties * 0.8
     chosen_team = (game.away_team_abrev == user_team || game.home_team_abrev == user_team) ? 3 : 0
 
     if algo == 'FullAlgo'
@@ -102,9 +104,9 @@ module GamesHelper
       #divisional(game.home_team_abrev, game.away_team_abrev)
       #chosen_team
       #win_loss(week,game.home_team_abrev,game.away_team_abrev)
-      (rivals(game.home_team_abrev, game.away_team_abrev) + divisional(game.home_team_abrev, game.away_team_abrev) + chosen_team + win_loss(week,game.home_team_abrev,game.away_team_abrev) + total_score + score_diferential + down_difference + intercaptions + fumbles).round(0)
+      (rivals(game.home_team_abrev, game.away_team_abrev) + divisional(game.home_team_abrev, game.away_team_abrev) + chosen_team + win_loss(week,game.home_team_abrev,game.away_team_abrev) + total_score + score_diferential + down_difference + intercaptions + fumbles + lead + tie).round(0)
     else
-      (total_score + score_diferential + down_difference + intercaptions + fumbles).round(0)
+      (total_score + score_diferential + down_difference + intercaptions + fumbles + lead + tie).round(0)
     end
   end
 

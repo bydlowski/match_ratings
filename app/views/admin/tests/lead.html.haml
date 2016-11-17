@@ -1,0 +1,93 @@
+%h1 Lead changes
+%p https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/game_boxscore.json?gameid=20161030-GB-ATL
+%ul
+  %p.bold All quarters
+  /%li= @games
+  %p.bold First quarter
+  /%li= @games[0]['scoring']['scoringPlay']
+  - @games.each do |quarter|
+    - unless quarter['scoring'].nil?
+      %li= quarter['scoring']['scoringPlay']
+  %p.bold Using Helper
+  /%li= @games[0]
+  %li= t_lead_change(@games,'ATL','GB','lead_ties')
+  %li= t_lead_change(@games,'ATL','GB','lead_changes')
+  %p.bold Using Helper
+  /%li= @games[0]
+  %li 
+    = 'Home: '
+    = @games2['quarterSummary']['quarterTotals']['homeScore'].to_i
+  %li
+    = 'Away: '
+    = @games2['quarterSummary']['quarterTotals']['awayScore'].to_i
+
+"Home score: 0"
+"Away score: 3"
+%br
+%br
+"Home score: 6"
+"Away score: 3" == 3
+%br
+%br
+"Home score: 7"
+"Away score: 3"
+%br
+%br
+"Home score: 7"
+"Away score: 9" == 3
+%br
+%br
+"Home score: 7"
+"Away score: 10"
+%br
+%br
+"Home score: 13" 
+"Away score: 10" == 3
+%br
+%br
+"Home score: 14"
+"Away score: 10"
+%br
+%br
+"Home score: 14"
+"Away score: 13"
+%br
+%br
+"Home score: 20"
+"Away score: 13"
+%br
+%br
+"Home score: 21"
+"Away score: 13"
+%br
+%br
+"Home score: 21"
+"Away score: 19"
+%br
+%br
+"Home score: 24"
+"Away score: 19"
+%br
+%br
+"Home score: 24"
+"Away score: 25" == 3
+%br
+%br
+"Home score: 24"
+"Away score: 26"
+%br
+%br
+"Home score: 30" 
+"Away score: 26" == 3
+%br
+%br
+"Home score: 32"
+"Away score: 26"
+%br
+%br
+"Home score: 32" 
+"Away score: 32" == 1
+%br
+%br
+"Home score: 32"
+"Away score: 33"

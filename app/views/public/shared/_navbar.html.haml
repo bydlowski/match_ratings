@@ -18,13 +18,13 @@
               = f.hidden_field :choice, value: 'Hide'
               %button{type:"submit", class:'button xs-float-right button--white button--small btn-record xs-mt05'} 
                 = content_tag :span, "", class: "img-eye eye-closed logo-small"
-                %h3.xs-inline-block.xs-ml05{style:'vertical-align: -2px;'}= '(3-1)'
+                %h3.xs-inline-block.xs-ml05{style:'vertical-align: -2px;'}= '(W-L)'
           - else
             = form_for :save_session, url: public_show_stats_path, method: :post do |f|
               = f.hidden_field :choice, value: 'Show'
               %button{type:"submit", class:'button xs-float-right button--white button--small btn-record xs-mt05'} 
                 = content_tag :span, "", class: "img-eye eye-open logo-small"
-                %h3.xs-inline-block.xs-ml05{style:'vertical-align: -2px;'}= '(3-1)'
+                %h3.xs-inline-block.xs-ml05{style:'vertical-align: -2px;'}= '(W-L)'
     - elsif params[:action] == 'index'
       .col.xs-col-5.xs-float-right.caps.xs-text-6{style:'min-width:400px;'}
         .xs-mr3.xs-inline-block.xs-float-right.xs-mt05

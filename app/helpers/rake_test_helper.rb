@@ -1,26 +1,58 @@
-module RakeHelper
+module RakeTestHelper
 
-  def data_import
-    @games_array = ArrayGame.first
-    #today = DateTime.new(2016, 10, 31)
-    yesterday = (DateTime.now - 1)
-    #today = DateTime.now
-    the_yesterday = yesterday.strftime('%Y%m%d').to_s
-    #the_date = today.strftime('%Y%m%d').to_s
+  def t_data_import_test
+    # @games_array = ArrayGame.first
+    # #today = DateTime.new(2016, 10, 31)
+    # yesterday = (DateTime.now - 1)
+    # today = DateTime.now
+    # the_yesterday = yesterday.strftime('%Y%m%d').to_s
+    # the_date = today.strftime('%Y%m%d').to_s
     games_array = []
+    # games_array = ["20161030-DET-HOU", "20161030-NYJ-CLE", "20161030-NE-BUF", "20161030-ARI-CAR", "20161030-SD-DEN", "20161030-GB-ATL", "20161030-PHI-DAL", "20161031-MIN-CHI"]
     all_urls = []
-    today(games_array,the_yesterday) # Add to games_array all the games that happened yesterday
+    #today(games_array,the_yesterday) # Add to games_array all the games that happened yesterday
     #today(games_array,the_date) # Add to games_array all the games that happened today
-    save_games_array(games_array) unless games_array == '[]' # Save to ArrayGame all the games
+    daily_games(games_array)
+    t_save_games_array(games_array) unless games_array == '[]' # Save to ArrayGame all the games
     GameData.each do |url| # Save all the urls (2016-10-30-CHI-BUF) to an array
       all_urls << url.game_url_name
     end
     # Below: Complete the GameData database with games from games_array if they are not in all_urls
-    games_from_array(games_array,all_urls) unless games_array == '[]'
-    team_stats
+    t_games_from_array(games_array,all_urls) unless games_array == '[]'
+    #t_team_stats
+    p games_array
   end
 
-  def today(games_array,the_date)
+  def daily_games(games_array)
+    #new_date = DateTime.new(2016, 9, 8)
+    new_date = DateTime.new(2016, 11, 11)
+    a = 1
+    @all_dates = []
+    loop do
+      @all_dates << (new_date.strftime('%Y%m%d')).to_s
+      new_date += 1
+      a += 1
+      break if a == 10
+    end
+    @all_dates.each do |all|
+      auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
+      json2 = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{all}",basic_auth: auth)
+      daily = json2['dailygameschedule']
+      #@date_array << daily
+      unless daily['gameentry'].nil?
+        daily['gameentry'].each do |this|
+          year = this['date'].split('-').first
+          month = this['date'].split('-').second
+          day = this['date'].split('-').third
+          team1 = this['awayTeam']['Abbreviation']
+          team2 = this['homeTeam']['Abbreviation']
+          games_array.push(year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2)
+        end
+      end
+    end
+  end
+
+  def t_today(games_array,the_date)
     auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
     json_date = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{the_date}",basic_auth: auth)
     daily = json_date['dailygameschedule']
@@ -36,7 +68,7 @@ module RakeHelper
     end
   end
 
-  def save_games_array(array)
+  def t_save_games_array(array)
     games_array = ArrayGame.first
     array.each do |game|
       unless games_array.game_url.include? game
@@ -46,18 +78,17 @@ module RakeHelper
     games_array.save
   end
 
-  def games_from_array(array,url)
+  def t_games_from_array(array,url)
     array.each do |game_url|
       unless url.include? game_url
         p 'Scheduler included: ' + game_url
         auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
         json = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/game_boxscore.json?gameid=#{game_url}",basic_auth: auth)
-        p json
         games = json['gameboxscore']
         s_game_date = games['game']['date']
         s_game_time = games['game']['time']
-        s_game_period = game_period(games['game']['time'])
-        s_game_week_number = whats_the_week(s_game_date)
+        s_game_period = t_game_period(games['game']['time'])
+        s_game_week_number = t_whats_the_week(s_game_date)
         s_home_team_abrev = games['game']['homeTeam']['Abbreviation']
         s_away_team_abrev = games['game']['awayTeam']['Abbreviation']
         s_home_team_complete = games['game']['homeTeam']['City'] + ' ' + games['game']['homeTeam']['Name']
@@ -65,8 +96,8 @@ module RakeHelper
         s_home_team_score = games['quarterSummary']['quarterTotals']['homeScore'].to_i
         s_away_team_score = games['quarterSummary']['quarterTotals']['awayScore'].to_i
         s_quarter_count = games['quarterSummary']['quarter'].count
-        s_winner_team = who_won(s_home_team_abrev,s_away_team_abrev,s_home_team_score,s_away_team_score)
-        s_loser_team = who_lost(s_home_team_abrev,s_away_team_abrev,s_home_team_score,s_away_team_score)
+        s_winner_team = t_who_won(s_home_team_abrev,s_away_team_abrev,s_home_team_score,s_away_team_score)
+        s_loser_team = t_who_lost(s_home_team_abrev,s_away_team_abrev,s_home_team_score,s_away_team_score)
         s_stats_interceptions = games['homeTeam']['homeTeamStats']['Interceptions']['#text'].to_i + games['awayTeam']['awayTeamStats']['Interceptions']['#text'].to_i
         s_stats_fumbles = games['homeTeam']['homeTeamStats']['Fumbles']['#text'].to_i + games['awayTeam']['awayTeamStats']['Fumbles']['#text'].to_i
         s_stats_home_team_downs = games['homeTeam']['homeTeamStats']['FirstDownsTotal']['#text'].to_i
@@ -78,7 +109,7 @@ module RakeHelper
     end
   end
 
-  def team_stats
+  def t_team_stats
     GameData.each do |game|
       winner_team = game.winner_team
       loser_team = game.loser_team
@@ -94,7 +125,7 @@ module RakeHelper
     end
   end
 
-  def team_stats_backup
+  def t_team_stats_backup
     p GameData.count
     GameData.each do |game|
       winner_team = game.winner_team
@@ -120,7 +151,7 @@ module RakeHelper
     end
   end
 
-  def old_team_stats
+  def t_old_team_stats
     @team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
     @hash = {}
     @team_array.each do |team|
@@ -136,7 +167,7 @@ module RakeHelper
     end
   end
 
-  def who_won(team1name,team2name,team1score,team2score)
+  def t_who_won(team1name,team2name,team1score,team2score)
     if team1score > team2score
       team1name
     elsif team1score < team2score
@@ -148,7 +179,7 @@ module RakeHelper
     end
   end
 
-  def who_lost(team1name,team2name,team1score,team2score)
+  def t_who_lost(team1name,team2name,team1score,team2score)
     if team1score < team2score
       team1name
     elsif team1score > team2score
@@ -160,7 +191,7 @@ module RakeHelper
     end
   end
 
-  def game_period(time)
+  def t_game_period(time)
     if time.count('A') == 0
       'PM'
     else
@@ -168,7 +199,7 @@ module RakeHelper
     end
   end
 
-  def whats_the_week(date)
+  def t_whats_the_week(date)
     year = (date.split('-').first).to_i
     month = (date.split('-').second).to_i
     day = (date.split('-').third).to_i
@@ -219,7 +250,7 @@ module RakeHelper
     end
   end
 
-  def lead_change(game,home_team,away_team,var)
+  def t_lead_change(game,home_team,away_team,var)
     home_score = 0
     away_score = 0
     lead_changes = 0
