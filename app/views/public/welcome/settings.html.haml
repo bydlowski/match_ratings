@@ -1,4 +1,45 @@
-%h1.xs-text-center.xs-p3.caps= 'App options'
+%h1.xs-text-center.xs-pt3.caps= 'App options'
+.xs-pt1.xs-mb3.xs-text-center
+  - if current_user
+    = link_to destroy_user_session_path, class:'xs-text-5 xs-inline button button--secondary button--small xs-mx05.signup-btn', method: :delete do
+      = 'Logged in as '
+      .text-gray.xs-text-5.xs-inline.bold= current_user.username
+      = ' - click here to log out'
+    /= link_to "Logged in as #{current_user.username} - click here to log out", destroy_user_session_path, class:'xs-text-5 xs-inline button button--secondary button--small xs-mx05.signup-btn', method: :delete 
+  - else
+    %p.xs-mb3.text-gray.xs-text-5.xs-inline= 'The settings are stored in session so your choices won\'t be saved.'
+    %p.xs-mb3.text-gray.xs-text-5.xs-inline.button-user.button.button--secondary.button--small.xs-mx05.login-btn= 'Log in'
+    %p.xs-mb3.text-gray.xs-text-5.xs-inline= 'or'
+    %p.xs-mb3.text-gray.xs-text-5.xs-inline.button-user.button.button--secondary.button--small.xs-mx05.signup-btn= 'Sign up'
+    %p.xs-mb3.text-gray.xs-text-5.xs-inline= 'to save the settings! You don\'t even need an e-mail!'
+  /= flash[:notice].nil?
+  /= flash[:notice]
+  .xs-pt1
+    - if flash[:notice]
+      - if flash[:notice].is_a? Array
+        - flash[:notice].to_a.concat(resource.errors.full_messages).each do |error|
+          .page-message.page-message--error
+            .page-message__text
+              %svg{class:'page-message__icon', xmlns:"http://www.w3.org/2000/svg", viewBox:"0 0 38 38"}
+                %title Error
+                %path{d:'M19 16.878l-6.364-6.363-2.12 2.12L16.878 19l-6.365 6.364 2.12 2.12L19 21.122l6.364 6.365 2.12-2.12L21.122 19l6.365-6.364-2.12-2.12L19 16.877z'}
+              = error
+      - elsif flash[:notice] == 'Wrong username/password combination'
+        .page-message.page-message--error
+          .page-message__text
+            %svg{class:'page-message__icon', xmlns:"http://www.w3.org/2000/svg", viewBox:"0 0 38 38"}
+              %title Error
+              %path{d:'M19 16.878l-6.364-6.363-2.12 2.12L16.878 19l-6.365 6.364 2.12 2.12L19 21.122l6.364 6.365 2.12-2.12L21.122 19l6.365-6.364-2.12-2.12L19 16.877z'}
+            = flash[:notice]
+      - elsif flash[:notice].is_a? String
+        .page-message.page-message--success
+          .page-message__text
+            %svg{class:'page-message__icon', xmlns:"http://www.w3.org/2000/svg", viewBox:"0 0 38 38"}
+              %title Success
+              %path{d:'M16.1 26.1c-.4 0-.8-.2-1.1-.5l-6.5-6.7 2.2-2.1 5.4 5.6 11.3-11 2.1 2.1-12.3 12.2c-.3.3-.7.4-1.1.4z'}
+            = flash[:notice]
+      - else
+        = flash[:notice]
 .clearfix
   .col.xs-col-4.xs-p3.xs-border-right.set-height
     .col.xs-col-12.xs-mb2.bold
@@ -60,6 +101,13 @@
       %ul
         %li= 'By chosing the "Full stats" option, the rating will take into consideration not only the match statistics, but also the teams loss/win record, if the game is a rivalry or not and if it is a divisional match.'
         %li= 'Choosing the "Match stats" option means that only the match stats will be used to create the rating. No championship statistics will be taken into consideration.'
+= render partial: 'public/shared/signin', locals: {title: 'Entre para adicionar dicas!'}
+= render partial: 'public/shared/signup', locals: {modal_id: 'aa'}
+%script
+  $('.login-btn').click(function(){$(".signin-modal").css('visibility','inherit');});
+  $('.login-btn').click(function(){$(".signin-modal").css('opacity','1');});
+  $('.signup-btn').click(function(){$(".signup-modal").css('visibility','inherit');});
+  $('.signup-btn').click(function(){$(".signup-modal").css('opacity','1');});
       
 / - if cookies[:footer_value] == 'HideF'
 /   .clearfix

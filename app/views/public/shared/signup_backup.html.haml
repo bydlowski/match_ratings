@@ -1,0 +1,32 @@
+:css
+  .modal {display:block; opacity: 1;background-color: rgba(0,0,0,0.5);}
+  .modal-top {background: #2f4f4f; height: 3em; display: inherit; width: 100%;}
+  .modal-top > h4 {margin: 0; text-align: center; display: table-cell; vertical-align: middle; color: #fff;}
+  .modal-header > h3 {margin-top: 5px;}
+  .modal-inside {width: 25%;height: 40%;display: table;margin: 100px auto;background: #fff;}
+  .modal-body > form > input[type='text'] {width: 100%;}
+  .modal-body > form > input[type='password'] {width: 100%;}
+  .modal-body > form > label {margin-top: 10px;vertical-align: 2px;}
+  .modal-body > form > a {display: block;}
+  .modal-footer {padding: 15px 15px 0 15px;}
+.modal.signup-modal.fade{id:'loginModal'}
+  .modal-inside
+    .modal-top
+      %h4= title
+    .modal-header
+      %button.btn.btn-primary.pull-right{id:'modalButtonSignup'} X
+      %h3.pull-left Entrar
+    .modal-body
+      = form_tag session_path(:user) do
+        = label_tag 'Email'
+        = text_field_tag 'user[email]', nil, class:'form-control'
+        = label_tag 'Senha'
+        = password_field_tag 'user[password]', nil, class:'form-control'
+        = check_box_tag 'user[remember_me]'
+        = label_tag 'user[remember_me]', 'Lembrar de mim'
+        %p
+        = link_to "Registrar", new_user_registration_path
+        .modal-footer
+          %button.btn.btn-primary Entrar
+%script
+  $('#modalButtonSignup').click(function(){$(".signup-modal").css('visibility','hidden');});

@@ -5,6 +5,7 @@ class Public::WelcomeController < ApplicationController
   def faq
   end
   def settings
+    @user = current_user
   end
   def contact
   end

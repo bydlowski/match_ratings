@@ -1,0 +1,18 @@
+.modal.signup-modal{style:'visibility:inherit'}
+  .modal__content.xs-mt0.sm-mt6.xs-col-12.sm-col-9.md-col-7.lg-col-5
+    = link_to 'javascript:', class:'modal__close js-hide-modal', id:'modalButtonSignup' do
+      %svg{viewBox:'0 0 512 512', class:'modal__close-icon', xmlns:'http://www.w3.org/2000/svg'}
+        %path{d:'M133.874 227.048L19.198 108.276C-6.4 82.68-6.4 44.796 19.198 19.198c25.597-25.597 63.48-25.597 89.078 0l114.676 114.676L337.628 19.198c25.597-25.597 68.09-25.597 93.174 0 25.597 25.597 25.597 68.09 0 93.174L316.126 227.048l114.676 114.676c25.597 25.597 25.597 63.48 0 89.078-25.597 25.597-63.48 25.597-89.078 0L227.048 316.126 112.372 430.802c-25.597 25.597-68.09 25.597-93.174 0-25.597-25.597-25.597-68.09 0-93.174l114.676-110.58z'}
+    %h2.xs-text-2.bold= 'Modal title'
+    %p.xs-mb2= 'This is my modal text. It\'s really good text, have you seen it?'
+    = form_tag session_path(:user), class:'xs-mb4' do
+      .form-label= label_tag 'Email'
+      = text_field_tag 'user[email]', nil, class:'text-input xs-col-12 xs-mb2'
+      .form-label= label_tag 'Senha'
+      = password_field_tag 'user[password]', nil, class:'text-input xs-col-12'
+      = check_box_tag 'user[remember_me]', 'user[remember_me]', false, class: 'checkbox'
+      = label_tag 'user[remember_me]', 'Lembrar de mim', class:'form-label'
+      .clearfix.xs-text-right
+        = link_to "Registrar", new_user_registration_path, class:'button button--secondary xs-block xs-col-12 sm-inline-block sm-width-auto xs-mb1 sm-mb0 xs-mr0 sm-mr1 js-hide-modal'
+%script
+  $('#modalButtonSignup').click(function(){$(".signup-modal").css('visibility','hidden');});
