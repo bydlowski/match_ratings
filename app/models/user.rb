@@ -5,6 +5,11 @@ class User
   devise :database_authenticatable, :registerable,
          :rememberable, :trackable #, :validatable
 
+  # APP entries
+  field :user_team, type: String, default: ""
+  field :user_algo, type: String, default: ""
+  field :user_hide, type: String, default: ""
+
   ## Database authenticatable
   field :username,              type: String, default: ""
   field :encrypted_password, type: String, default: ""
@@ -35,5 +40,5 @@ class User
   # field :locked_at,       type: Time
 
   validates_uniqueness_of :username
-  validates :password, length: { minimum: 6 }
+  validates :password, length: { minimum: 6 }, on: :update, allow_blank: true
 end

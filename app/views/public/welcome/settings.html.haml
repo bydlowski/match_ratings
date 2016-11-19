@@ -62,6 +62,7 @@
   .col.xs-col-4.xs-p3.xs-border-right.set-height
     .col.xs-col-12.xs-mb2.bold
       %h3.xs-text-center= 'Select your team'
+    = @user.to_a
     .col.xs-col-12.xs-mb2.xs-text-center
       - if session[:user_team] == '' || session[:user_team].nil?
         = form_for :pick_team_session, url: public_pick_team_path, method: :post do |f|
