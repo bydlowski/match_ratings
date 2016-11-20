@@ -5,16 +5,57 @@
     .flex.xs-flex-justify-center{style:'flex-wrap: wrap;'}
       - week = 1
       - day = DateTime.new(2016, 9, 8)
-      - while week < 18 
-        .col.xs-col-4{style:'min-width: 70px;'}
-          - if week == params[:number].to_i
-            - this_week = 'button--tumblr'
-          - else
-            - this_week = 'button--secondary'
-          = link_to "#{week}" do
-            = content_tag :span, "", class: "button button--small xs-p1 xs-m1 #{this_week}" do
-              %p{class: "xs-text-2 xs-inline"}= "W"
-              %p{class: "xs-text-1 xs-inline bold"}= "#{'%02d' % week}"
-              %p{class: "xs-block xs-pt05"}=  "#{day.strftime("%b %d")}<br />#{(day + 4).strftime("%b %d")}".html_safe    
-          - week += 1
-          - day += 7
+      - while week < 21
+        - if week < 18
+          .col.xs-col-4{style:'min-width: 70px;'}
+            - if week == params[:number].to_i
+              - this_week = 'button--tumblr'
+            - else
+              - this_week = 'button--secondary'
+            = link_to "#{week}" do
+              = content_tag :span, "", class: "button button--small xs-p1 xs-m1 #{this_week}" do
+                %p{class: "xs-text-2 xs-inline"}= "W"
+                %p{class: "xs-text-1 xs-inline bold"}= "#{'%02d' % week}"
+                %p{class: "xs-block xs-pt05"}=  "#{day.strftime("%b %d")}<br />#{(day + 4).strftime("%b %d")}".html_safe    
+            - week += 1
+            - day += 7
+        - elsif week == 18
+          .col.xs-col-12
+          .col.xs-col-4{style:'min-width: 70px;'}
+            - if week == params[:number].to_i
+              - this_week = 'button--tumblr'
+            - else
+              - this_week = 'button--secondary'
+            = link_to "#{week}" do
+              = content_tag :span, "", class: "button button--small xs-p1 xs-m1 #{this_week}" do
+                %p{class: "xs-text-2 xs-inline"}= "P"
+                %p{class: "xs-text-1 xs-inline bold"}= "#{'%02d' % (week - 17)}"
+                %p{class: "xs-block xs-pt05"}=  "#{(day + 2).strftime("%b %d")}<br />#{(day + 3).strftime("%b %d")}".html_safe    
+            - week += 1
+            - day += 7
+        - elsif week == 19
+          .col.xs-col-4{style:'min-width: 70px;'}
+            - if week == params[:number].to_i
+              - this_week = 'button--tumblr'
+            - else
+              - this_week = 'button--secondary'
+            = link_to "#{week}" do
+              = content_tag :span, "", class: "button button--small xs-p1 xs-m1 #{this_week}" do
+                %p{class: "xs-text-2 xs-inline"}= "P"
+                %p{class: "xs-text-1 xs-inline bold"}= "#{'%02d' % (week - 17)}"
+                %p{class: "xs-block xs-pt05"}=  "#{(day + 2).strftime("%b %d")}<br />#{(day + 3).strftime("%b %d")}".html_safe   
+            - week += 1
+            - day += 7
+        - else
+          .col.xs-col-4{style:'min-width: 70px;'}
+            - if week == params[:number].to_i
+              - this_week = 'button--tumblr'
+            - else
+              - this_week = 'button--secondary'
+            = link_to "#{week}" do
+              = content_tag :span, "", class: "button button--small xs-p1 xs-m1 #{this_week}" do
+                %p{class: "xs-text-2 xs-inline"}= "P"
+                %p{class: "xs-text-1 xs-inline bold"}= "#{'%02d' % (week - 17)}"
+                %p{class: "xs-block xs-pt05", style:'height: 35px;margin-top: 9px;'}=  "#{(day + 3).strftime("%b %d")}".html_safe   
+            - week += 1
+            - day += 7
