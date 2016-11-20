@@ -1,4 +1,3 @@
-/= @user.to_a
 %h1.xs-text-center.xs-pt3.caps= 'App options'
 .xs-pt1.xs-mb3.xs-text-center
   - if current_user
@@ -6,15 +5,12 @@
       = 'Logged in as '
       .text-gray.xs-text-5.xs-inline.bold= current_user.username
       = ' - click here to log out'
-    /= link_to "Logged in as #{current_user.username} - click here to log out", destroy_user_session_path, class:'xs-text-5 xs-inline button button--secondary button--small xs-mx05.signup-btn', method: :delete 
   - else
     %p.xs-mb3.text-gray.xs-text-5.xs-inline= 'The settings are stored in session so your choices won\'t be saved.'
     %p.xs-mb3.text-gray.xs-text-5.xs-inline.button-user.button.button--secondary.button--small.xs-mx05.login-btn= 'Log in'
     %p.xs-mb3.text-gray.xs-text-5.xs-inline= 'or'
     %p.xs-mb3.text-gray.xs-text-5.xs-inline.button-user.button.button--secondary.button--small.xs-mx05.signup-btn= 'Sign up'
     %p.xs-mb3.text-gray.xs-text-5.xs-inline= 'to save the settings! You don\'t even need an e-mail!'
-  /= flash[:notice].nil?
-  /= flash[:notice]
   .xs-pt1
     - if flash[:notice]
       - if flash[:notice].is_a? Array
@@ -43,8 +39,16 @@
         = flash[:notice]
 .clearfix
   .col.xs-col-4.xs-p3.xs-border-right.set-height
-    .col.xs-col-12.xs-mb2.bold
+    .col.xs-col-12.xs-mb05.bold
       %h3.xs-text-center= 'Which ratings should be shown'
+    .col.xs-col-12.xs-mb2
+      .xs-text-center.text-gray-lighter
+        - if @hide == '' || @hide.nil?
+          %h5= 'Default: Show all ratings'
+        - elsif @hide == 'HideR'
+          %h5= 'Chosen: Hide some ratings'
+        - else
+          %h5= 'Chosen: Show all ratings'
     .col.xs-col-12.xs-mb2.xs-text-center
       - if @hide != 'HideR' 
         = form_for :hide_score_session, url: public_hide_ratings_path, method: :post do |f|
@@ -61,8 +65,12 @@
         %li= 'By chosing the "Hide some ratings" option, the games that are exclusive (they are the only ones happening at a given time) will have their ratings hidden.'
         %li= 'The "Show all ratings" option will... well... show the ratings for all matches.'
   .col.xs-col-4.xs-p3.xs-border-right.set-height
-    .col.xs-col-12.xs-mb2.bold
+    .col.xs-col-12.xs-mb05.bold
       %h3.xs-text-center= 'Select your team'
+    .col.xs-col-12.xs-mb2.text-gray-lighter
+      .xs-text-center
+        - if @team == '' || @team.nil?
+          %h5= 'No team chosen'
     .col.xs-col-12.xs-mb2.xs-text-center
       - if @team == '' || @team.nil? 
         = form_for :pick_team_session, url: public_pick_team_path, method: :post do |f|
@@ -83,10 +91,19 @@
       %ul
         %li= 'Selecting a team will give it a small rating increase.'
         %li= 'If you don\'t select any option no team will receive a rating bonus.'
+        %li= 'This option only affects the ratings if you choose the "Full stats" algorithm.'
       
   .col.xs-col-4.xs-p3.xs-border-right
-    .col.xs-col-12.xs-mb2.bold
+    .col.xs-col-12.xs-mb05.bold
       %h3.xs-text-center= 'Algorithm type'
+    .col.xs-col-12.xs-mb2.text-gray-lighter
+      .xs-text-center
+        - if @algo == '' || @algo.nil?
+          %h5= 'Default: Match stats'
+        - elsif @algo == 'MatchAlgo'
+          %h5= 'Chosen: Match stats'
+        - else
+          %h5= 'Chosen: Full stats'
     .col.xs-col-12.xs-mb2.xs-text-center
       - if @algo == 'FullAlgo'
         = form_for :algo_type_session, url: public_algorithm_choice_path, method: :post do |f|
@@ -109,15 +126,5 @@
   $('.login-btn').click(function(){$(".signin-modal").css('opacity','1');});
   $('.signup-btn').click(function(){$(".signup-modal").css('visibility','inherit');});
   $('.signup-btn').click(function(){$(".signup-modal").css('opacity','1');});
-      
-/ - if cookies[:footer_value] == 'HideF'
-/   .clearfix
-/     .col.xs-col-3.xs-float-right.xs-p1.xs-border-left.xs-border-top.xs-fixed.xs-z1{style:'bottom:0; right: 0; height:70px; background: rgba(255, 255, 255, 0.8)'}
-/       .col.xs-col-7
-/         %p.xs-p2= 'Show footer again'
-/       .col.xs-col-5.xs-text-center.xs-text-1.xs-p1
-/         = form_for :footer_session, url: public_hide_footer_path, method: :post do |f|
-/           = f.hidden_field :footer, value: 'ShowF'
-/           %button{type:"submit", class:'button button--negative button--secondary button--small'} 
-/             = "Show"
+
         
