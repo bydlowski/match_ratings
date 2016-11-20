@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resources :weeks, only: [:show], path: 'week', param: :number do
       #get '', to: 'public/welcome#index'
     end
-    post 'show_stats', to: 'welcome#save_session'
+    post 'show_stats', to: 'welcome#hide_win_loss_session'
     post 'hide_footer', to: 'welcome#footer_session'
     post 'hide_ratings', to: 'welcome#hide_score_session'
     post 'algorithm_choice', to: 'welcome#algo_type'

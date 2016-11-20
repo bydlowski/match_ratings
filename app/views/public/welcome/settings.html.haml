@@ -1,3 +1,4 @@
+/= @user.to_a
 %h1.xs-text-center.xs-pt3.caps= 'App options'
 .xs-pt1.xs-mb3.xs-text-center
   - if current_user
@@ -45,7 +46,7 @@
     .col.xs-col-12.xs-mb2.bold
       %h3.xs-text-center= 'Which ratings should be shown'
     .col.xs-col-12.xs-mb2.xs-text-center
-      - if session[:hide_score_value] != 'HideR'
+      - if @hide != 'HideR' 
         = form_for :hide_score_session, url: public_hide_ratings_path, method: :post do |f|
           = f.hidden_field :score, value: 'HideR'
           %button{type:"submit", class:'button'} 
@@ -62,17 +63,16 @@
   .col.xs-col-4.xs-p3.xs-border-right.set-height
     .col.xs-col-12.xs-mb2.bold
       %h3.xs-text-center= 'Select your team'
-    = @user.to_a
     .col.xs-col-12.xs-mb2.xs-text-center
-      - if session[:user_team] == '' || session[:user_team].nil?
+      - if @team == '' || @team.nil? 
         = form_for :pick_team_session, url: public_pick_team_path, method: :post do |f|
           = f.select :team, options_for_select([['ARI','ARI'],['ATL','ATL'],['BAL','BAL'],['BUF','BUF'],['CAR','CAR'],['CHI','CHI'],['CIN','CIN'], ['CLE','CLE'], ['DAL','DAL'], ['DEN','DEN'], ['DET','DET'], ['GB','GB'], ['HOU','HOU'], ['IND','IND'], ['JAX','JAX'], ['KC','KC'], ['LA','LA'], ['MIA','MIA'], ['MIN','MIN'], ['NE','NE'], ['NO','NO'], ['NYG','NYG'], ['NYJ','NYJ'], ['OAK','OAK'], ['PHI','PHI'], ['PIT','PIT'], ['SD','SD'], ['SEA','SEA'], ['SF','SF'], ['TB','TB'], ['TEN','TEN'],['WAS','WAS']]), {prompt: 'Pick a team'}, {class:"select"}
           %button{type:"submit", class:"button"} Choose
       - else
         .xs-col-12.xs-mb2.xs-text-center
           %h4= 'Your selected team is: '
-          .logo-teams.logo-medium.xs-my2{class: "logo#{session[:user_team]}"}
-          %h3= session[:user_team]
+          .logo-teams.logo-medium.xs-my2{class: "logo#{@team}"}
+          %h3= @team
           
         .xs-text-center.xs-p1  
           = form_for :pick_team_session, url: public_pick_team_path, method: :post do |f|
@@ -88,7 +88,7 @@
     .col.xs-col-12.xs-mb2.bold
       %h3.xs-text-center= 'Algorithm type'
     .col.xs-col-12.xs-mb2.xs-text-center
-      - if session[:algo_choice] == 'FullAlgo'
+      - if @algo == 'FullAlgo'
         = form_for :algo_type_session, url: public_algorithm_choice_path, method: :post do |f|
           = f.hidden_field :algo, value: 'MatchAlgo'
           %button{type:"submit", class:'button'} 

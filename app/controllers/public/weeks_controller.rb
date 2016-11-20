@@ -18,6 +18,18 @@ class Public::WeeksController < ApplicationController
     @games_array = @array.game_url
     @stats = GameData.where(game_week_number: params[:number])
     save_my_previous_url
+
+    @user = current_user
+    if current_user
+      @team = current_user.user_team
+      @algo = current_user.user_algo
+      @hide = current_user.user_hide
+    else
+      @team = session[:user_team]
+      @algo = session[:algo_choice]
+      @hide = session[:hide_score_value]
+    end
+
   end
   def save_my_previous_url
     #session[:my_previous_url] = URI(request.referer || '').path

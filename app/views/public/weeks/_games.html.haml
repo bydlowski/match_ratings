@@ -12,7 +12,7 @@
             .col.xs-col-5
               .logo-teams.logo-tiny{class: "logo#{game.away_team_abrev}"}
               = game.away_team_abrev
-              - if session[:value] != 'Hide'
+              - if session[:hide_win_loss] != 'Hide'
                 %br
                 = surround '(', ')' do
                   = team_stats_week(game.away_team_abrev,week)
@@ -21,12 +21,12 @@
             .col.xs-col-5.xs-float-right
               .logo-teams.logo-tiny.logo-flip{class: "logo#{game.home_team_abrev}"}
               = game.home_team_abrev
-              - if session[:value] != 'Hide'
+              - if session[:hide_win_loss] != 'Hide'
                 %br
                 = surround '(', ')' do
                   = team_stats_week(game.home_team_abrev,week)
           .col.xs-col-12.xs-relative
-            = score(game.game_date,game.game_time,game,game_counter,session[:algo_choice],session[:user_team],week)
+            = score(game.game_date,game.game_time,game,game_counter,@algo,@team,week)
             - game_counter += 1
    
 %script
