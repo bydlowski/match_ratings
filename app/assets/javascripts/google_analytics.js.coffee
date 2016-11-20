@@ -41,3 +41,5 @@ class @GoogleAnalytics
     'UA-87765112-1'
 
 GoogleAnalytics.load()
+
+console.log('heya')
