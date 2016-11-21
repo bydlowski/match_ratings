@@ -5,11 +5,13 @@
       %h3.xs-pb1.bold= 'Why?'
       %p.xs-pt05= 'This is an app for those that love football but hate spoilers. It helps you know how a game was, but without knowing who won or the score.'
       %p.xs-pt05= 'As the world becomes more used to watching Netflix and other TV/movie streaming services, it has also become more common for people to watch sports in an "on demand" mode. Nowadays more people watch sports events after they happen through stream services (such as iTunes/nflpass.com) or other ways.'
-      %p.xs-pt05= 'As movies and TV shows have ratings, sports events should have them too! This app gives you the option of knowing how good a game was without telling you who won or the final score.'
+      %p.xs-pt05= 'As movies and TV shows have ratings, sports events should have them too!'
     #faq-how.xs-pb3
       %h3.xs-pb1.bold= 'How?'
       %p
-        = 'The app takes into consideration the final score, the number of turnovers (fumbles and interceptions) and the difference between the number of first downs each team has. This way the match final score is not the only factor taken into consideration, so there are less spoilers. A 30-27 game could be rated better than a 21-21 OT. You can have more information in the topic that talks about the algorithm below.'
+        = 'The app can create two types of ratings based on different algorithms. You can select which one you want in the ' 
+        = link_to 'settings page', public_settings_path
+        = '. The first type takes into consideration only the match stats, such as the final score, the amount of points, the number of turnovers (fumbles and interceptions), the difference between the number of first downs each team has, how many times the lead has changed and other game-related factors. The second type of algorithm has all the match stats and also adds championship and team factors, such as rivalries and league standings.'
     #faq-algorithm.xs-pb3
       %h3.xs-pb1.bold= 'I don\'t agree with one of the ratings, what shoud I do?'
       %p.xs-pt05
