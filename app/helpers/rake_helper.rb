@@ -194,7 +194,7 @@ module RakeHelper
       9
     elsif game_date >= b10 && game_date <= e10
       10
-    elsif game_date >= b11 && game_date <= e12
+    elsif game_date >= b11 && game_date <= e11
       11
     elsif game_date >= b12 && game_date <= e12
       12
