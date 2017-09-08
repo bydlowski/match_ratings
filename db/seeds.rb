@@ -3,7 +3,7 @@
 # GameData.destroy_all
 # TeamStats.destroy_all
 # Week.destroy_all
-User.destroy_all
+# User.destroy_all
 
 # Admin.create(email: ENV['ADM_EMAIL'], password: ENV['ADM_PASS'], password_confirmation: ENV['ADM_PASS'])
 
@@ -13,7 +13,7 @@ User.destroy_all
 #   Week.create!(number: num)
 # end
 
-# team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'SD', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LA', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
+# team_array = ['CLE', 'TB', 'MIN', 'CIN', 'OAK', 'LAC', 'MIA', 'NYG', 'DET', 'NE', 'PIT', 'LAR', 'NYJ', 'CAR', 'GB', 'BUF', 'CHI', 'TEN', 'BAL', 'DAL', 'NO', 'SF', 'KC', 'SEA', 'JAX', 'ATL', 'IND', 'PHI', 'HOU', 'ARI', 'DEN', 'WAS']
 # team_array.each do |team|
 #   #TeamStats.create!(team_abrev: team, :stats => {1 => "W"})
 #   TeamStats.create!(team_abrev: team, :stats => {1 => "",2 => "",3 => "",4 => "",5 => "",6 => "",7 => "",8 => "",9 => "",10 => "",11 => "",12 => "",13 => "",14 => "",15 => "",16 => "",17 => "",18 => ""})

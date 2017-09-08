@@ -51,7 +51,7 @@ module GamesHelper
     return @wins.to_s + ' - ' + @loss.to_s
   end
 
-  # SCORE DIFFERENTIAL PPOINTS #
+  # SCORE DIFFERENTIAL POINTS #
   def score_diff(team1score,team2score,quarter_count)
     diff = (team1score - team2score).abs
     if quarter_count > 4

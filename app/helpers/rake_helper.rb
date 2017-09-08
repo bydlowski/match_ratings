@@ -1,16 +1,84 @@
 module RakeHelper
 
+  def check_if_full_game_schedule_changed
+
+    # Essa parte serve para ver o json com as datas de todos os jogos da temporada
+    # e, caso algum jogo tenha mudado de data, atualizar isso no banco de dados
+
+    require 'fileutils'
+    auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
+    original_file = 'public/json/full_schedule.json'
+    temporary_file  = 'public/json/temporary_json.json'
+    online_json = HTTParty.get("https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-2018-regular/full_game_schedule.json?",basic_auth: auth)
+
+    p 'Creating temporary json'
+
+    File.open(temporary_file, "w+") do |f|
+      f.write(online_json)
+    end
+
+    p 'Checking if schedule changed'
+
+    scheduled_not_changed = FileUtils.compare_file(original_file,temporary_file)
+
+    if scheduled_not_changed
+      p 'Schedule has not changed'
+    else
+      p 'Schedule HAS changed'
+
+      p 'Overwriting old schedule with new one'
+
+      File.open(original_file, "w+") do |f|
+        f.write(online_json)
+      end
+
+      p 'Rewriting the schedule information for each game'
+
+      online_json['fullgameschedule']['gameentry'].each do |game|
+        year = game['date'].split('-').first
+        month = game['date'].split('-').second
+        day = game['date'].split('-').third
+        team1 = game['awayTeam']['Abbreviation']
+        team2 = game['homeTeam']['Abbreviation']
+        url_name = year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2
+        game_data = GameData.where(game_url_name: url_name).first
+        game_data.update(
+          game_url_name: url_name,
+          game_date: game['date'],
+          game_time: game['time'],
+          game_period: game_period(game['time']),
+          game_week_number: whats_the_week(game['date']),
+          home_team_abrev: game['homeTeam']['Abbreviation'],
+          away_team_abrev: game['awayTeam']['Abbreviation'],
+          home_team_complete: game['homeTeam']['City'] + ' ' + game['homeTeam']['Name'],
+          away_team_complete: game['awayTeam']['City'] + ' ' + game['awayTeam']['Name']
+          )
+        game_data.save
+      end
+
+      p 'Finished rewriting the schedule information for each game'
+    end
+  end
+
+  # PROXIMOS PASSOS
+  # Separar os arquivos de helper em relação ao que cada um faz
+  # Pegar os jogos de hoje e dos dois ultimos dias e atualizar no banco de dados aqueles jogos
+  # Arrumar o rake pra refletir iss
+  # Verificar se deu pau pq tem um time novo
+  #
+
   def data_import
     @games_array = ArrayGame.first
     #today = DateTime.new(2016, 10, 31)
     yesterday = (DateTime.now - 1)
-    #today = DateTime.now
-    the_yesterday = yesterday.strftime('%Y%m%d').to_s
+    # Salvar ontem no formato correto
+    formatted_yesterday = yesterday.strftime('%Y%m%d').to_s
     #the_date = today.strftime('%Y%m%d').to_s
     games_array = []
     all_urls = []
-    today(games_array,the_yesterday) # Add to games_array all the games that happened yesterday
-    #today(games_array,the_date) # Add to games_array all the games that happened today
+    # Add to games_array all the games that happened yesterday
+    today(games_array,the_yesterday)
+    # Add to games_array all the games that happened today
     save_games_array(games_array) unless games_array == '[]' # Save to ArrayGame all the games
     GameData.each do |url| # Save all the urls (2016-10-30-CHI-BUF) to an array
       all_urls << url.game_url_name
@@ -20,9 +88,14 @@ module RakeHelper
     team_stats
   end
 
+  # https://api.mysportsfeeds.com/v1.1/sample/pull/nfl/2016-2017-regular/full_game_schedule.json?
+  # https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-2018-regular/full_game_schedule.json?
+  # https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-2018-regular/daily_game_schedule.json?fordate=20170907
+
   def today(games_array,the_date)
     auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
-    json_date = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{the_date}",basic_auth: auth)
+    # json_date = HTTParty.get("https://www.mysportsfeeds.com/api/feed/pull/nfl/2016-2017-regular/daily_game_schedule.json?fordate=#{the_date}",basic_auth: auth)
+    json_date = HTTParty.get("https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-2018-regular/daily_game_schedule.json?fordate=#{the_date}",basic_auth: auth)
     daily = json_date['dailygameschedule']
     unless daily['gameentry'].nil?
       daily['gameentry'].each do |this|
@@ -173,46 +246,49 @@ module RakeHelper
     month = (date.split('-').second).to_i
     day = (date.split('-').third).to_i
     game_date = DateTime.new(year, month, day)
-    b1,e1,b2,e2,b3,e3,b4,e4,b5,e5,b6,e6,b7,e7,b8,e8,b9,e9,b10,e10,b11,e11,b12,e12,b13,e13,b14,e14,b15,e15,b16,e16,b17,e17,b18,e18,b19,e19,b20,e20 = DateTime.new(2016, 9, 8),DateTime.new(2016, 9, 12),DateTime.new(2016, 9, 15),DateTime.new(2016, 9, 19), DateTime.new(2016, 9, 22), DateTime.new(2016, 9, 26), DateTime.new(2016, 9, 29), DateTime.new(2016, 10, 3), DateTime.new(2016, 10, 6), DateTime.new(2016, 10, 10), DateTime.new(2016, 10, 13),DateTime.new(2016, 10, 17), DateTime.new(2016, 10, 20), DateTime.new(2016, 10, 24), DateTime.new(2016, 10, 27), DateTime.new(2016, 10, 31), DateTime.new(2016, 11, 3), DateTime.new(2016, 11, 7),DateTime.new(2016, 11, 10), DateTime.new(2016, 11, 14), DateTime.new(2016, 11, 17), DateTime.new(2016, 11, 21), DateTime.new(2016, 11, 24), DateTime.new(2016, 11, 28), DateTime.new(2016, 12, 1), DateTime.new(2016, 12, 5), DateTime.new(2016, 12, 8), DateTime.new(2016, 12, 12), DateTime.new(2016, 12, 15), DateTime.new(2016, 12, 19), DateTime.new(2016, 12, 22), DateTime.new(2016, 12, 26),DateTime.new(2016, 12, 29), DateTime.new(2017, 1, 2), DateTime.new(2017, 1, 5), DateTime.new(2017, 1, 9), DateTime.new(2017, 1, 12), DateTime.new(2017, 1, 16), DateTime.new(2017, 1, 19), DateTime.new(2017, 1, 23)
-    if game_date >= b1 && game_date <= e1
+    week_begin = DateTime.new(2017, 9, 7)
+    week_end = DateTime.new(2017, 9, 13)
+    if game_date < week_begin
+      0
+    elsif game_date >= week_begin && game_date <= week_end
       1
-    elsif game_date >= b2 && game_date <= e2
+    elsif game_date >= (week_begin + (7*1)) && game_date <= (week_end + (7*1))
       2
-    elsif game_date >= b3 && game_date <= e3
+    elsif game_date >= (week_begin + (7*2)) && game_date <= (week_end + (7*2))
       3
-    elsif game_date >= b4 && game_date <= e4
+    elsif game_date >= (week_begin + (7*3)) && game_date <= (week_end + (7*3))
       4
-    elsif game_date >= b5 && game_date <= e5
+    elsif game_date >= (week_begin + (7*4)) && game_date <= (week_end + (7*4))
       5
-    elsif game_date >= b6 && game_date <= e6
+    elsif game_date >= (week_begin + (7*5)) && game_date <= (week_end + (7*5))
       6
-    elsif game_date >= b7 && game_date <= e7
+    elsif game_date >= (week_begin + (7*6)) && game_date <= (week_end + (7*6))
       7
-    elsif game_date >= b8 && game_date <= e8
+    elsif game_date >= (week_begin + (7*7)) && game_date <= (week_end + (7*7))
       8
-    elsif game_date >= b9 && game_date <= e9
+    elsif game_date >= (week_begin + (7*8)) && game_date <= (week_end + (7*8))
       9
-    elsif game_date >= b10 && game_date <= e10
+    elsif game_date >= (week_begin + (7*9)) && game_date <= (week_end + (7*9))
       10
-    elsif game_date >= b11 && game_date <= e11
+    elsif game_date >= (week_begin + (7*10)) && game_date <= (week_end + (7*10))
       11
-    elsif game_date >= b12 && game_date <= e12
+    elsif game_date >= (week_begin + (7*11)) && game_date <= (week_end + (7*11))
       12
-    elsif game_date >= b13 && game_date <= e13
+    elsif game_date >= (week_begin + (7*12)) && game_date <= (week_end + (7*12))
       13
-    elsif game_date >= b14 && game_date <= e14
+    elsif game_date >= (week_begin + (7*13)) && game_date <= (week_end + (7*13))
       14
-    elsif game_date >= b15 && game_date <= e15
+    elsif game_date >= (week_begin + (7*14)) && game_date <= (week_end + (7*14))
       15
-    elsif game_date >= b16 && game_date <= e16
+    elsif game_date >= (week_begin + (7*15)) && game_date <= (week_end + (7*15))
       16
-    elsif game_date >= b17 && game_date <= e17
+    elsif game_date >= (week_begin + (7*16)) && game_date <= (week_end + (7*16))
       17
-    elsif game_date >= b18 && game_date <= e18
+    elsif game_date >= (week_begin + (7*17)) && game_date <= (week_end + (7*17))
       18
-    elsif game_date >= b19 && game_date <= e19
+    elsif game_date >= (week_begin + (7*18)) && game_date <= (week_end + (7*18))
       19
-    elsif game_date >= b20 && game_date <= e20
+    elsif game_date >= (week_begin + (7*19)) && game_date <= (week_end + (7*19))
       20
     else
       'error'

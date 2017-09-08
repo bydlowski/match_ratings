@@ -1,7 +1,6 @@
 .col.xs-col-9.xs-p2
   .col.xs-col-12.xs-text-center
     .flex.xs-flex-justify-center{style:'flex-wrap: wrap;'}
-      - game_counter = 0
       - @stats.order(game_date: :asc,game_period: :asc,game_time: :asc).each do |game|
         .col.xs-col-2.xs-border.xs-m1.fill-white{style:'min-width: 130px;'}
           .col.xs-col-12.xs-border-bottom-lighter.xs-p1
@@ -26,16 +25,19 @@
                 = surround '(', ')' do
                   = team_stats_week(game.home_team_abrev,week)
           .col.xs-col-12.xs-relative
-            = score(game.game_date,game.game_time,game,game_counter,@algo,@team,week)
-            - game_counter += 1
+            .col.xs-col-8
+              Rating:
+            - if game.score == 'N/A'
+              .col.xs-col-4.xs-text-2.xs-border-left-lighter
+                = 'N/A'
+            - elsif game.score.to_i <= 20
+              .col.xs-col-4.xs-text-2.xs-border-left-lighter.fill-red-lighter
+                = game.score
+            - elsif rating.to_i <= 30
+              .col.xs-col-4.xs-text-2.xs-border-left-lighter.fill-yellow-lighter
+                = game.score
+            - else
+              .col.xs-col-4.xs-text-2.xs-border-left-lighter.fill-green-lighter
+                = game.score
    
-%script
-  $(document).ready(function(){
-  for (let i = 0, len = 15; i < len; i ++) {
-  $('.hid' + i).on('click', function() {
-  $('.hid' + i).toggleClass('hidden-rating');
-  $('.hidt' + i).toggle();
-  })
-  }
-  })
 

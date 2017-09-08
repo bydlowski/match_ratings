@@ -14,8 +14,8 @@ class Public::WeeksController < ApplicationController
     # end
   end
   def show
-    @array = ArrayGame.first
-    @games_array = @array.game_url
+    # @array = ArrayGame.first
+    # @games_array = @array.game_url
     @stats = GameData.where(game_week_number: params[:number])
     save_my_previous_url
 
