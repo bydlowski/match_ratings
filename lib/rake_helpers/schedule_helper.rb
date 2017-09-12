@@ -54,7 +54,7 @@ module ScheduleHelper
 
     scheduled_not_changed = FileUtils.compare_file(original_file,temporary_file)
 
-    if scheduled_not_changed
+    if false
       p 'Schedule has not changed'
       log_day.log_info  = log_day.log_info.to_s + 'Schedule has not changed<br/>'
       log_day.save
@@ -82,7 +82,6 @@ module ScheduleHelper
         team1 = game['awayTeam']['Abbreviation']
         team2 = game['homeTeam']['Abbreviation']
         url_name = year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2
-        p 'AAAAA' if url_name == '20170910-TB-MIA'
         game_data = GameData.where(game_url_name: url_name).first || GameData.create(game_url_name: url_name)
         game_data.game_url_name = url_name
         game_data.game_date = game['date']
