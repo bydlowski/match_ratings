@@ -40,12 +40,14 @@ module GameScoreHelper
     today = (DateTime.now )
     yesterday = (DateTime.now - 1)
     before_yesterday = (DateTime.now - 2)
+    before_before = (DateTime.now - 4)
     # Salvar data no formato correto
     formatted_today = today.strftime('%Y-%m-%d')
     formatted_yesterday = yesterday.strftime('%Y-%m-%d')
     formatted_before_yesterday = before_yesterday.strftime('%Y-%m-%d')
+    f_before_before = before_before.strftime('%Y-%m-%d')
     # Pegar os GameData que tem a data de hoje, ontem e antontem
-    games = GameData.where(:game_date.in => [formatted_today,formatted_yesterday,formatted_before_yesterday])
+    games = GameData.where(:game_date.in => [formatted_today,formatted_yesterday,formatted_before_yesterday,f_before_before])
     return games
   end
 
