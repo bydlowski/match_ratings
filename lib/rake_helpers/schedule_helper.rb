@@ -2,6 +2,14 @@ module ScheduleHelper
 
   def check_if_full_game_schedule_changed
 
+    log_day = AdminLogs.where(log_date: Date.today).first || AdminLogs.create(log_date: Date.today)
+    log_day.log_info  = ''
+    log_day.save
+
+    p 'Connecting to the API'
+    log_day.log_info  = log_day.log_info.to_s + 'Connecting to the API<br/>'
+    log_day.save
+
     # Essa parte serve para ver o json com as datas de todos os jogos da temporada
     # e, caso algum jogo tenha mudado de data, atualizar isso no banco de dados
 
@@ -9,54 +17,102 @@ module ScheduleHelper
     auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
     original_file = 'public/json/full_schedule.json'
     temporary_file  = 'public/json/temporary_json.json'
-    online_json = HTTParty.get("https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-2018-regular/full_game_schedule.json?",basic_auth: auth)
 
-    p 'Creating temporary json'
+    online_json_1 = HTTParty.get("https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-2018-regular/full_game_schedule.json",basic_auth: auth)
+    online_json_2 = HTTParty.get("https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/full_game_schedule.json",basic_auth: auth)
 
-    File.open(temporary_file, "w+") do |f|
-      f.write(online_json)
+    if (online_json_1['fullgameschedule'])
+      online_json = online_json_1
+      p 'Creating temporary json'
+      log_day.log_info  = log_day.log_info.to_s + 'Creating temporary json (1)<br/>'
+      log_day.save
+
+      File.open(temporary_file, "w+") do |f|
+        f.write(online_json)
+      end
+
+    elsif (online_json_2['fullgameschedule'])
+      online_json = online_json_2
+      p 'Creating temporary json'
+      log_day.log_info  = log_day.log_info.to_s + 'Creating temporary json (2)<br/>'
+      log_day.save
+
+      File.open(temporary_file, "w+") do |f|
+        f.write(online_json)
+      end
+
+    else
+      p 'Could not get schedule from API'
+      log_day.log_info  = log_day.log_info.to_s + 'Could not get schedule from API<br/>'
+      log_day.save
+      return false
     end
 
     p 'Checking if schedule changed'
+    log_day.log_info  = log_day.log_info.to_s + 'Checking if schedule changed<br/>'
+    log_day.save
 
     scheduled_not_changed = FileUtils.compare_file(original_file,temporary_file)
 
     if scheduled_not_changed
       p 'Schedule has not changed'
+      log_day.log_info  = log_day.log_info.to_s + 'Schedule has not changed<br/>'
+      log_day.save
     else
       p 'Schedule HAS changed'
+      log_day.log_info  = log_day.log_info.to_s + 'Schedule HAS changed<br/>'
+      log_day.save
 
       p 'Overwriting old schedule with new one'
+      log_day.log_info  = log_day.log_info.to_s + 'Overwriting old schedule with new one<br/>'
+      log_day.save
 
       File.open(original_file, "w+") do |f|
         f.write(online_json)
       end
 
       p 'Rewriting the schedule information for each game'
+      log_day.log_info  = log_day.log_info.to_s + 'Rewriting the schedule information for each game<br/>'
+      log_day.save
 
       online_json['fullgameschedule']['gameentry'].each do |game|
+        p game['awayTeam']['Abbreviation']
         year = game['date'].split('-').first
         month = game['date'].split('-').second
         day = game['date'].split('-').third
         team1 = game['awayTeam']['Abbreviation']
         team2 = game['homeTeam']['Abbreviation']
         url_name = year.to_s + month.to_s + day.to_s + '-' + team1 + '-' + team2
-        game_data = GameData.where(game_url_name: url_name).first
-        game_data.update(
-          game_url_name: url_name,
-          game_date: game['date'],
-          game_time: game['time'],
-          game_period: game_period(game['time']),
-          game_week_number: whats_the_week(game['date']),
-          home_team_abrev: game['homeTeam']['Abbreviation'],
-          away_team_abrev: game['awayTeam']['Abbreviation'],
-          home_team_complete: game['homeTeam']['City'] + ' ' + game['homeTeam']['Name'],
-          away_team_complete: game['awayTeam']['City'] + ' ' + game['awayTeam']['Name']
-          )
+        p 'AAAAA' if url_name == '20170910-TB-MIA'
+        game_data = GameData.where(game_url_name: url_name).first || GameData.create(game_url_name: url_name)
+        game_data.game_url_name = url_name
+        game_data.game_date = game['date']
+        game_data.game_time = game['time']
+        game_data.game_period = game_period(game['time'])
+        game_data.game_week_number = whats_the_week(game['date'])
+        game_data.home_team_abrev = game['homeTeam']['Abbreviation']
+        game_data.away_team_abrev = game['awayTeam']['Abbreviation']
+        game_data.home_team_complete = game['homeTeam']['City'] + ' ' + game['homeTeam']['Name']
+        game_data.away_team_complete = game['awayTeam']['City'] + ' ' + game['awayTeam']['Name']
+
+        # game_data.update(
+        #   game_url_name: url_name,
+        #   game_date: game['date'],
+        #   game_time: game['time'],
+        #   game_period: game_period(game['time']),
+        #   game_week_number: whats_the_week(game['date']),
+        #   home_team_abrev: game['homeTeam']['Abbreviation'],
+        #   away_team_abrev: game['awayTeam']['Abbreviation'],
+        #   home_team_complete: game['homeTeam']['City'] + ' ' + game['homeTeam']['Name'],
+        #   away_team_complete: game['awayTeam']['City'] + ' ' + game['awayTeam']['Name']
+        #   )
+
         game_data.save
       end
 
       p 'Finished rewriting the schedule information for each game'
+      log_day.log_info  = log_day.log_info.to_s + 'Finished rewriting the schedule information for each game<br/>'
+      log_day.save
     end
   end
 

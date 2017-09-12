@@ -32,12 +32,12 @@
                 = 'N/A'
             - elsif game.score.to_i <= 20
               .col.xs-col-4.xs-text-2.xs-border-left-lighter.fill-red-lighter
-                = game.score
-            - elsif rating.to_i <= 30
+                = game.score.to_i
+            - elsif game.score.to_i <= 30
               .col.xs-col-4.xs-text-2.xs-border-left-lighter.fill-yellow-lighter
                 = game.score
             - else
-              .col.xs-col-4.xs-text-2.xs-border-left-lighter.fill-green-lighter
+              .col.xs-col-4.xs-text-2.xs-border-left-lighter.fill-green.text-white
                 = game.score
    
 

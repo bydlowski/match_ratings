@@ -13,13 +13,26 @@ module GameScoreHelper
   # https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/game_boxscore.json?gameid=20170907-KC-NE
 
   def save_game_scores
+
+    log_day = AdminLogs.where(log_date: Date.today).first || AdminLogs.create(log_date: Date.today)
+
     p 'Checking if there were games today, yesterday or the day before'
+    log_day.log_info  = log_day.log_info.to_s + 'Checking if there were games today, yesterday or the day before<br/>'
+    log_day.save
+
     games = get_today_games
     if games.blank?
       p 'There were no games on the selected dates'
+      log_day.log_info  = log_day.log_info.to_s + 'There were no games on the selected dates<br/>'
+      log_day.save
     else
       p 'Number of games: ' + games.count.to_s
-      get_games_info(games)
+      log_day.log_info  = log_day.log_info.to_s + 'Number of games: ' + games.count.to_s + '<br/>'
+      log_day.save
+      # Passar os jogos encontrados na função para pegar os dados do json
+      get_games_info(games,log_day)
+      # Passar os jogos encontrados na função para pegar as informações de W/L
+      # save_games_stats(games)
     end
   end
 
@@ -36,24 +49,30 @@ module GameScoreHelper
     return games
   end
 
-
-  def get_games_info(games)
+  def get_games_info(games,log_day)
     p 'Getting games info in json'
+    log_day.log_info  = log_day.log_info.to_s + 'Getting games info in json<br/>'
+    log_day.save
+
     games.each do |gamedata|
       p 'Saving info for game ' + gamedata.game_url_name
+      log_day.log_info  = log_day.log_info.to_s + 'Saving info for game ' + gamedata.game_url_name + '<br/>'
+      log_day.save
       auth = {:username => ENV['API_USER'], :password => ENV['API_PASS']}
       game_json = HTTParty.get("https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/game_boxscore.json?gameid=#{gamedata.game_url_name}",basic_auth: auth)
-      game_json_info = game_json['gameboxscore']
-      gamedata.home_team_score = game_json_info['quarterSummary']['quarterTotals']['homeScore'].to_i
-      gamedata.away_team_score = game_json_info['quarterSummary']['quarterTotals']['awayScore'].to_i
-      gamedata.quarter_count = game_json_info['quarterSummary']['quarter'].count
-      gamedata.stats_interceptions = game_json_info['homeTeam']['homeTeamStats']['Interceptions']['#text'].to_i + game_json_info['awayTeam']['awayTeamStats']['Interceptions']['#text'].to_i
-      gamedata.stats_fumbles = game_json_info['homeTeam']['homeTeamStats']['Fumbles']['#text'].to_i + game_json_info['awayTeam']['awayTeamStats']['Fumbles']['#text'].to_i
-      gamedata.stats_home_team_downs = game_json_info['homeTeam']['homeTeamStats']['FirstDownsTotal']['#text'].to_i
-      gamedata.stats_away_team_downs = game_json_info['awayTeam']['awayTeamStats']['FirstDownsTotal']['#text'].to_i
-      gamedata.lead_changes = lead_change(game_json_info['quarterSummary']['quarter'],gamedata.home_team_abrev,gamedata.away_team_abrev,'lead_changes')
-      gamedata.lead_ties = lead_change(game_json_info['quarterSummary']['quarter'],gamedata.home_team_abrev,gamedata.away_team_abrev,'lead_ties')
-      gamedata.save
+      if (game_json['gameboxscore'])
+        game_json_info = game_json['gameboxscore']
+        gamedata.home_team_score = game_json_info['quarterSummary']['quarterTotals']['homeScore'].to_i
+        gamedata.away_team_score = game_json_info['quarterSummary']['quarterTotals']['awayScore'].to_i
+        gamedata.quarter_count = game_json_info['quarterSummary']['quarter'].count
+        gamedata.stats_interceptions = game_json_info['homeTeam']['homeTeamStats']['Interceptions']['#text'].to_i + game_json_info['awayTeam']['awayTeamStats']['Interceptions']['#text'].to_i
+        gamedata.stats_fumbles = game_json_info['homeTeam']['homeTeamStats']['Fumbles']['#text'].to_i + game_json_info['awayTeam']['awayTeamStats']['Fumbles']['#text'].to_i
+        gamedata.stats_home_team_downs = game_json_info['homeTeam']['homeTeamStats']['FirstDownsTotal']['#text'].to_i
+        gamedata.stats_away_team_downs = game_json_info['awayTeam']['awayTeamStats']['FirstDownsTotal']['#text'].to_i
+        gamedata.lead_changes = lead_change(game_json_info['quarterSummary']['quarter'],gamedata.home_team_abrev,gamedata.away_team_abrev,'lead_changes')
+        gamedata.lead_ties = lead_change(game_json_info['quarterSummary']['quarter'],gamedata.home_team_abrev,gamedata.away_team_abrev,'lead_ties')
+        gamedata.save
+      end
     end
   end
 

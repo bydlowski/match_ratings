@@ -30,23 +30,25 @@ class GameData
   private
 
   def get_win_loss
-    if self.home_team_score.to_i > self.away_team_score.to_i
-      self.winner_team = self.home_team_abrev
-      self.loser_team = self.away_team_abrev
-    elsif self.home_team_score.to_i < self.away_team_score.to_i
-      self.winner_team = self.away_team_abrev
-      self.loser_team = self.home_team_abrev
-    elsif self.home_team_score.to_i == self.away_team_score.to_i
-      self.winner_team = self.away_team_abrev + 'TIE'
-      self.loser_team = self.home_team_abrev + 'TIE'
+    unless self.home_team_score.blank?
+      if self.home_team_score.to_i > self.away_team_score.to_i
+        self.winner_team = self.home_team_abrev
+        self.loser_team = self.away_team_abrev
+      elsif self.home_team_score.to_i < self.away_team_score.to_i
+        self.winner_team = self.away_team_abrev
+        self.loser_team = self.home_team_abrev
+      elsif self.home_team_score.to_i == self.away_team_score.to_i
+        self.winner_team = self.away_team_abrev + 'TIE'
+        self.loser_team = self.home_team_abrev + 'TIE'
+      end
     end
   end
 
   def get_game_score
-    unless self.winner_team.blank?
+    unless self.home_team_score.blank?
       score_rating = ((self.home_team_score + self.away_team_score).abs) * 0.3
       score_diff_rating = score_diff(self.home_team_score,self.away_team_score,self.quarter_count)
-      down_diff_rating = down_diff(self.stats_home_team_downs - self.stats_away_team_downs).abs
+      down_diff_rating = down_diff((self.stats_home_team_downs.to_i  - self.stats_away_team_downs.to_i).abs)
       interceptions_rating = self.stats_interceptions * 2
       fumbles_rating = self.stats_fumbles * 1.5
       final_rating = (score_rating + score_diff_rating + down_diff_rating + interceptions_rating + fumbles_rating).round(0)
@@ -55,7 +57,7 @@ class GameData
   end
 
   def score_diff(team1score,team2score,quarter_count)
-    diff = (team1score - team2score).abs
+    diff = (team1score.to_i - team2score.to_i).abs
     if quarter_count > 4
       16
     elsif diff >= 10
@@ -73,6 +75,7 @@ class GameData
     elsif diff == 0
       15
     else
+      p 'ERROR score_diff'
       'error'
     end
   end
@@ -87,6 +90,7 @@ class GameData
     elsif diff >= 0 && diff <= 4
       8
     else
+      p 'ERROR down_diff'
       'error'
     end
   end

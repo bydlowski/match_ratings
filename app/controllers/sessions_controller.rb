@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-  before_filter :authenticate_user!
+  #before_filter :authenticate_user!
 
   # def new
   #   super

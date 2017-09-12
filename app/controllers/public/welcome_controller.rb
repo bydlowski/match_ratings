@@ -1,22 +1,11 @@
 class Public::WelcomeController < ApplicationController
   layout 'public'
   def index
-  end
-  def faq
-  end
-  def settings
-    @user = current_user
-    if current_user
-      @team = current_user.user_team
-      @algo = current_user.user_algo
-      @hide = current_user.user_hide
+    if current_admin
+      @link = '<a class="text-white xs-float-right" href="/admin/">Admin</a>'
     else
-      @team = session[:user_team]
-      @algo = session[:algo_choice]
-      @hide = session[:hide_score_value]
+      @link = ''
     end
-  end
-  def contact
   end
   def hide_win_loss_session
     session[:hide_win_loss] = params[:hide_win_loss_session][:record]

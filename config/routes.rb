@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :admin
-  devise_for :user, controllers: { registrations: 'registrations', sessions: 'sessions' }
+  #devise_for :user, controllers: { registrations: 'registrations', sessions: 'sessions' }
   root 'public/welcome#index', to: 'public/welcome#index'
 
   namespace :admin do
@@ -15,6 +15,7 @@ Rails.application.routes.draw do
         get 'allparams', to: 'tests#allparams'
         get 'lead', to: 'tests#lead'
       end
+      get 'logs', to: 'logs#index'
     end
   end
 
@@ -36,9 +37,6 @@ Rails.application.routes.draw do
 
   devise_scope :admin do
     get '/admin/sign_out' => 'devise/sessions#destroy'
-  end
-  devise_scope :user do
-    get '/user/sign_out' => 'devise/sessions#destroy'
   end
 
 end

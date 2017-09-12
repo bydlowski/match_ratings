@@ -1,0 +1,7 @@
+%h1.xs-text-center.xs-p3.bold= 'LOG'
+.clearfix
+  .col.xs-col-10.xs-offset-1.xs-p2 
+    - @logs.each do |log|
+      = log.log_date
+      %br
+      = log.log_info

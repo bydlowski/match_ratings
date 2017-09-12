@@ -3,9 +3,10 @@
 # GameData.destroy_all
 # TeamStats.destroy_all
 # Week.destroy_all
-# User.destroy_all
+User.destroy_all
+Admin.destroy_all
 
-# Admin.create(email: ENV['ADM_EMAIL'], password: ENV['ADM_PASS'], password_confirmation: ENV['ADM_PASS'])
+#Admin.create(email: ENV['ADM_EMAIL'], password: ENV['ADM_PASS'], password_confirmation: ENV['ADM_PASS'])
 
 #GameA = ArrayGame.create!(game_url: ['Test'])
 
