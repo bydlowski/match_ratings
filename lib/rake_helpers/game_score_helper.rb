@@ -40,7 +40,7 @@ module GameScoreHelper
     today = (DateTime.now )
     yesterday = (DateTime.now - 1)
     before_yesterday = (DateTime.now - 2)
-    before_before = (DateTime.now - 4)
+    before_before = (DateTime.now - 5)
     # Salvar data no formato correto
     formatted_today = today.strftime('%Y-%m-%d')
     formatted_yesterday = yesterday.strftime('%Y-%m-%d')
