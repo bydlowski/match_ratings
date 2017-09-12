@@ -54,7 +54,7 @@ module ScheduleHelper
 
     scheduled_not_changed = FileUtils.compare_file(original_file,temporary_file)
 
-    if false
+    if scheduled_not_changed
       p 'Schedule has not changed'
       log_day.log_info  = log_day.log_info.to_s + 'Schedule has not changed<br/>'
       log_day.save
