@@ -76,7 +76,6 @@ module ScheduleHelper
       log_day.save
 
       online_json['fullgameschedule']['gameentry'].each do |game|
-        p game['awayTeam']['Abbreviation']
         year = game['date'].split('-').first
         month = game['date'].split('-').second
         day = game['date'].split('-').third
