@@ -18,7 +18,7 @@
             .col.xs-col-2.xs-absolute.xs-mx-auto.xs-l0.xs-r0.xs-pt1{style:'width: 50px!important;font-size: 200%;color:rgba(0,0,0,0.7);'}
               %p= '@'
             .col.xs-col-5.xs-float-right
-              .logo-teams.logo-tiny.logo-flip{class: "logo#{game.home_team_abrev}"}
+              .logo-teams.logo-tiny.logo-tiny-flip{class: "logo#{game.home_team_abrev}"}
               = game.home_team_abrev
               - if session[:hide_win_loss] != 'Hide'
                 %br

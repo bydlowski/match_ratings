@@ -1,69 +1,182 @@
 #public_weeks-show {
-	//background: rgba(108,108,108,0.9);
-	//background: rgba(242,242,242,0.4);
-	background: rgba(242,242,242,0.7);
-	.hidden-score {position: absolute;height: 100%;width: 100%;cursor: pointer;}
-	.hidden-rating {background: red;color: white;}
-	.this {font-weight:bold;color:red;text-transform:uppercase;}
-	.new-green {background: #99ff99;}
-	.btn-record:hover{background: #fff!important; color: #000!important; border: 1px solid #000!important;}
-
-	.img-eye {
-	  background-image: image-url("eye.png");
-	  background-repeat: no-repeat;
-	  display: inline-block; 
-	  width: 70px;
-	  height: 55px;
-	  margin: auto;
-	  vertical-align: -13px;
-	}
-	.eye-open {background-position: -714px -125px;}
-	.eye-closed {background-position: -167px -125px;}
-	
-	.logo-teams {
-	  background-image: image-url("teams.gif");
-	  background-repeat: no-repeat;
-	  display: block; 
-	  width: 188px;
-	  height: 147px;
-	  margin: auto;
-	  margin-bottom: 10px;
-	}
-
-	.logo-small {zoom: 0.3;-moz-transform: scale(0.3);-moz-transform-origin: 0 0;}
-	.logo-tiny {zoom: 0.2;-moz-transform: scale(0.2);-moz-transform-origin: 0 0;}
-	.logo-flip {-moz-transform: scaleX(-1);-o-transform: scaleX(-1);-webkit-transform: scaleX(-1);transform: scaleX(-1);filter: FlipH;-ms-filter: "FlipH";		}
-
-	.logoJAX {background-position: -22px -158px;}
-	.logoMIN {background-position: -22px -301px;}
-	.logoNYJ {background-position: -22px -445px;}
-	.logoPHI {background-position: -22px -588px;}
-	.logoSF {background-position: -22px -732px;}
-	.logoTB {background-position: -22px -876px;}
-	.logoKC {background-position: -208px -158px;}
-	.logoNE {background-position: -208px -301px;}
-	.logoNYG {background-position: -208px -445px;}
-	.logoPIT {background-position: -208px -588px;}
-	.logoSEA {background-position: -208px -732px;}
-	.logoTEN {background-position: -208px -876px;}
-	.logoMIA {background-position: -394px -158px;}
-	.logoNO {background-position: -394px -301px;}
-	.logoOAK {background-position: -394px -445px;}
-	.logoLAC {background-position: -394px -588px;}
-	.logoLAR {background-position: -394px -732px;}
-	.logoWAS {background-position: -394px -876px;}
-	.logoATL {background-position: -579px -158px;}
-	.logoARI {width: 185px;background-position: -576px -301px;}
-	.logoCAR {background-position: -579px -448px;}
-	.logoCLE {background-position: -579px -592px;}
-	.logoDET {background-position: -579px -736px;}
-	.logoIND {background-position: -579px -880px;}
-	.logoCHI {background-position: -762px -167px;}
-	.logoBAL {background-position: -759px -310px;}
-	.logoBUF {background-position: -765px -454px;}
-	.logoCIN {background-position: -765px -597px;}
-	.logoDEN {background-position: -765px -741px;}
-	.logoHOU {background-position: -765px -885px;}
-	.logoDAL {background-position: -284px -12px;}
-	.logoGB {background-position: -483px -7px;}
+    //background: rgba(108,108,108,0.9);
+    //background: rgba(242,242,242,0.4);
+    background: rgba(242, 242, 242, 0.7);
+    .hidden-score {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+    }
+    .hidden-rating {
+        background: red;
+        color: white;
+    }
+    .this {
+        font-weight: bold;
+        color: red;
+        text-transform: uppercase;
+    }
+    .new-green {
+        background: #99ff99;
+    }
+    .btn-record:hover {
+        background: #fff!important;
+        color: #000!important;
+        border: 1px solid #000!important;
+    }
+    .img-eye {
+        background-image: image-url("eye.png");
+        background-repeat: no-repeat;
+        display: inline-block;
+        width: 70px;
+        height: 55px;
+        margin: auto;
+        vertical-align: -13px;
+    }
+    .eye-open {
+        background-position: -714px -125px;
+    }
+    .eye-closed {
+        background-position: -167px -125px;
+    }
+    .logo-teams {
+        background-image: image-url("teams.gif");
+        background-repeat: no-repeat;
+        display: block;
+        width: 188px;
+        height: 147px;
+        margin: auto;
+        margin-bottom: -110px;
+    }
+    .logo-small {
+        zoom: 0.3;
+        -moz-transform: scale(0.3);
+        -moz-transform-origin: 0 0;
+    }
+    .logo-tiny {
+        zoom: 0.2;
+        -ms-zoom: 0.2;
+        -webkit-zoom: 0.2;
+        -moz-transform: scale(0.2, 0.2);
+        -moz-transform-origin: left top;
+    } // .logo-tiny {zoom: 0.2;-moz-transform: scale(0.2);-moz-transform-origin: 0 0;}
+    .logo-flip {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+    }
+    .logo-tiny-flip {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+        zoom: -0.2;
+        -ms-zoom: -0.2;
+        -webkit-zoom: -0.2;
+        -moz-transform: scale(-0.2, 0.2);
+        -moz-transform-origin: 45px top;
+    }
+    .logoJAX {
+        background-position: -22px -158px;
+    }
+    .logoMIN {
+        background-position: -22px -301px;
+    }
+    .logoNYJ {
+        background-position: -22px -445px;
+    }
+    .logoPHI {
+        background-position: -22px -588px;
+    }
+    .logoSF {
+        background-position: -22px -732px;
+    }
+    .logoTB {
+        background-position: -22px -876px;
+    }
+    .logoKC {
+        background-position: -208px -158px;
+    }
+    .logoNE {
+        background-position: -208px -301px;
+    }
+    .logoNYG {
+        background-position: -208px -445px;
+    }
+    .logoPIT {
+        background-position: -208px -588px;
+    }
+    .logoSEA {
+        background-position: -208px -732px;
+    }
+    .logoTEN {
+        background-position: -208px -876px;
+    }
+    .logoMIA {
+        background-position: -394px -158px;
+    }
+    .logoNO {
+        background-position: -394px -301px;
+    }
+    .logoOAK {
+        background-position: -394px -445px;
+    }
+    .logoLAC {
+        background-position: -394px -588px;
+    }
+    .logoLAR {
+        background-position: -394px -732px;
+    }
+    .logoWAS {
+        background-position: -394px -876px;
+    }
+    .logoATL {
+        background-position: -579px -158px;
+    }
+    .logoARI {
+        width: 185px;
+        background-position: -576px -301px;
+    }
+    .logoCAR {
+        background-position: -579px -448px;
+    }
+    .logoCLE {
+        background-position: -579px -592px;
+    }
+    .logoDET {
+        background-position: -579px -736px;
+    }
+    .logoIND {
+        background-position: -579px -880px;
+    }
+    .logoCHI {
+        background-position: -762px -167px;
+    }
+    .logoBAL {
+        background-position: -759px -310px;
+    }
+    .logoBUF {
+        background-position: -765px -454px;
+    }
+    .logoCIN {
+        background-position: -765px -597px;
+    }
+    .logoDEN {
+        background-position: -765px -741px;
+    }
+    .logoHOU {
+        background-position: -765px -885px;
+    }
+    .logoDAL {
+        background-position: -284px -12px;
+    }
+    .logoGB {
+        background-position: -483px -7px;
+    }
 }
