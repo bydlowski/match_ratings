@@ -20,21 +20,32 @@ module ScheduleHelper
 
     online_json_1 = HTTParty.get("https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-2018-regular/full_game_schedule.json",basic_auth: auth)
     online_json_2 = HTTParty.get("https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/full_game_schedule.json",basic_auth: auth)
+    online_json_3 = HTTParty.get("https://api.mysportsfeeds.com/v1.1/pull/nfl/2018-playoff/full_game_schedule.json",basic_auth: auth)
 
     if (online_json_1['fullgameschedule'])
-      online_json = online_json_1
-      p 'Creating temporary json'
-      log_day.log_info  = log_day.log_info.to_s + 'Creating temporary json (1)<br/>'
-      log_day.save
+    #   online_json = online_json_1
+    #   p 'Creating temporary json'
+    #   log_day.log_info  = log_day.log_info.to_s + 'Creating temporary json (1)<br/>'
+    #   log_day.save
 
-      File.open(temporary_file, "w+") do |f|
-        f.write(online_json)
-      end
+    #   File.open(temporary_file, "w+") do |f|
+    #     f.write(online_json)
+    #   end
 
-    elsif (online_json_2['fullgameschedule'])
-      online_json = online_json_2
+    # elsif (online_json_2['fullgameschedule'])
+    #   online_json = online_json_2
+    #   p 'Creating temporary json'
+    #   log_day.log_info  = log_day.log_info.to_s + 'Creating temporary json (2)<br/>'
+    #   log_day.save
+
+    #   File.open(temporary_file, "w+") do |f|
+    #     f.write(online_json)
+    #   end
+
+    # elsif (online_json_3['fullgameschedule'])
+      online_json = online_json_3
       p 'Creating temporary json'
-      log_day.log_info  = log_day.log_info.to_s + 'Creating temporary json (2)<br/>'
+      log_day.log_info  = log_day.log_info.to_s + 'Creating temporary json (3)<br/>'
       log_day.save
 
       File.open(temporary_file, "w+") do |f|
