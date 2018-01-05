@@ -20,6 +20,9 @@
     .new-green {
         background: #99ff99;
     }
+    .btn-record {
+        height: 40px;
+    }
     .btn-record:hover {
         background: #fff!important;
         color: #000!important;
@@ -28,11 +31,12 @@
     .img-eye {
         background-image: image-url("eye.png");
         background-repeat: no-repeat;
-        display: inline-block;
+        display: block;
         width: 70px;
         height: 55px;
         margin: auto;
         vertical-align: -13px;
+        float: left;
     }
     .eye-open {
         background-position: -714px -125px;
@@ -50,9 +54,14 @@
         margin-bottom: -110px;
     }
     .logo-small {
+        // zoom: 0.3;
+        // -moz-transform: scale(0.3);
+        // -moz-transform-origin: 0 0;
         zoom: 0.3;
-        -moz-transform: scale(0.3);
-        -moz-transform-origin: 0 0;
+        -ms-zoom: 0.3;
+        -webkit-zoom: 0.3;
+        -moz-transform: scale(0.3, 0.3);
+        -moz-transform-origin: left top;
     }
     .logo-tiny {
         zoom: 0.2;
